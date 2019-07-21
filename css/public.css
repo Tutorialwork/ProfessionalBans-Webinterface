@@ -1,0 +1,100 @@
+/*
+  Created by Tutorialwork
+  https://YouTube.com/Tutorialwork
+  © 2019 - ProfessionalBans Reloaded
+*/
+html, body{
+  padding: 0;
+  margin: 0;
+  background: #2ecc71; /* Für alte Browser */
+  background-image: linear-gradient(#2ecc71, #16a085);
+  color: white;
+  font-family: 'Roboto', sans-serif;
+}
+.container{
+  position: absolute;
+  transform: translate(-50%, -50%);
+  top: 50%;
+  left: 50%;
+  padding: 2.5%;
+  background: #2c3e50;
+  text-align: center;
+  border-radius: 20px;
+}
+input{
+  margin-bottom: 3%;
+  border: 2px solid #2ecc71;
+  padding: 1.5%;
+  background: none;
+  outline: none;
+  width: 100%;
+  box-sizing: border-box;
+  color: white
+}
+input::placeholder{
+  color: white;
+}
+select{
+  margin-top: 1%;
+  margin-bottom: 3%;
+  border: 2px solid #2ecc71;
+  padding: 1.5%;
+  background: none;
+  outline: none;
+  width: 100%;
+  color: white;
+}
+option{
+  color: black;
+}
+textarea{
+  border: 2px solid #2ecc71;
+  padding: 1.5%;
+  background: none;
+  outline: none;
+  width: 100%;
+  font-family: 'Roboto', sans-serif;
+  resize: none;
+  box-sizing: border-box;
+  color: white;
+}
+textarea::placeholder{
+  color: white;
+}
+button{
+  margin-top: 3%;
+  border: 2px solid #2ecc71;
+  padding: 1.5%;
+  background: none;
+  outline: none;
+  width: 100%;
+  color: white;
+}
+input:hover, select:hover, textarea:hover{
+  transition: all 0.2s;
+  border: 2px solid #16a085;
+}
+button:hover{
+  transition: all 0.2s;
+  border: 2px solid #16a085;
+  background: #16a085;
+}
+h1{
+  margin-bottom: 10%;
+}
+.error{
+  padding: 5%;
+  border: 2px solid #AD2E24;
+}
+.success{
+  padding: 5%;
+  border: 2px solid #2ecc71;
+}
+
+/* Responsive Part */
+@media (max-width: 900px) {
+  /* Handys */
+  .container{
+    padding: 10%;
+  }
+}

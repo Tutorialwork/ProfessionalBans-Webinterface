@@ -1,0 +1,110 @@
+/*
+  Created by Tutorialwork
+  https://YouTube.com/Tutorialwork
+  © 2019 - ProfessionalBans Reloaded
+*/
+html{
+  height: 100%;
+}
+body{
+  font-family: sans-serif;
+  background: #2ecc71; /* Für alte Browser */
+  background-image: linear-gradient(#2ecc71, #16a085);
+}
+button, input, a{
+  transition:  all 300ms;
+  -webkit-transition: all 300ms;
+  -moz-transition: all 300ms;
+  -o-transition: all 300ms;
+}
+.login{
+  background: #2c3e50;
+  text-align: center;
+  transform: translate(-50%, -50%);
+  top: 50%;
+  left: 50%;
+  position: absolute;
+  padding: 40px;
+  width: 350px;
+}
+input, textarea{
+  color: white;
+  width: 250px;
+  margin: 10px;
+  border-radius: 20px;
+  border: 2px solid #2ecc71;
+  padding: 15px;
+  background: none;
+  outline: none;
+  resize: none;
+  box-sizing: border-box;
+}
+input:hover, textarea:hover{
+  border: 2px solid #16a085;
+}
+select{
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  appearance: none;
+  border: none;
+  color: white;
+  width: 75%;
+  margin: 10px;
+  border-radius: 20px;
+  border: 2px solid #2ecc71;
+  padding: 15px;
+  background: none;
+  outline: none;
+  box-sizing: border-box;
+}
+option{
+  color: black;
+}
+::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+  color: white;
+  opacity: 1; /* Firefox */
+  font-family: sans-serif;
+}
+h1{
+  color: white;
+  font-size: 50px;
+}
+p{
+  color: #b5b5b5;
+}
+.small-heading{
+  color: white;
+  font-size: 31px;
+}
+#pw{
+  font-size: 38px;
+}
+button{
+  padding: 15px;
+  width: 200px;
+  margin-top: 20px;
+  background: none;
+  border: 2px solid #16a085;
+  border-radius: 20px;
+  color: white;
+}
+button:hover{
+  background: #16a085;
+}
+a{
+  text-decoration: none;
+  color: #27ae60;
+}
+a:hover{
+  color: #16a085;
+}
+.error{
+  color: white;
+  border: 2px solid #f44242;
+  border-radius: 20px;
+}
+.success{
+  color: white;
+  border: 2px solid #2ecc71;
+  border-radius: 20px;
+}

@@ -1,0 +1,338 @@
+/*
+  Created by Tutorialwork
+  https://YouTube.com/Tutorialwork
+  © 2019 - ProfessionalBans Reloaded
+*/
+html, body{
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  font-family: 'Roboto', sans-serif;
+}
+.container{
+  display: grid;
+  width: 100vw;
+  height: 100vh;
+  grid-template-columns: 15% auto;
+  grid-template-rows: 7% auto;
+  grid-template-areas:  "sidebar header"
+              "sidebar content"
+              "sidebar content";
+}
+.sidebar{
+  grid-area: sidebar;
+  background: #2c3e50;
+  position: fixed;
+  width: 15vw;
+  height: 100vh;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+.header{
+  grid-area: header;
+  background: #2ecc71;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+.content{
+  grid-area: content;
+  background: #F0F0F0;
+}
+/*
+Mobile Navbar
+*/
+.mobilenavbar ul{
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.mobilenavbar ul a{
+  text-decoration: none;
+  color: white;
+  display: block;
+  padding: 8px 16px;
+}
+.mobilenavbar ul a:hover{
+  background: #2ecc71;
+  color: black;
+  padding: 8px 20px;
+  transition: all 0.25s;
+}
+.mobilenavbar ul h1{
+  color: #2ecc71;
+  font-weight: 200;
+  margin: 10px;
+}
+/*
+Desktop Navbar
+*/
+ul{
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+ul a{
+  text-decoration: none;
+  color: white;
+  display: block;
+  padding: 8px 16px;
+  padding: 7%;
+}
+ul a:hover{
+  background: #2ecc71;
+  color: black;
+  transition: all 0.25s;
+}
+ul h1{
+  color: #2ecc71;
+  font-weight: 200;
+  margin: 10px;
+}
+li i{
+  font-size: 17px;
+  margin-right: 5%;
+}
+.mobileicon{
+  visibility: hidden;
+  padding: 8px 16px;
+  color: white;
+}
+.headericon{
+  padding: 8px 16px;
+  color: white;
+  float: right;
+}
+.navbar{
+  display: none;
+  background: #2c3e50;
+  padding: 5px;
+}
+.navactive{
+  display: block;
+  z-index: 2;
+}
+.active{
+  background: #2ecc71;
+  color: black;
+}
+.flex-container{
+  display: flex;
+  justify-content: center;
+}
+.flex{
+  background: white;
+  width: 100%;
+  margin: 10px;
+  padding: 1.5%;
+}
+.flex-chat{
+  background: #2ecc71;
+  width: 100%;
+  margin: 10px;
+  padding: 2.7%;
+  box-sizing: border-box;
+}
+.mchead{
+  float: left;
+  margin-right: 2%;
+}
+.chat-info{
+  font-size: 10px;
+}
+.flex-icon{
+  float: right;
+  color: white;
+  border: 10px solid #2ecc71;
+  border-radius: 30px;
+  background: #2ecc71;
+}
+i:hover{
+  color: #2C3E50;
+  transition: all 0.3s;
+}
+.count{
+  font-size: 25px;
+  font-weight: 200;
+}
+.credits{
+  color: white;
+  font-size: 13px;
+  position: absolute;
+  bottom: 0;
+  left: 5%;
+}
+a{
+  text-decoration: none;
+  color: #2ECC71;
+}
+a:hover{
+  color: #1e894b;
+  transition: all 0.3s;
+}
+input, textarea{
+  width: 100%;
+  color: white;
+  margin-bottom: 5px;
+  padding: 15px;
+  background: #F0F0F0;
+  border: 2px solid white;
+  outline: none;
+  color: black;
+  box-sizing: border-box;
+  resize: none;
+}
+input:hover, textarea:hover{
+  transition: all 0.3s;
+  border: 2px solid #2ECC71;
+}
+button{
+  width: 100%;
+  padding: 15px;
+  margin-top: 10px;
+  background: none;
+  border: 2px solid #2ECC71;
+  color: black;
+}
+button:hover{
+  transition: all 0.3s;
+  background: #2ECC71;
+  color: #FFFFFF;
+}
+.btn{ /* .btn is a copy of button trigger in forms */
+  width: 100%;
+  padding: 15px;
+  margin-top: 10px;
+  background: none;
+  border: 2px solid #2ECC71;
+  color: black;
+}
+.btn:hover{
+  transition: all 0.3s;
+  background: #2ECC71;
+  color: #FFFFFF;
+}
+select{
+  width: 100%;
+  color: white;
+  margin-bottom: 5px;
+  padding: 15px;
+  background: #F0F0F0;
+  border: 2px solid white;
+  outline: none;
+  color: black;
+}
+th:nth-child(even) {
+  padding: 15px;
+  color: white;
+  background: #2ECC71;
+}
+th:nth-child(odd) {
+  padding: 15px;
+  color: white;
+  background: #2C3E50;
+}
+td{
+  padding: 15px;
+  background: #DDDDDD;
+}
+.sidebox{
+  width: 45%;
+}
+ol{
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+ol li{
+  float: left;
+  margin: 2%;
+  padding: 0.4%;
+}
+ol li a{
+  color: black;
+}
+.active-page{
+  background: #2ecc71;
+  padding: 0.4%;
+  border-radius: 2px;
+}
+.disabled{
+  color: grey;
+}
+.disabled:hover{
+  color: grey;
+}
+
+/*
+Responsive Design Part
+*/
+@media (max-width: 1180px) {
+  /* Laptops, Tablets und Kleine Monitore */
+  h1{
+    font-size: 23px;
+  }
+  th:nth-child(even) {
+    padding: 10px;
+    color: white;
+    background: #2ECC71;
+  }
+  th:nth-child(odd) {
+    padding: 10px;
+    color: white;
+    background: #2C3E50;
+  }
+  td{
+    padding: 10px;
+    background: #DDDDDD;
+  }
+  .flex-button{
+    margin-top: 2%;
+    margin-bottom: 4%;
+  }
+}
+@media (max-width: 900px) {
+  /* Handys */
+  h1{
+    font-size: 20px;
+  }
+  .flex-icon{
+    font-size: 10px;
+  }
+  .mobileicon{
+    visibility: visible;
+  }
+  .sidebar{
+    display: none;
+  }
+  .container{
+    grid-template-areas:  "header header"
+                "content content"
+                "content content";
+  }
+  .flex{
+    width: 90%;
+  }
+  .flex-button{
+    margin-top: 5%;
+    margin-bottom: 8%;
+  }
+  .flex-container{
+    flex-direction: column;
+  }
+  .flex-icon{
+    visibility: hidden;
+  }
+  th:nth-child(even) {
+    padding: 5px;
+    color: white;
+    background: #2ECC71;
+  }
+  th:nth-child(odd) {
+    padding: 5px;
+    color: white;
+    background: #2C3E50;
+  }
+  td{
+    padding: 5px;
+    background: #DDDDDD;
+  }
+}
