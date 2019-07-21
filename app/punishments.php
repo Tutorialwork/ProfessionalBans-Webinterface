@@ -56,6 +56,24 @@ function addBanCounter($uuid){
   $stmt->bindParam(":counter", $bans, PDO::PARAM_INT);
   $stmt->execute();
 }
+function getMuteCounter($uuid){
+  require("./mysql.php");
+  $stmt = $mysql->prepare("SELECT MUTES FROM bans WHERE UUID = :uuid");
+  $stmt->bindParam(":uuid", $uuid, PDO::PARAM_STR);
+  $stmt->execute();
+  while($row = $stmt->fetch()){
+    return $row["MUTES"];
+  }
+}
+function addMuteCounter($uuid){
+  require("./mysql.php");
+  $mutes = getMuteCounter($uuid);
+  $mutes++;
+  $stmt = $mysql->prepare("UPDATE bans SET MUTES = :counter WHERE UUID = :uuid");
+  $stmt->bindParam(":uuid", $uuid, PDO::PARAM_STR);
+  $stmt->bindParam(":counter", $mutes, PDO::PARAM_INT);
+  $stmt->execute();
+}
 $response = array();
 $JSONRequest = file_get_contents("php://input");
 $request = json_decode($JSONRequest, TRUE);
@@ -156,7 +174,58 @@ if (isset($request["token"])) {
             $stmt->bindParam(":webUUID", $useruuid, PDO::PARAM_STR);
             $stmt->bindParam(":user", $request["player"], PDO::PARAM_STR);
             $stmt->execute();
-            addBanCounter($uuid);
+            addBanCounter(getUUIDByName($request["player"]));
+
+            $response["status"] = 1;
+            $response["msg"] = "OK";
+          } else {
+            $response["status"] = 0;
+            $response["msg"] = "User is already exists";
+          }
+        } else {
+          $response["status"] = 0;
+          $response["msg"] = "Reason is not exists";
+        }
+      } else {
+        $response["status"] = 0;
+        $response["msg"] = "User is not exists";
+      }
+    } else if (isset($request["mute"]) && isset($request["player"]) && isset($request["banid"]) && isset($request["teamusername"])) {
+      $stmt = $mysql->prepare("SELECT * FROM bans WHERE NAME = :name");
+      $stmt->bindParam(":name", $request["player"], PDO::PARAM_STR);
+      $stmt->execute();
+      $count = $stmt->rowCount();
+      if ($count != 0) {
+        $stmt = $mysql->prepare("SELECT * FROM reasons WHERE ID = :id");
+        $stmt->bindParam(":id", $request["banid"], PDO::PARAM_INT);
+        $stmt->execute();
+        $count = $stmt->rowCount();
+        if ($count != 0) {
+          $stmt = $mysql->prepare("SELECT * FROM bans WHERE NAME = :name");
+          $stmt->bindParam(":name", $request["player"], PDO::PARAM_STR);
+          $stmt->execute();
+          $row = $stmt->fetch();
+          if ($row["BANNED"] == 0) {
+            $now = time();
+            if (getMinutesByReasonID($request["banid"]) != "-1") { //Kein Perma Ban
+              $phpEND = $now + getMinutesByReasonID($request["banid"]) * 60;
+              $javaEND = $phpEND * 1000;
+            } else {
+              //PERMA BAN
+              $javaEND = -1;
+            }
+            $stmt = $mysql->prepare("UPDATE bans SET BANNED = 0, MUTED = 1, REASON = :reason, END = :end, TEAMUUID = :webUUID  WHERE NAME = :user");
+            $reason = getReasonByReasonID($request["banid"]);
+            $stmt->bindParam(":reason", $reason, PDO::PARAM_STR);
+            $stmt->bindParam(":end", $javaEND, PDO::PARAM_STR);
+
+            //UUID von User im Webinterface
+            $useruuid = getUUIDByName($request["teamusername"]);
+
+            $stmt->bindParam(":webUUID", $useruuid, PDO::PARAM_STR);
+            $stmt->bindParam(":user", $request["player"], PDO::PARAM_STR);
+            $stmt->execute();
+            addMuteCounter(getUUIDByName($request["player"]));
 
             $response["status"] = 1;
             $response["msg"] = "OK";
