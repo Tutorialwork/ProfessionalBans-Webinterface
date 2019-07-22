@@ -16,7 +16,7 @@ $request = json_decode($JSONRequest, TRUE);
 if(isset($request["token"])){
   $access = new TokenHandler($request["token"]);
   if($access->username != null){
-      if($request["done"]){
+      if(isset($request["done"])){
           $stmt = $mysql->prepare("SELECT * FROM reports WHERE ID = :id");
           $stmt->bindParam(":id", $request["done"], PDO::PARAM_INT);
           $stmt->execute();
@@ -26,12 +26,14 @@ if(isset($request["token"])){
               $stmt->bindParam(":id", $request["done"], PDO::PARAM_INT);
               $stmt->execute();
               $response["status"] = 1;
-            $response["msg"] = "OK";
+              $response["msg"] = "OK";
           } else {
             $response["status"] = 0;
             $response["msg"] = "Report not exists";
           }
       } else {
+        $response["status"] = 1;
+        $response["msg"] = "OK";
         $stmt = $mysql->prepare("SELECT * FROM reports WHERE STATUS = 0 ORDER BY CREATED_AT DESC");
         $stmt->execute();
         $reports = array();
@@ -46,6 +48,14 @@ if(isset($request["token"])){
           array_push($closereports, array("id" => $closerow["ID"], "player" => getNameByUUID($closerow["UUID"]), "by" => getNameByUUID($closerow["REPORTER"]), "team" => getNameByUUID($closerow["TEAM"]), "reason" => $closerow["REASON"], "chatlog" => $closerow["LOG"], "status" => $closerow["STATUS"], "created_at" => $closerow["CREATED_AT"]));
         }
         $response["closed_reports"] = $closereports;
+        //Chatlogs
+        $logstmt = $mysql->prepare("SELECT * FROM chatlog");
+        $logstmt->execute();
+        $chatlogs = array();
+        while ($logrow = $logstmt->fetch()) {
+          array_push($chatlogs, array("id" => $logrow["LOGID"], "player" => getNameByUUID($logrow["UUID"]), "by" => getNameByUUID($logrow["CREATOR_UUID"]), "server" => $logrow["SERVER"], "message" => $logrow["MESSAGE"], "messagedate" => $logrow["SENDDATE"], "logdate" => $logrow["CREATED_AT"]));
+        }
+        $response["chatlogs"] = $chatlogs;
       }
   } else {
     $response["status"] = 0;
