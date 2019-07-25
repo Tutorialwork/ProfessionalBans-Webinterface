@@ -22,8 +22,9 @@ if(isset($request["token"])){
           $stmt->execute();
           $count = $stmt->rowCount();
           if($count != 0){
-              $stmt = $mysql->prepare("UPDATE reports SET STATUS = 1 WHERE ID = :id");
+              $stmt = $mysql->prepare("UPDATE reports SET STATUS = 1, TEAM = :webuser WHERE ID = :id");
               $stmt->bindParam(":id", $request["done"], PDO::PARAM_INT);
+              $stmt->bindParam(":webuser", $access->uuid, PDO::PARAM_STR);
               $stmt->execute();
               $response["status"] = 1;
               $response["msg"] = "OK";

@@ -64,11 +64,15 @@ if(isset($request["token"])){
         $stmt->execute();
         $unbans = array();
         while ($row = $stmt->fetch()) {
-          array_push($unbans, array("id" => $row["ID"], "player" => getNameByUUID($row["UUID"]), "fair" => $row["FAIR"], "message" => $row["MESSAGE"], "created_at" => $row["DATE"], "status" => $row["STATUS"]));
+          $statement = $mysql->prepare("SELECT * FROM bans WHERE UUID = :uuid");
+          $statement->bindParam(":uuid", $row["UUID"], PDO::PARAM_STR);
+          $statement->execute();
+          $db = $statement->fetch();
+          array_push($unbans, array("id" => $row["ID"], "player" => getNameByUUID($row["UUID"]), "fair" => $row["FAIR"], "message" => $row["MESSAGE"], "created_at" => $row["DATE"], "status" => $row["STATUS"], "reason" => $db["REASON"], "end" => $db["END"]));
         }
         $response["open_unbans"] = $unbans;
 
-        $stmt2 = $mysql->prepare("SELECT * FROM unbans WHERE STATUS = 1 OR STATUS = 2 OR STATUS = 3 ORDER BY DATE DESC");
+        $stmt2 = $mysql->prepare("SELECT * FROM unbans ORDER BY DATE DESC");
         $stmt2->execute();
         $unbans_done = array();
         while ($row2 = $stmt2->fetch()) {
