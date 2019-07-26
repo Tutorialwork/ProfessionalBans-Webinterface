@@ -139,7 +139,7 @@ if (isset($request["token"])) {
         $response["status"] = 0;
         $response["msg"] = "User not found";
       }
-    } else if (isset($request["ban"]) && isset($request["player"]) && isset($request["banid"]) && isset($request["teamusername"])) {
+    } else if (isset($request["ban"]) && isset($request["player"]) && isset($request["banid"])) {
       $stmt = $mysql->prepare("SELECT * FROM bans WHERE NAME = :name");
       $stmt->bindParam(":name", $request["player"], PDO::PARAM_STR);
       $stmt->execute();
@@ -169,7 +169,7 @@ if (isset($request["token"])) {
             $stmt->bindParam(":end", $javaEND, PDO::PARAM_STR);
 
             //UUID von User im Webinterface
-            $useruuid = getUUIDByName($request["teamusername"]);
+            $useruuid = $access->uuid;
 
             $stmt->bindParam(":webUUID", $useruuid, PDO::PARAM_STR);
             $stmt->bindParam(":user", $request["player"], PDO::PARAM_STR);
@@ -190,7 +190,7 @@ if (isset($request["token"])) {
         $response["status"] = 0;
         $response["msg"] = "User is not exists";
       }
-    } else if (isset($request["mute"]) && isset($request["player"]) && isset($request["banid"]) && isset($request["teamusername"])) {
+    } else if (isset($request["mute"]) && isset($request["player"]) && isset($request["banid"])) {
       $stmt = $mysql->prepare("SELECT * FROM bans WHERE NAME = :name");
       $stmt->bindParam(":name", $request["player"], PDO::PARAM_STR);
       $stmt->execute();
@@ -220,7 +220,7 @@ if (isset($request["token"])) {
             $stmt->bindParam(":end", $javaEND, PDO::PARAM_STR);
 
             //UUID von User im Webinterface
-            $useruuid = getUUIDByName($request["teamusername"]);
+            $useruuid = $access->uuid;
 
             $stmt->bindParam(":webUUID", $useruuid, PDO::PARAM_STR);
             $stmt->bindParam(":user", $request["player"], PDO::PARAM_STR);
