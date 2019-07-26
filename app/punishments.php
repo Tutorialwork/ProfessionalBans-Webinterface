@@ -39,7 +39,7 @@ function getReasonByReasonID($id){
   }
 }
 function getBanCounter($uuid){
-  require("./mysql.php");
+  require("../mysql.php");
   $stmt = $mysql->prepare("SELECT BANS FROM bans WHERE UUID = :uuid");
   $stmt->bindParam(":uuid", $uuid, PDO::PARAM_STR);
   $stmt->execute();
@@ -48,7 +48,7 @@ function getBanCounter($uuid){
   }
 }
 function addBanCounter($uuid){
-  require("./mysql.php");
+  require("../mysql.php");
   $bans = getBanCounter($uuid);
   $bans++;
   $stmt = $mysql->prepare("UPDATE bans SET BANS = :counter WHERE UUID = :uuid");
@@ -57,7 +57,7 @@ function addBanCounter($uuid){
   $stmt->execute();
 }
 function getMuteCounter($uuid){
-  require("./mysql.php");
+  require("../mysql.php");
   $stmt = $mysql->prepare("SELECT MUTES FROM bans WHERE UUID = :uuid");
   $stmt->bindParam(":uuid", $uuid, PDO::PARAM_STR);
   $stmt->execute();
@@ -66,7 +66,7 @@ function getMuteCounter($uuid){
   }
 }
 function addMuteCounter($uuid){
-  require("./mysql.php");
+  require("../mysql.php");
   $mutes = getMuteCounter($uuid);
   $mutes++;
   $stmt = $mysql->prepare("UPDATE bans SET MUTES = :counter WHERE UUID = :uuid");
@@ -241,6 +241,23 @@ if (isset($request["token"])) {
         $response["status"] = 0;
         $response["msg"] = "User is not exists";
       }
+    } else if (isset($request["reasons"])){
+      $response["status"] = 1;
+      $response["msg"] = "OK";
+      $stmt = $mysql->prepare("SELECT * FROM reasons WHERE TYPE = 0");
+      $stmt->execute();
+      $ban_reasons = array();
+      while($row = $stmt->fetch()){
+        array_push($ban_reasons, array("id" => $row["ID"], "reason" => $row["REASON"], "time" => $row["TIME"]));
+      }
+      $stmt2 = $mysql->prepare("SELECT * FROM reasons WHERE TYPE = 1");
+      $stmt2->execute();
+      $mute_reasons = array();
+      while($row = $stmt2->fetch()){
+        array_push($mute_reasons, array("id" => $row["ID"], "reason" => $row["REASON"], "time" => $row["TIME"]));
+      }
+      $response["ban_reasons"] = $ban_reasons;
+      $response["mute_reasons"] = $mute_reasons;
     } else {
       $response["status"] = 1;
       $response["msg"] = "OK";
