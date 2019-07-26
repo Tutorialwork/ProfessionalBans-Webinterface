@@ -9,6 +9,15 @@ function getNameByUUID($uuid){
   $row = $stmt->fetch();
   return $row["NAME"];
 }
+function getReasonByReasonID($id){
+  require("../mysql.php");
+  $stmt = $mysql->prepare("SELECT REASON FROM reasons WHERE ID = :id");
+  $stmt->bindParam(":id", $id, PDO::PARAM_STR);
+  $stmt->execute();
+  while($row = $stmt->fetch()){
+    return $row["REASON"];
+  }
+}
 $response = array();
 $JSONRequest = file_get_contents("php://input");
 $request = json_decode($JSONRequest, TRUE);
@@ -29,7 +38,12 @@ if(isset($request["token"])){
       if($row["BYUUID"] != "null"){
         $byusername = getNameByUUID($row["BYUUID"]);
       }
-      array_push($data, array("player" => $username, "byplayer" => $byusername, "action" => $row["ACTION"], "note" => $row["NOTE"], "date" => $row["DATE"]));
+      $action = $row["ACTION"];
+      $note = $row["NOTE"];
+      if($action == "BAN" || $action == "MUTE" || $action == "IPBAN_PLAYER"){
+        $note = getReasonByReasonID($note);
+      }
+      array_push($data, array("player" => $username, "byplayer" => $byusername, "action" => $row["ACTION"], "note" => $note, "date" => $row["DATE"]));
     }
     $response["log"] = $data;
   } else {

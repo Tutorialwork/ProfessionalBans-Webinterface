@@ -1,6 +1,14 @@
 <?php
 require("tokenhandler.php");
 require("../mysql.php");
+function getNameByUUID($uuid){
+  require("../mysql.php");
+  $stmt = $mysql->prepare("SELECT * FROM bans WHERE UUID = :uuid");
+  $stmt->bindParam(":uuid", $uuid, PDO::PARAM_STR);
+  $stmt->execute();
+  $row = $stmt->fetch();
+  return $row["NAME"];
+}
 $response = array();
 $JSONRequest = file_get_contents("php://input");
 $request = json_decode($JSONRequest, TRUE);
@@ -16,7 +24,7 @@ if(isset($request["token"])){
           if($count != 0){
             $search = array();
             while ($row = $stmt->fetch()) {
-              array_push($search, array("username" => $row["NAME"], "ban" => $row["BANNED"], "mute" => $row["MUTED"], "reason" => $row["REASON"], "end" => $row["END"], "by" => $row["TEAMUUID"], "bans" => $row["BANS"], "mutes" => $row["MUTES"], "firstlogin" => $row["FIRSTLOGIN"], "lastlogin" => $row["LASTLOGIN"]));
+              array_push($search, array("username" => $row["NAME"], "ban" => $row["BANNED"], "mute" => $row["MUTED"], "reason" => $row["REASON"], "end" => $row["END"], "by" => getNameByUUID($row["TEAMUUID"]), "bans" => $row["BANS"], "mutes" => $row["MUTES"], "firstlogin" => $row["FIRSTLOGIN"], "lastlogin" => $row["LASTLOGIN"]));
             }
             $response["status"] = 1;
             $response["msg"] = "OK";

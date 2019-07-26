@@ -1,8 +1,7 @@
 <?php
 require("tokenhandler.php");
 require("../mysql.php");
-function getNameByUUID($uuid)
-{
+function getNameByUUID($uuid){
   require("../mysql.php");
   $stmt = $mysql->prepare("SELECT * FROM bans WHERE UUID = :uuid");
   $stmt->bindParam(":uuid", $uuid, PDO::PARAM_STR);
