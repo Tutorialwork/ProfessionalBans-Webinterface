@@ -180,7 +180,7 @@ if (isset($request["token"])) {
             $response["msg"] = "OK";
           } else {
             $response["status"] = 0;
-            $response["msg"] = "User is already exists";
+            $response["msg"] = "User is already banned";
           }
         } else {
           $response["status"] = 0;
@@ -231,7 +231,7 @@ if (isset($request["token"])) {
             $response["msg"] = "OK";
           } else {
             $response["status"] = 0;
-            $response["msg"] = "User is already exists";
+            $response["msg"] = "User is already muted";
           }
         } else {
           $response["status"] = 0;
