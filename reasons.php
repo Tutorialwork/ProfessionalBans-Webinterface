@@ -26,11 +26,6 @@
   }
 
   require("./datamanager.php");
-  if(!isAdmin($_SESSION['username'])){
-    showModalRedirect("ERROR", "Fehler", "Der Zugriff auf diese Seite wurde verweigert.", "index.php");
-    exit;
-  }
-
   if(isInitialPassword($_SESSION['username'])){
     header("Location: resetpassword.php?name=".$_SESSION['username']);
     exit;
@@ -38,6 +33,12 @@
 
    ?>
   <body>
+    <?php
+    if(!isAdmin($_SESSION['username'])){
+      showModalRedirect("ERROR", "Fehler", "Der Zugriff auf diese Seite wurde verweigert.", "index.php");
+      exit;
+    }
+    ?>
     <div class="container">
       <div class="sidebar">
         <ul>
