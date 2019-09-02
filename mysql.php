@@ -2,10 +2,10 @@
 /////////////////////////////////////////////////
 // Stelle hier deine Datenbankverbindung ein!
 /////////////////////////////////////////////////
-$host = "dathost1.de";
-$name = "developer";
-$user = "developer";
-$passwort = "46YTwwDVe4kL";
+$host = "localhost";
+$name = "bans";
+$user = "root";
+$passwort = "";
 /////////////////////////////////////////////////
 try{
     $mysql = new PDO("mysql:host=$host;dbname=$name", $user, $passwort);

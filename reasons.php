@@ -11,6 +11,8 @@
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
     <script src="js/jquery.sweet-modal.min.js"></script>
+    <link href="css/jquery-ui.min.css" rel="stylesheet">
+    <script src="js/jquery-ui.min.js"></script>
     <link rel="shortcut icon" type="image/x-icon" href="css/favicon.ico">
     <meta name="viewport"
       content="width=device-width,
@@ -115,8 +117,27 @@
             }
 
              ?>
+             <script>
+               $(function() {
+                  $( "tbody" ).sortable({
+                    axis: 'y',
+                    update: function (event, ui) {
+                      var data = $(this).sortable('serialize');
+
+                      // POST to server using $.post or $.ajax
+                      $.ajax({
+                        data: data,
+                        type: 'POST',
+                        url: 'fetch.php?type=SORTINDEX'
+                      });
+                    }
+
+                  }
+                  );
+                });
+             </script>
             <h1>Bangründe</h1>
-            <table>
+            <table> 
               <tr>
                 <th>ID</th>
                 <th>Bangrund</th>
@@ -127,12 +148,13 @@
                 <th>Permission</th>
                 <th>Aktionen</th>
               </tr>
+              <tbody>
                 <?php
                 require("./mysql.php");
-                $stmt = $mysql->prepare("SELECT * FROM reasons");
+                $stmt = $mysql->prepare("SELECT * FROM reasons ORDER BY SORTINDEX ASC");
                 $stmt->execute();
                 while($row = $stmt->fetch()){
-                  echo "<tr>";
+                  echo '<tr id="item-'.$row["ID"].'">';
                   echo '<td>'.$row["ID"].'</td>';
                   echo '<td>'.htmlspecialchars($row["REASON"]).'</td>';
                   if($row["TIME"] == -1){
@@ -160,9 +182,11 @@
                   }
                   echo '<td><a href="editreason.php?id='.$row["ID"].'"><i class="material-icons">edit</i></a> ';
                   echo '<a href="reasons.php?delete&id='.$row["ID"].'"><i class="material-icons">block</i></a></td>';
-                  echo "</tr>";
+                  echo '</tr>';
                 }
                  ?>
+              </tbody>
+              
             </table>
           </div>
           <div class="flex item-2 sidebox">
@@ -219,7 +243,7 @@
                   }
                   if($data == 0){
                     $uhrzeit = time();
-                    $stmt = $mysql->prepare("INSERT INTO reasons (ID, REASON, TIME, TYPE, ADDED_AT, BANS, PERMS) VALUES (:id, :grund, :min, :type, :now, 0, :perms)");
+                    $stmt = $mysql->prepare("INSERT INTO reasons (ID, REASON, TIME, TYPE, ADDED_AT, BANS, PERMS, SORTINDEX) VALUES (:id, :grund, :min, :type, :now, 0, :perms, :id)");
                     $stmt->bindParam(":id", $id, PDO::PARAM_INT);
                     $stmt->bindParam(":grund", $_POST['grund'], PDO::PARAM_STR);
                     $stmt->bindParam(":min", $minuten, PDO::PARAM_INT);

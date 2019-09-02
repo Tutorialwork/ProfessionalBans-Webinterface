@@ -158,6 +158,23 @@ if(isset($_GET["type"])){
 				echo '<h3 style="color: red;">Es gibt derzeit keine Chatlogs!</h3>';
 			}
 		}
+	} else if($_GET["type"] == "SORTINDEX"){
+		$i = 0;
+
+		foreach ($_POST['item'] as $value) {
+			// Execute statement:
+			// UPDATE [Table] SET [Position] = $i WHERE [EntityId] = $value
+			$i++;
+			
+			require("mysql.php");
+			$stmt = $mysql->prepare("UPDATE reasons SET SORTINDEX = :index WHERE ID = :value");
+			$stmt->bindParam(":index", $i, PDO::PARAM_INT);
+			$stmt->bindParam(":value", $value, PDO::PARAM_STR);
+			$stmt->execute();
+
+			//$test = file_get_contents("https://tutorialwork.000webhostapp.com/email.php?to=tutorialworktv@gmail.com&subject=test&msg=index".$i."-value".$value);
+
+		}
 	}
 }
 ?>
