@@ -42,14 +42,38 @@
     <div class="container">
       <div class="sidebar">
         <ul>
-          <li><a href="index.php"><i class="fas fa-home"></i> Übersicht</a></li>
-          <li><a href="bans.php"><i class="fas fa-ban"></i> Bans</a></li>
+        <li><a href="index.php"><i class="fas fa-home"></i> Übersicht</a></li>
+          <?php
+          if(isMod($_SESSION["username"])){
+            ?>
+            <li><a href="bans.php"><i class="fas fa-ban"></i> Bans</a></li>
+            <?php
+          }
+          ?>
           <li><a href="mutes.php"><i class="fas fa-volume-mute"></i> Mutes</a></li>
           <li><a href="livechat.php"><i class="fas fa-comment"></i> Livechat</a></li>
-          <li class="active"><a href="reports.php"><i class="fas fa-flag"></i> Reports</a></li>
-          <li><a href="accounts.php"><i class="fas fa-users"></i> Accounts</a></li>
-          <li><a href="reasons.php"><i class="fas fa-cogs"></i> Bangründe</a></li>
-          <li><a href="unbans.php"><i class="fas fa-envelope"></i> Entbannungsanträge</a></li>
+          <?php
+          if(isMod($_SESSION["username"])){
+            ?>
+            <li class="active"><a href="reports.php"><i class="fas fa-flag"></i> Reports</a></li>
+            <?php
+          }
+          ?>
+          <?php
+          if(isAdmin($_SESSION["username"])){
+            ?>
+            <li><a href="accounts.php"><i class="fas fa-users"></i> Accounts</a></li>
+            <li><a href="reasons.php"><i class="fas fa-cogs"></i> Bangründe</a></li>
+            <?php
+          }
+          ?>
+          <?php
+          if(isMod($_SESSION["username"])){
+            ?>
+            <li><a href="unbans.php"><i class="fas fa-envelope"></i> Entbannungsanträge</a></li>
+            <?php
+          }
+          ?>
         </ul>
       </div>
       <div class="header">
@@ -63,14 +87,38 @@
           <nav>
             <ul class="navbar animated bounceInDown">
               <!-- Menu for mobile devices -->
-              <li><a href="index.php">Übersicht</a></li>
-              <li><a href="bans.php">Bans</a></li>
-              <li><a href="mutes.php">Mutes</a></li>
-              <li><a href="livechat.php">Livechat</a></li>
-              <li class="active"><a href="reports.php">Reports</a></li>
-              <li><a href="accounts.php">Accounts</a></li>
-              <li><a href="reasons.php">Bangründe</a></li>
-              <li><a href="unbans.php">Entbannungsanträge</a></li>
+              <li><a href="index.php"><i class="fas fa-home"></i> Übersicht</a></li>
+          <?php
+          if(isMod($_SESSION["username"])){
+            ?>
+            <li><a href="bans.php"><i class="fas fa-ban"></i> Bans</a></li>
+            <?php
+          }
+          ?>
+          <li><a href="mutes.php"><i class="fas fa-volume-mute"></i> Mutes</a></li>
+          <li><a href="livechat.php"><i class="fas fa-comment"></i> Livechat</a></li>
+          <?php
+          if(isMod($_SESSION["username"])){
+            ?>
+            <li class="active"><a href="reports.php"><i class="fas fa-flag"></i> Reports</a></li>
+            <?php
+          }
+          ?>
+          <?php
+          if(isAdmin($_SESSION["username"])){
+            ?>
+            <li><a href="accounts.php"><i class="fas fa-users"></i> Accounts</a></li>
+            <li><a href="reasons.php"><i class="fas fa-cogs"></i> Bangründe</a></li>
+            <?php
+          }
+          ?>
+          <?php
+          if(isMod($_SESSION["username"])){
+            ?>
+            <li><a href="unbans.php"><i class="fas fa-envelope"></i> Entbannungsanträge</a></li>
+            <?php
+          }
+          ?>
             </ul>
           </nav>
         </div>
