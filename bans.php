@@ -84,6 +84,12 @@
         <!-- END Mobile Menu -->
         <div class="flex-container animated fadeIn">
           <div class="flex item-1">
+          <?php
+          if(!isset($_GET["ipbans"])){
+            ?>
+            <div class="flex-button">
+              <a href="bans.php?ipbans" class="btn"><i class="fas fa-book-open"></i> IP-Bans</a>
+            </div>
             <h1>Aktive Bans</h1>
             <table>
               <tr>
@@ -118,6 +124,56 @@
                  ?>
               </tr>
             </table>
+          <?php
+          } else {
+            //IP Bans
+            ?>
+            <div class="flex-button">
+              <a href="bans.php" class="btn"><i class="fas fa-ban"></i> Bans</a>
+            </div>
+            <h1>Aktive IP-Bans</h1>
+            <table>
+              <tr>
+                <th>IP</th>
+                <th>Spieler</th>
+                <th>Grund</th>
+                <th>gebannt bis</th>
+                <th>gebannt von</th>
+                <th>Aktionen</th>
+              </tr>
+              <tr>
+                <?php
+                require("./mysql.php");
+                $stmt = $mysql->prepare("SELECT * FROM ips");
+                $stmt->execute();
+                while($row = $stmt->fetch()){
+                  if($row["BANNED"] == 1){
+                    echo "<tr>";
+                    echo '<td>'.$row["IP"].'</td>';
+                    echo '<td>';
+                    if($row["USED_BY"] != "null"){
+                      echo UUIDResolve($row["USED_BY"]);
+                    }
+                    echo '</td>';
+                    echo '<td>'.$row["REASON"].'</td>';
+                    echo '<td>'.date('d.m.Y H:i',$row["END"]/1000).'</td>';
+                    echo '<td>';
+                    if($row["TEAMUUID"] == "KONSOLE"){
+                      echo "Konsole";
+                    } else {
+                      echo UUIDResolve($row["TEAMUUID"]);
+                    }
+                    echo '</td>';
+                    echo '<td><a href="bans.php?delete&ip='.$row["IP"].'"><i class="material-icons">block</i></a></td>';
+                    echo "</tr>";
+                  }
+                }
+                 ?>
+              </tr>
+            </table>
+            <?php
+          }
+          ?>
           </div>
           <div class="flex item-2 sidebox">
             <?php
@@ -189,6 +245,24 @@
                 showModalRedirect("SUCCESS", "Erfolgreich", "<strong>".$_GET["name"]."</strong> wurde erfolgreich entbannt.", "bans.php");
               } else {
                 showModal("ERROR", "Fehler", "Der angeforderte Benutzer wurde nicht gefunden.");
+              }
+            }
+            if(isset($_GET["delete"]) && isset($_GET["ip"])){
+              require("./mysql.php");
+              $stmt = $mysql->prepare("SELECT * FROM ips WHERE IP = :ip");
+              $stmt->bindParam(":ip", $_GET['ip'], PDO::PARAM_STR);
+              $stmt->execute();
+              $data = 0;
+              while($row = $stmt->fetch()){
+                $data++;
+              }
+              if($data == 1){
+                $stmt = $mysql->prepare("UPDATE ips SET BANNED = 0 WHERE IP = :ip");
+                $stmt->bindParam(":ip", $_GET['ip'], PDO::PARAM_STR);
+                $stmt->execute();
+                showModalRedirect("SUCCESS", "Erfolgreich", "Die IP-Adresse <strong>".$_GET["ip"]."</strong> wurde erfolgreich entbannt.", "bans.php?ipbans");
+              } else {
+                showModal("ERROR", "Fehler", "Die angeforderte IP-Adresse wurde nicht gefunden.");
               }
             }
              ?>
