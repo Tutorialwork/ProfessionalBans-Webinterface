@@ -7,6 +7,8 @@ $request = json_decode($JSONRequest, TRUE);
 if(isset($request["token"])){
   $access = new TokenHandler($request["token"]);
   if($access->username != null){
+    require("../datamanager.php");
+    if(isAdmin($access->username)){
       if(isset($request["delete"])){
           $stmt = $mysql->prepare("SELECT * FROM reasons WHERE ID = :id");
           $stmt->bindParam(":id", $request["delete"], PDO::PARAM_INT);
@@ -54,6 +56,10 @@ if(isset($request["token"])){
         }
         $response["reasons"] = $reasons;
       }
+    } else {
+      $response["status"] = 0;
+      $response["msg"] = "Request not permitted";
+    }
   } else {
     $response["status"] = 0;
     $response["msg"] = "Access denied";

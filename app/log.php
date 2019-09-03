@@ -24,28 +24,34 @@ $request = json_decode($JSONRequest, TRUE);
 if(isset($request["token"])){
   $access = new TokenHandler($request["token"]);
   if($access->username != null){
-    $response["status"] = 1;
-    $response["msg"] = "OK";
-    $stmt = $mysql->prepare("SELECT * FROM log ORDER BY DATE DESC");
-    $stmt->execute();
-    $data = array();
-    while($row = $stmt->fetch()){
-      $username = null;
-      $byusername = null;
-      if($row["UUID"] != "null"){
-        $username = getNameByUUID($row["UUID"]);
+    require("../datamanager.php");
+    if(isMod($access->username)){
+      $response["status"] = 1;
+      $response["msg"] = "OK";
+      $stmt = $mysql->prepare("SELECT * FROM log ORDER BY DATE DESC");
+      $stmt->execute();
+      $data = array();
+      while($row = $stmt->fetch()){
+        $username = null;
+        $byusername = null;
+        if($row["UUID"] != "null"){
+          $username = getNameByUUID($row["UUID"]);
+        }
+        if($row["BYUUID"] != "null"){
+          $byusername = getNameByUUID($row["BYUUID"]);
+        }
+        $action = $row["ACTION"];
+        $note = $row["NOTE"];
+        if($action == "BAN" || $action == "MUTE" || $action == "IPBAN_PLAYER"){
+          $note = getReasonByReasonID($note);
+        }
+        array_push($data, array("player" => $username, "byplayer" => $byusername, "action" => $row["ACTION"], "note" => $note, "date" => $row["DATE"]));
       }
-      if($row["BYUUID"] != "null"){
-        $byusername = getNameByUUID($row["BYUUID"]);
-      }
-      $action = $row["ACTION"];
-      $note = $row["NOTE"];
-      if($action == "BAN" || $action == "MUTE" || $action == "IPBAN_PLAYER"){
-        $note = getReasonByReasonID($note);
-      }
-      array_push($data, array("player" => $username, "byplayer" => $byusername, "action" => $row["ACTION"], "note" => $note, "date" => $row["DATE"]));
+      $response["log"] = $data;
+    } else {
+      $response["status"] = 0;
+      $response["msg"] = "Request not permitted";
     }
-    $response["log"] = $data;
   } else {
     $response["status"] = 0;
     $response["msg"] = "Access denied";

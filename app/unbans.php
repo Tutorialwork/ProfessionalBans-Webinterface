@@ -24,6 +24,8 @@ $request = json_decode($JSONRequest, TRUE);
 if(isset($request["token"])){
   $access = new TokenHandler($request["token"]);
   if($access->username != null){
+    require("../datamanager.php");
+    if(isMod($access->username)){
       if(isset($request["done"]) && isset($request["status"])){
           $stmt = $mysql->prepare("SELECT * FROM unbans WHERE ID = :id");
           $stmt->bindParam(":id", $request["done"], PDO::PARAM_INT);
@@ -80,6 +82,10 @@ if(isset($request["token"])){
         }
         $response["closed_unbans"] = $unbans_done;
       }
+    } else {
+      $response["status"] = 0;
+      $response["msg"] = "Request not permitted";
+    }
   } else {
     $response["status"] = 0;
     $response["msg"] = "Access denied";

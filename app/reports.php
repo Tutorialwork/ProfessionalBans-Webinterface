@@ -15,6 +15,8 @@ $request = json_decode($JSONRequest, TRUE);
 if(isset($request["token"])){
   $access = new TokenHandler($request["token"]);
   if($access->username != null){
+    require("../datamanager.php");
+    if(isMod($access->username)){
       if(isset($request["done"])){
           $stmt = $mysql->prepare("SELECT * FROM reports WHERE ID = :id");
           $stmt->bindParam(":id", $request["done"], PDO::PARAM_INT);
@@ -57,6 +59,10 @@ if(isset($request["token"])){
         }
         $response["chatlogs"] = $chatlogs;
       }
+    } else {
+      $response["status"] = 0;
+      $response["msg"] = "Request not permitted";
+    }
   } else {
     $response["status"] = 0;
     $response["msg"] = "Access denied";
