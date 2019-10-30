@@ -35,9 +35,6 @@ if(isset($request["token"])){
   $access = new TokenHandler($request["token"]);
   if($access->username != null){
     if(isset($request["send"]) && isset($request["to"]) && isset($request["onlinecheck"])){
-      if(!$request["onlinecheck"])){
-        
-      }
         $stmt = $mysql->prepare("INSERT INTO privatemessages (SENDER, RECEIVER, MESSAGE, STATUS, DATE) VALUES (:sender, :to, :msg, :status, :now)");
         $stmt->bindParam(":sender", $access->uuid, PDO::PARAM_STR);
 
@@ -76,7 +73,7 @@ if(isset($request["token"])){
     } else if(isset($request["teamchat"])){
         $response["status"] = 1;
         $response["msg"] = "OK";
-        $stmt = $mysql->prepare("SELECT * FROM privatemessages WHERE RECEIVER = TEAM ORDER BY DATE DESC");
+        $stmt = $mysql->prepare("SELECT * FROM privatemessages WHERE RECEIVER = 'TEAM' ORDER BY DATE DESC");
         $stmt->execute();
         $messages = array();
         while($row = $stmt->fetch()){
