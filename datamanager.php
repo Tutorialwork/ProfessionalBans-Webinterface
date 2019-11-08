@@ -350,4 +350,19 @@ function validateSession(){
     header("Location: login.php");
   }
 }
+function getLastlogin($uuid){
+  require("./mysql.php");
+  $stmt = $mysql->prepare("SELECT * FROM bans WHERE UUID = :uuid");
+  $stmt->execute(array(":uuid" => $uuid));
+  $row = $stmt->fetch();
+  return date('d.m.Y H:i',$row["LASTLOGIN"]/1000);
+}
+function getUUID(){
+  require("./mysql.php");
+  $user = $_SESSION["username"];
+  $stmt = $mysql->prepare("SELECT UUID FROM bans WHERE NAME = :name");
+  $stmt->execute(array(":name" => $user));
+  $row = $stmt->fetch();
+  return $row["UUID"];
+}
  ?>
