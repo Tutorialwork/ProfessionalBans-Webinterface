@@ -175,6 +175,69 @@ if(isset($_GET["type"])){
 			//$test = file_get_contents("https://tutorialwork.000webhostapp.com/email.php?to=tutorialworktv@gmail.com&subject=test&msg=index".$i."-value".$value);
 
 		}
+	} else if($_GET["type"] == "SEARCH"){
+		require("mysql.php");
+		$output = '';
+		if(isset($_POST["query"])){
+			$stmt = $mysql->prepare('SELECT * FROM bans WHERE NAME LIKE :query');
+			$query = '%'.$_POST["query"].'%';
+			$stmt->bindParam(":query", $query, PDO::PARAM_STR);
+		} else {
+			$stmt = $mysql->prepare('SELECT * FROM bans ORDER BY LASTLOGIN DESC LIMIT 10');
+		}
+		$stmt->execute();
+		$counter = $stmt->rowCount();
+		if($counter > 0){
+			$logs = array();
+			$output .= '<table class="highlight">
+				<tr>
+					<th>Name</th>
+					<th>Gebannt</th>
+					<th>Gemutet</th>
+	        		<th>Bans</th>
+					<th>Mutes</th>
+					<th>erster Login</th>
+					<th>letzter Login</th>
+					<th>Status</th>
+				</tr>';
+			while($row = $stmt->fetch()){
+				$output .= '<tr>
+	 				<td>'.$row["NAME"].'</td>
+	 				<td>';
+					 if($row["BANNED"] == 0){
+						 $output .= "Nein";
+					 } else {
+						 $output .= "Ja, wegen ".$row["REASON"];
+					 }
+					  $output .= '</td>
+	 				<td>';
+					 if($row["MUTED"] == 0){
+						 $output .= "Nein";
+					 } else {
+						 $output .= "Ja, wegen ".$row["REASON"];
+					 }
+					  $output .= '</td>
+	 				<td>'.$row["BANS"].'</td>
+	 				<td>'.$row["MUTES"].'</td>
+					<td>'.date('d.m.Y H:i',$row["FIRSTLOGIN"]/1000).'</td>
+					<td>'.date('d.m.Y H:i',$row["LASTLOGIN"]/1000).'</td>
+					<td>';
+					 if($row["ONLINE_STATUS"] == 0){
+						 $output .= '<p style="color: red;">Offline</p>';
+					 } else if($row["ONLINE_STATUS"] == 1){
+						$output .= '<p style="color: green;">Online</p>';
+					 }
+					  $output .= '</td>
+	 				</tr>';
+			}
+			echo $output;
+		} else {
+			if(isset($_POST["query"])){
+				echo '<h3 style="color: red;">Es wurden keine Suchergebnisse gefunden die deiner Eingabe entsprechen!</h3>';
+			} else {
+				echo '<h3 style="color: red;">Zurzeit gibt es keine Spieler!</h3>';
+			}
+		}
 	}
 }
 ?>
