@@ -40,6 +40,37 @@
       showModalRedirect("ERROR", "Fehler", "Der Zugriff auf diese Seite wurde verweigert.", "index.php");
       exit;
     }
+    if(isset($_GET["delete"]) && isset($_GET["name"])){
+      if(!isset($_GET["confirmed"])){
+        if(!empty($_GET["name"])){
+          ?>
+          <script>
+            $.sweetModal.defaultSettings.confirm.yes.label = "Löschen";
+            $.sweetModal.defaultSettings.confirm.cancel.label = "Abbrechen";
+            $.sweetModal.confirm('Möchtest du wirklich <strong><?php echo $_GET["name"]; ?></strong> löschen?', function() {
+              var xhttp = new XMLHttpRequest();
+              xhttp.open("GET", "accounts.php?delete&name=<?php echo $_GET["name"]; ?>&confirmed");
+              xhttp.send();
+              $.sweetModal({
+                content: '<strong><?php echo $_GET["name"]; ?></strong> wurde erfolgreich gelöscht.',
+                icon: $.sweetModal.ICON_SUCCESS,
+                onClose: function(){
+                  window.location = "accounts.php";
+                }
+              });
+            });
+          </script>
+          <?php
+        } else {
+          header("Location: accounts.php");
+        }
+      } else {
+        require("./mysql.php");
+        $stmt = $mysql->prepare("DELETE FROM accounts WHERE USERNAME = :user");
+        $stmt->execute(array(":user" => $_GET["name"]));
+      }
+      
+    }
     ?>
     <div class="container">
       <div class="sidebar">
