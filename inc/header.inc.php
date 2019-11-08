@@ -4,7 +4,37 @@
 <head>
     <meta charset="utf-8">
     <title><?php
-    echo "DEBUG";
+    $request = explode("/", $_SERVER['REQUEST_URI']);
+    $request_file = end($request);
+    switch($request_file){
+        case 'index.php':
+            echo "Übersicht";
+        break;
+        case 'search.php':
+            echo "Suche";
+        break;
+        case 'bans.php':
+            echo "Bans";
+        break;
+        case 'mutes.php':
+            echo "Mutes";
+        break;
+        case 'reports.php':
+            echo "Reports";
+        break;
+        case 'accounts.php':
+            echo "Accounts";
+        break;
+        case 'reasons.php':
+            echo "Bangründe";
+        break;
+        case 'unbans.php':
+            echo "Entbannungsanträge";
+        break;
+        default:
+            echo "ProfessionalBans";
+        break;
+    }
     ?></title>
     <link rel="stylesheet" href="css/master.css">
     <link rel="stylesheet" href="css/animate.css">
