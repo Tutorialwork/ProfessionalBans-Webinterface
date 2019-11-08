@@ -31,6 +31,8 @@
     exit;
   }
 
+  validateSession();
+
    ?>
   <body>
     <?php

@@ -31,6 +31,8 @@
     exit;
   }
 
+  validateSession();
+
    ?>
   <body>
     <div class="container">

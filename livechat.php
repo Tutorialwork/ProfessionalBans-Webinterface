@@ -31,6 +31,8 @@
     exit;
   }
 
+  validateSession();
+
   //Button functions
   if(isset($_GET["download"])){
     if(!isAdmin($_SESSION['username'])){

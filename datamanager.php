@@ -49,29 +49,6 @@ function UUIDResolve($uuid){
     }
   }
 }
-//Not working!
-/*function NAMEResolve($name){
-  require("./mysql.php");
-  $stmt = $mysql->prepare("SELECT NAME, UUID FROM bans WHERE NAME = :name");
-  $stmt->bindParam(":name", $name, PDO::PARAM_STR);
-  $stmt->execute();
-  while($row = $stmt->fetch()){
-    if($row["NAME"] == $name){
-      return $row["UUID"];
-    }
-  }
-}
-function getWebUserUUID($name){
-  require("./mysql.php");
-  $stmt = $mysql->prepare("SELECT * FROM accounts WHERE USERNAME = :name");
-  $stmt->bindParam(":name", $name, PDO::PARAM_STR);
-  $stmt->execute();
-  while($row = $stmt->fetch()){
-    if($row["USERNAME"] == $name){
-      return $row["UUID"];
-    }
-  }
-}*/
 function isInitialPassword($username){
   require("./mysql.php");
   $stmt = $mysql->prepare("SELECT AUTHCODE FROM accounts WHERE USERNAME = :username");
@@ -362,5 +339,15 @@ function showModalRedirect($type, $title, $message, $location){
   });
   </script>
   <?php
+}
+function validateSession(){
+  $username = $_SESSION["username"];
+  require("./mysql.php");
+  $stmt = $mysql->prepare("SELECT * FROM accounts WHERE USERNAME = :user");
+  $stmt->execute(array(":user" => $username));
+  if($stmt->rowCount() == 0){
+    session_destroy();
+    header("Location: login.php");
+  }
 }
  ?>
