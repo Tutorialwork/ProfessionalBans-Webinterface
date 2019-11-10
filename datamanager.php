@@ -365,4 +365,32 @@ function getUUID(){
   $row = $stmt->fetch();
   return $row["UUID"];
 }
+function getAutoMuteMessage($uuid){
+  require("./mysql.php");
+  $stmt = $mysql->prepare("SELECT * FROM log WHERE UUID = :uuid AND ACTION = 'AUTOMUTE_BLACKLIST' OR UUID = :uuid AND ACTION = 'AUTOMUTE_ADBLACKLIST' ORDER BY DATE DESC");
+  $stmt->execute(array(":uuid" => $uuid));
+  if($stmt->rowCount() != 0){
+    $row = $stmt->fetch();
+    return $row["NOTE"];
+  } else {
+    return null;
+  }
+}
+function isMuteAutoMute($uuid){
+  require("./mysql.php");
+  $stmt = $mysql->prepare("SELECT * FROM log WHERE UUID = :uuid AND ACTION = 'AUTOMUTE_BLACKLIST' OR UUID = :uuid AND ACTION = 'AUTOMUTE_ADBLACKLIST' ORDER BY DATE DESC");
+  $stmt->execute(array(":uuid" => $uuid));
+  $row = $stmt->fetch();
+
+  $stmt2 = $mysql->prepare("SELECT * FROM log WHERE UUID = :uuid AND ACTION = 'MUTE' ORDER BY DATE DESC");
+  $stmt2->execute(array(":uuid" => $uuid));
+  $row2 = $stmt2->fetch();
+
+  if($row["DATE"] > $row2["DATE"]){
+    return true;
+  } else {
+    return false;
+  }
+
+}
  ?>

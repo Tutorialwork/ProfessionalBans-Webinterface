@@ -21,7 +21,13 @@
                   if($row["MUTED"] == 1){
                     echo "<tr>";
                     echo '<td>'.$row["NAME"].'</td>';
-                    echo '<td>'.$row["REASON"].'</td>';
+                    echo '<td>';
+                    if(isMuteAutoMute($row["UUID"])){
+                      echo $row["REASON"]." (<strong>".getAutoMuteMessage($row["UUID"])."</strong>)";
+                    } else {
+                      echo $row["REASON"];
+                    }
+                    echo '</td>';
                     echo '<td>'.date('d.m.Y H:i',$row["END"]/1000).'</td>';
                     echo '<td>';
                     if($row["TEAMUUID"] == "KONSOLE"){
