@@ -130,7 +130,7 @@
                 }
                  ?></p>
                  <h5>Nachricht</h5>
-                 <p><?php echo $row["MESSAGE"]; ?></p>
+                 <p><?php echo htmlspecialchars($row["MESSAGE"]); ?></p>
                  <h5>Entbannungsantrag erstellt am</h5>
                  <p><?php echo date('d.m.Y H:i',$row["DATE"]); ?></p>
                  <?php

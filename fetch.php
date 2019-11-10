@@ -207,14 +207,14 @@ if(isset($_GET["type"])){
 					 if($row["BANNED"] == 0){
 						 $output .= "Nein";
 					 } else {
-						 $output .= "Ja, wegen ".$row["REASON"];
+						 $output .= "Ja, wegen ".htmlspecialchars($row["REASON"]);
 					 }
 					  $output .= '</td>
 	 				<td>';
 					 if($row["MUTED"] == 0){
 						 $output .= "Nein";
 					 } else {
-						 $output .= "Ja, wegen ".$row["REASON"];
+						 $output .= "Ja, wegen ".htmlspecialchars($row["REASON"]);
 					 }
 					  $output .= '</td>
 	 				<td>'.$row["BANS"].'</td>

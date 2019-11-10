@@ -50,7 +50,7 @@
                     if($row["STATUS"] == 0){
                       echo "<tr>";
                       echo '<td>'.UUIDResolve($row["UUID"]).'</td>';
-                      echo '<td>'.$row["REASON"].'</td>';
+                      echo '<td>'.htmlspecialchars($row["REASON"]).'</td>';
                       echo '<td>'.date('d.m.Y H:i',$row["CREATED_AT"]/1000).'</td>';
                       if($row["REPORTER"] != "KONSOLE"){
                         echo '<td>'.UUIDResolve($row["REPORTER"]).'</td>';

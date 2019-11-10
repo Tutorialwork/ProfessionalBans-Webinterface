@@ -23,9 +23,9 @@
                     echo '<td>'.$row["NAME"].'</td>';
                     echo '<td>';
                     if(isMuteAutoMute($row["UUID"])){
-                      echo $row["REASON"]." (<strong>".getAutoMuteMessage($row["UUID"])."</strong>)";
+                      echo htmlspecialchars($row["REASON"])." (<strong>".htmlspecialchars(getAutoMuteMessage($row["UUID"]))."</strong>)";
                     } else {
-                      echo $row["REASON"];
+                      echo htmlspecialchars($row["REASON"]);
                     }
                     echo '</td>';
                     echo '<td>'.date('d.m.Y H:i',$row["END"]/1000).'</td>';
@@ -128,7 +128,7 @@
                 $stmt->execute();
                 while($row = $stmt->fetch()){
                   if($row["TYPE"] == 1){
-                      echo '<option value="'.$row["ID"].'">'.$row["REASON"].'</option>';
+                      echo '<option value="'.$row["ID"].'">'.htmlspecialchars($row["REASON"]).'</option>';
                   }
                 }
                  ?>

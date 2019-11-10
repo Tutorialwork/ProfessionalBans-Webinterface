@@ -31,7 +31,7 @@
                   if($row["BANNED"] == 1){
                     echo "<tr>";
                     echo '<td>'.$row["NAME"].'</td>';
-                    echo '<td>'.$row["REASON"].'</td>';
+                    echo '<td>'.htmlspecialchars($row["REASON"]).'</td>';
                     echo '<td>'.date('d.m.Y H:i',$row["END"]/1000).'</td>';
                     echo '<td>';
                     if($row["TEAMUUID"] == "KONSOLE"){
@@ -78,7 +78,7 @@
                       echo UUIDResolve($row["USED_BY"]);
                     }
                     echo '</td>';
-                    echo '<td>'.$row["REASON"].'</td>';
+                    echo '<td>'.htmlspecialchars($row["REASON"]).'</td>';
                     echo '<td>'.date('d.m.Y H:i',$row["END"]/1000).'</td>';
                     echo '<td>';
                     if($row["TEAMUUID"] == "KONSOLE"){
@@ -200,7 +200,7 @@
                 $stmt->execute();
                 while($row = $stmt->fetch()){
                   if($row["TYPE"] == 0){
-                      echo '<option value="'.$row["ID"].'">'.$row["REASON"].'</option>';
+                      echo '<option value="'.$row["ID"].'">'.htmlspecialchars($row["REASON"]).'</option>';
                   }
                 }
                  ?>

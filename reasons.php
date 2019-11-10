@@ -193,7 +193,7 @@
             <h1>Bangrund erstellen</h1>
             <form action="reasons.php" method="post">
               <input type="hidden" name="CSRFToken" value="<?php echo $_SESSION["CSRF"]; ?>">
-              <input type="text" name="grund" placeholder="Grund" maxlength="16" required><br>
+              <input type="text" name="grund" placeholder="Grund" required><br>
               <input type="number" name="zeit" placeholder="Dauer" required><br>
               <input type="text" name="perms" placeholder="Permission (optional)"><br>
               <select name="einheit">

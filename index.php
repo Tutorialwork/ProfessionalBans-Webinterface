@@ -101,11 +101,11 @@
                   //BAN, MUTE, ADD_WORD_BLACKLIST, DEL_WORD_BLACKLIST, CREATE_CHATLOG, IPBAN_IP, IPBAN_PLAYER, KICK, REPORT, REPORT_OFFLINE, REPORT_ACCEPT, UNBAN_IP, UNBAN_BAN, UNBAN_MUTE,
                   //ADD_WEBACCOUNT, DEL_WEBACCOUNT, AUTOMUTE_ADBLACKLIST, AUTOMUTE_BLACKLIST
                   $action = $row["ACTION"];
-                  $note = $row["NOTE"];
+                  $note = htmlspecialchars($row["NOTE"]);
                   if($action == "BAN"){
-                    echo "wurde gebannt wegen <strong>".getReasonByReasonID($note)."</strong>";
+                    echo "wurde gebannt wegen <strong>".htmlspecialchars(getReasonByReasonID($note))."</strong>";
                   } else if($action == "MUTE"){
-                    echo "wurde gemutet wegen <strong>".getReasonByReasonID($note)."</strong>";
+                    echo "wurde gemutet wegen <strong>".htmlspecialchars(getReasonByReasonID($note))."</strong>";
                   } else if($action == "ADD_WORD_BLACKLIST"){
                     echo "hat das Wort <strong>".$note."</strong> verboten";
                   } else if($action == "DEL_WORD_BLACKLIST"){
@@ -118,7 +118,7 @@
                   } else if($action == "IPBAN_IP"){
                     echo "hat die IP <strong>".$note."</strong> gebannt";
                   } else if($action == "IPBAN_PLAYER"){
-                    echo "wurde IP gebannt wegen <strong>".getReasonByReasonID($note)."</strong>";
+                    echo "wurde IP gebannt wegen <strong>".htmlspecialchars(getReasonByReasonID($note))."</strong>";
                   } else if($action == "KICK"){
                     echo "wurde gekickt wegen <strong>".$note."</strong>";
                   } else if($action == "REPORT"){
