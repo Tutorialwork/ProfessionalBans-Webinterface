@@ -202,7 +202,7 @@ if(isset($_GET["type"])){
 				</tr>';
 			while($row = $stmt->fetch()){
 				$output .= '<tr>
-	 				<td>'.$row["NAME"].'</td>
+	 				<td><a href="player.php?id='.$row["UUID"].'">'.$row["NAME"].'</a></td>
 	 				<td>';
 					 if($row["BANNED"] == 0){
 						 $output .= "Nein";
