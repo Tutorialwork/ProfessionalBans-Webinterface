@@ -7,16 +7,17 @@
         if(isset($_GET["delete"]) && isset($_GET["name"])){
           if(!isset($_GET["confirmed"])){
             if(!empty($_GET["name"])){
+              $name = htmlspecialchars($_GET["name"], ENT_QUOTES, 'UTF-8');
               ?>
               <script>
                 $.sweetModal.defaultSettings.confirm.yes.label = "Löschen";
                 $.sweetModal.defaultSettings.confirm.cancel.label = "Abbrechen";
-                $.sweetModal.confirm('Möchtest du wirklich <strong><?php echo $_GET["name"]; ?></strong> löschen?', function() {
+                $.sweetModal.confirm('Möchtest du wirklich <strong><?php echo $name ?></strong> löschen?', function() {
                   var xhttp = new XMLHttpRequest();
-                  xhttp.open("GET", "accounts.php?delete&name=<?php echo $_GET["name"]; ?>&confirmed");
+                  xhttp.open("GET", "accounts.php?delete&name=<?php echo $name ?>&confirmed");
                   xhttp.send();
                   $.sweetModal({
-                    content: '<strong><?php echo $_GET["name"]; ?></strong> wurde erfolgreich gelöscht.',
+                    content: '<strong><?php echo $name ?></strong> wurde erfolgreich gelöscht.',
                     icon: $.sweetModal.ICON_SUCCESS,
                     onClose: function(){
                       window.location = "accounts.php";
