@@ -35,7 +35,28 @@ if(isset($_GET["id"]) && !empty($_GET["id"]) && isPlayerExists($_GET["id"])){
                   if($row["ACTION"] == "BAN" || $row["ACTION"] == "UNBAN_BAN" || $row["ACTION"] == "MUTE" || $row["ACTION"] == "UNBAN_MUTE" 
                   || $row["ACTION"] == "AUTOMUTE_BLACKLIST" || $row["ACTION"] == "AUTOMUTE_ADBLACKLIST"){
                     echo "<tr>";
-                    echo '<td><strong>'.$row["ACTION"].'</strong></td>';
+                    echo '<td><strong>';
+                    switch($row["ACTION"]){
+                      case "BAN":
+                        echo "wurde gebannt wegen ".htmlspecialchars(getReasonByReasonID($row["NOTE"]));
+                        break;
+                      case "UNBAN_BAN":
+                        echo "wurde entbannt";
+                        break;
+                      case "MUTE":
+                        echo "wurde gemutet wegen ".htmlspecialchars(getReasonByReasonID($row["NOTE"]));
+                        break;
+                      case "UNBAN_BAN":
+                        echo "wurde entmutet";
+                        break;
+                      case "AUTOMUTE_BLACKLIST":
+                        echo "wurde automatisch gemutet wegen seinem Verhalten (<strong>".$row["NOTE"]."</strong>)";
+                        break;
+                      case "AUTOMUTE_ADBLACKLIST":
+                        echo "wurde automatisch gemutet wegen Werbung (<strong>".$row["NOTE"]."</strong>)";
+                        break;
+                    }
+                    echo '</strong></td>';
                     if($row["BYUUID"] != "KONSOLE"){
                       echo '<td>'.UUIDResolve($row["BYUUID"]).'</td>';
                     } else {
