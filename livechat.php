@@ -31,10 +31,10 @@ require("./inc/livechat_header.inc.php");
 
           var updateDiv = function() {
             $('#output').load('livechat.php?update&server=<?php echo urlencode($_GET["server"]); ?>&page=<?php echo $givenpage ?>', function() {
-              deinTimer = window.setTimeout(updateDiv, 250);
+              deinTimer = window.setTimeout(updateDiv, 1000);
             });
           }
-          var deinTimer = window.setTimeout(updateDiv, 250);
+          var deinTimer = window.setTimeout(updateDiv, 1000);
 
         });
       </script>
@@ -68,7 +68,7 @@ require("./inc/livechat_header.inc.php");
       <?php
       if (!isset($_GET["server"])) {
         echo '<option value="livechat.php">Alle Server</option>';
-        
+
         $server = array();
         $stmt = MySQLWrapper()->prepare("SELECT SERVER FROM chat");
         $stmt->execute();
@@ -81,7 +81,7 @@ require("./inc/livechat_header.inc.php");
           echo '<option value="livechat.php?server=' . urlencode($value) . '">' . htmlspecialchars($value) . '</option>';
         }
       } else {
-        
+
         $server = array();
         $stmt = MySQLWrapper()->prepare("SELECT SERVER FROM chat");
         $stmt->execute();
