@@ -16,7 +16,7 @@ if (!isAdmin($_SESSION['username'])) {
       if ($_POST["CSRFToken"] != $_SESSION["CSRF"]) {
         showModal("ERROR", "CSRF Fehler", "Deine Sitzung ist abgelaufen. Versuche die Seite erneut zu öffnen.");
       } else {
-        require("./mysql.php");
+
         $id = $_GET["id"];
         if (filter_var($_POST['zeit'], FILTER_VALIDATE_INT)) {
           $zeit = $_POST['zeit'];
@@ -25,14 +25,11 @@ if (!isAdmin($_SESSION['username'])) {
           exit;
         }
 
-        $stmt = $mysql->prepare("SELECT * FROM reasons WHERE id = :id");
+        $stmt = MySQLWrapper()->prepare("SELECT * FROM reasons WHERE id = :id");
         $stmt->bindParam(":id", $id, PDO::PARAM_INT);
         $stmt->execute();
-        $data = 0;
-        while ($row = $stmt->fetch()) {
-          $data++;
-        }
-        if ($data == 1) {
+
+        if ($row = $stmt->fetch()) {
           if ($_POST["einheit"] == "m") {
             $minuten = $zeit;
           } else if ($_POST["einheit"] == "s") {
@@ -54,7 +51,7 @@ if (!isAdmin($_SESSION['username'])) {
 
           //Update Grund
           $uhrzeit = time();
-          $stmt = $mysql->prepare("UPDATE reasons SET REASON = :grund, TIME = :min, TYPE = :type, PERMS = :perms WHERE ID = :id");
+          $stmt = MySQLWrapper()->prepare("UPDATE reasons SET REASON = :grund, TIME = :min, TYPE = :type, PERMS = :perms WHERE ID = :id");
           $stmt->bindParam(":grund", $_POST['grund'], PDO::PARAM_STR);
           $stmt->bindParam(":min", $minuten, PDO::PARAM_INT);
           $stmt->bindParam(":type", $type, PDO::PARAM_INT);
