@@ -6,7 +6,7 @@ if (isset($_GET["id"]) && !empty($_GET["id"]) && isPlayerExists($_GET["id"])) {
     <div class="flex item-1">
       <h1><?php echo UUIDResolve($_GET["id"]) ?></h1>
       <?php
-        $stmt = $mysql->prepare("SELECT * FROM bans WHERE UUID = :id");
+        $stmt = MySQLWrapper()->prepare("SELECT * FROM bans WHERE UUID = :id");
         $stmt->execute(array(":id" => $_GET["id"]));
         $row = $stmt->fetch();
         if ($row["ONLINE_STATUS"] == 1) {
@@ -28,9 +28,10 @@ if (isset($_GET["id"]) && !empty($_GET["id"]) && isPlayerExists($_GET["id"])) {
           <th>Am</th>
         </tr>
         <?php
-          $stmt = $mysql->prepare("SELECT * FROM log WHERE UUID = :id ORDER BY DATE DESC");
+          $stmt = MySQLWrapper()->prepare("SELECT * FROM log WHERE UUID = :id ORDER BY DATE DESC");
           $stmt->execute(array(":id" => $_GET["id"]));
-          while ($row = $stmt->fetch()) {
+          $row = $stmt->fetch();
+          if (!empty($row)) {
             if (
               $row["ACTION"] == "BAN" || $row["ACTION"] == "UNBAN_BAN" || $row["ACTION"] == "MUTE" || $row["ACTION"] == "UNBAN_MUTE"
               || $row["ACTION"] == "AUTOMUTE_BLACKLIST" || $row["ACTION"] == "AUTOMUTE_ADBLACKLIST"
