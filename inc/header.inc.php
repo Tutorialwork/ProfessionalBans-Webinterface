@@ -1,3 +1,20 @@
+<?php
+session_start();
+require_once("./datamanager.php");
+
+
+if (!isset($_SESSION['username'])) {
+    header("Location: login.php");
+    exit;
+}
+
+if (isInitialPassword($_SESSION['username'])) {
+    header("Location: resetpassword.php?name=" . $_SESSION['username']);
+    exit;
+}
+
+validateSession();
+?>
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
 
@@ -40,32 +57,15 @@
     <link rel="stylesheet" href="css/animate.css">
     <link rel="stylesheet" href="css/jquery.sweet-modal.min.css" />
     <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" async>
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="js/jquery.sweet-modal.min.js"></script>
     <link rel="shortcut icon" type="image/x-icon" href="css/favicon.ico">
     <meta name="viewport" content="width=device-width,
             initial-scale=1.0,
             minimum-scale=1.0">
 </head>
-<?php
-
-session_start();
-if (!isset($_SESSION['username'])) {
-    header("Location: login.php");
-    exit;
-}
-
-require("./datamanager.php");
-if (isInitialPassword($_SESSION['username'])) {
-    header("Location: resetpassword.php?name=" . $_SESSION['username']);
-    exit;
-}
-
-validateSession();
-
-?>
 
 <body>
     <div class="container">
