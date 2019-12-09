@@ -1,4 +1,5 @@
 <?php
+
 session_start();
 require_once("./mysql.php");
 require_once("./datamanager.php");
@@ -25,7 +26,7 @@ if (isset($_GET["download"])) {
   mkdir("log");
   $file = fopen("log/" . $filename, "w") or die("Unable to open file!");
 
-  $stmt = $mysql->prepare("SELECT * FROM chat ORDER BY SENDDATE DESC");
+  $stmt = MySQLWrapper()->prepare("SELECT * FROM chat ORDER BY SENDDATE DESC");
   $stmt->execute();
   $log = array();
   $txt = "";
@@ -43,8 +44,7 @@ if (isset($_GET["clean"])) {
     showModal("ERROR", "Fehler", "Dir wurde der Zugriff auf diese Funktion verweigert.");
     exit;
   }
-
-  $stmt = $mysql->prepare("DELETE FROM chat");
+  $stmt = MySQLWrapper()->prepare("DELETE FROM chat");
   $stmt->execute();
   showModal("SUCCESS", "Erfolgreich", "Der komplette Chatverlauf des Netzwerkes wurde gelöscht.");
 }
@@ -52,14 +52,10 @@ if (isset($_GET["clean"])) {
 //Update function
 if (isset($_GET["update"])) {
   if (!isset($_GET["server"])) {
-    if (is_int($_GET["page"])) {
-      $page = intval($_GET["page"]);
-    } else {
-      $page = 0;
-    }
+    $page = $_GET["page"];
     $sqlint = ($page * 5) - 5;
 
-    $stmt = $mysql->prepare("SELECT * FROM chat ORDER BY SENDDATE DESC LIMIT $sqlint,5");
+    $stmt = MySQLWrapper()->prepare("SELECT * FROM chat ORDER BY SENDDATE DESC LIMIT $sqlint,5");
     $stmt->execute();
     while ($row = $stmt->fetch()) {
       ?>
@@ -72,7 +68,7 @@ if (isset($_GET["update"])) {
       </div>
     <?php
         }
-        $pagestmt = $mysql->prepare("SELECT * FROM chat");
+        $pagestmt = MySQLWrapper()->prepare("SELECT * FROM chat");
         $pagestmt->execute();
         $count = $pagestmt->rowCount();
         $pages = $count / 5;
@@ -112,14 +108,10 @@ if (isset($_GET["update"])) {
     <?php
         exit;
       } else {
-        if (is_int($_GET["page"])) {
-          $page = intval($_GET["page"]);
-        } else {
-          $page = 0;
-        }
+        $page = $_GET["page"];
         $sqlint = ($page * 5) - 5;
 
-        $stmt = $mysql->prepare("SELECT * FROM chat WHERE SERVER = :server ORDER BY SENDDATE DESC LIMIT $sqlint,5");
+        $stmt = MySQLWrapper()->prepare("SELECT * FROM chat WHERE SERVER = :server ORDER BY SENDDATE DESC LIMIT $sqlint,5");
         $stmt->bindParam(":server", $_GET["server"], PDO::PARAM_STR);
         $stmt->execute();
         while ($row = $stmt->fetch()) {
@@ -133,7 +125,7 @@ if (isset($_GET["update"])) {
       </div>
     <?php
         }
-        $pagestmt = $mysql->prepare("SELECT * FROM chat WHERE SERVER = :server");
+        $pagestmt = MySQLWrapper()->prepare("SELECT * FROM chat WHERE SERVER = :server");
         $pagestmt->bindParam(":server", $_GET["server"], PDO::PARAM_STR);
         $pagestmt->execute();
         $count = $pagestmt->rowCount();
@@ -169,14 +161,7 @@ if (isset($_GET["update"])) {
     exit;
   }
 }
-function activeItem($file)
-{
-  $request = explode("/", $_SERVER['REQUEST_URI']);
-  $request_file = end($request);
-  if ($request_file == $file) {
-    echo 'class="active"';
-  }
-}
+
 ?>
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
@@ -297,3 +282,14 @@ function activeItem($file)
           })
         })
       </script>
+
+      <?php
+
+      function activeItem($file)
+      {
+        $request = explode("/", $_SERVER['REQUEST_URI']);
+        $request_file = end($request);
+        if ($request_file == $file) {
+          echo 'class="active"';
+        }
+      }
