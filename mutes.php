@@ -54,7 +54,7 @@ require("./inc/header.inc.php");
         $stmt = MySQLWrapper()->prepare("SELECT UUID FROM bans WHERE NAME = :username");
         $stmt->bindParam(":username", $_POST["spieler"], PDO::PARAM_STR);
         $stmt->execute();
-        while ($row = $stmt->fetch()) {
+        if ($row = $stmt->fetch()) {
           $uuid = $row["UUID"];
         }
         if (isPlayerExists($uuid)) {
@@ -103,11 +103,7 @@ require("./inc/header.inc.php");
       $stmt = MySQLWrapper()->prepare("SELECT * FROM bans WHERE NAME = :username");
       $stmt->bindParam(":username", $_GET['name'], PDO::PARAM_STR);
       $stmt->execute();
-      $data = 0;
-      while ($row = $stmt->fetch()) {
-        $data++;
-      }
-      if ($data == 1) {
+      if ($row = $stmt->fetch()) {
         $stmt = MySQLWrapper()->prepare("UPDATE bans SET MUTED = 0 WHERE NAME = :username");
         $stmt->bindParam(":username", $_GET['name'], PDO::PARAM_STR);
         $stmt->execute();
