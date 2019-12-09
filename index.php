@@ -1,6 +1,6 @@
-        <?php
-        require("./inc/header.inc.php");
-        ?>
+<?php
+require("./inc/header.inc.php");
+?>
         <div class="flex-container animated fadeIn">
           <div class="flex item-1">
             <h1>Willkommen, <?php echo htmlspecialchars($_SESSION["username"]); ?></h1>
@@ -19,7 +19,7 @@
           </div>
         </div>
         <?php
-        require("./mysql.php");
+        require_once("./mysql.php");
         $pstmt = $mysql->prepare("SELECT * FROM bans");
         $pstmt->execute();
         $data = 0;
@@ -76,7 +76,7 @@
                 <th>Datum</th>
               </tr>
               <?php
-              require("./mysql.php");
+              require_once("./mysql.php");
               $stmt = $mysql->prepare("SELECT * FROM log ORDER BY DATE DESC LIMIT 4");
               $stmt->execute();
               while ($row = $stmt->fetch()) {
