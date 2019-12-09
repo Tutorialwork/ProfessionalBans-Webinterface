@@ -104,48 +104,52 @@
               if ($_POST["CSRFToken"] != $_SESSION["CSRF"]) {
                 showModal("ERROR", "CSRF Fehler", "Deine Sitzung ist abgelaufen. Versuche die Seite erneut zu öffnen.");
               } else {
-                //Fetch UUID from Userinput
-                $stmt = MySQLWrapper()->prepare("SELECT UUID FROM bans WHERE NAME = :username");
-                $stmt->bindParam(":username", $_POST["spieler"], PDO::PARAM_STR);
-                $stmt->execute();
-                while ($row = $stmt->fetch()) {
-                  $uuid = $row["UUID"];
-                }
-                if (isPlayerExists($uuid)) {
-                  if (isBanned($uuid)) {
-                    showModalRedirect("ERROR", "Fehler", "Dieser Spieler ist bereits gebannt.", "bans.php");
-                    exit;
-                  }
-                  $now = time();
-                  if (getMinutesByReasonID($_POST["grund"]) != "-1") { //Kein Perma Ban
-                    $phpEND = $now + getMinutesByReasonID($_POST["grund"]) * 60;
-                    $javaEND = $phpEND * 1000;
-                  } else {
-                    //PERMA BAN
-                    $javaEND = -1;
-                  }
-                  $stmt = MySQLWrapper()->prepare("UPDATE bans SET BANNED = 1, MUTED = 0, REASON = :reason, END = :end, TEAMUUID = :webUUID  WHERE UUID = :uuid");
-                  $reason = getReasonByReasonID($_POST["grund"]);
-                  $stmt->bindParam(":reason", $reason, PDO::PARAM_STR);
-                  $stmt->bindParam(":end", $javaEND, PDO::PARAM_STR);
-
-                  //UUID von User im Webinterface
-                  $stmtUUID = MySQLWrapper()->prepare("SELECT * FROM accounts WHERE USERNAME = :name");
-                  $stmtUUID->bindParam(":name", $_SESSION["username"], PDO::PARAM_STR);
-                  $stmtUUID->execute();
-                  while ($row = $stmtUUID->fetch()) {
-                    if ($row["USERNAME"] == $_SESSION["username"]) {
-                      $useruuid = $row["UUID"];
-                    }
-                  }
-
-                  $stmt->bindParam(":webUUID", $useruuid, PDO::PARAM_STR);
-                  $stmt->bindParam(":uuid", $uuid, PDO::PARAM_STR);
-                  $stmt->execute();
-                  addBanCounter($uuid);
-                  showModalRedirect("SUCCESS", "Erfolgreich", "Der Spieler <strong>" . htmlspecialchars($_POST["spieler"]) . "</strong> wurde erfolgreich gebannt.", "bans.php");
+                if (empty($_POST["grund"])) {
+                  showModal("ERROR", "Fehler", "Bitte gebe einen Grund an!");
                 } else {
-                  showModal("ERROR", "Fehler", "Dieser Spieler hat das Netzwerk noch nie betreten.");
+                  //Fetch UUID from Userinput
+                  $stmt = MySQLWrapper()->prepare("SELECT UUID FROM bans WHERE NAME = :username");
+                  $stmt->bindParam(":username", $_POST["spieler"], PDO::PARAM_STR);
+                  $stmt->execute();
+                  while ($row = $stmt->fetch()) {
+                    $uuid = $row["UUID"];
+                  }
+                  if (isPlayerExists($uuid)) {
+                    if (isBanned($uuid)) {
+                      showModalRedirect("ERROR", "Fehler", "Dieser Spieler ist bereits gebannt.", "bans.php");
+                      exit;
+                    }
+                    $now = time();
+                    if (getMinutesByReasonID($_POST["grund"]) != "-1") { //Kein Perma Ban
+                      $phpEND = $now + getMinutesByReasonID($_POST["grund"]) * 60;
+                      $javaEND = $phpEND * 1000;
+                    } else {
+                      //PERMA BAN
+                      $javaEND = -1;
+                    }
+                    $stmt = MySQLWrapper()->prepare("UPDATE bans SET BANNED = 1, MUTED = 0, REASON = :reason, END = :end, TEAMUUID = :webUUID  WHERE UUID = :uuid");
+                    $reason = getReasonByReasonID($_POST["grund"]);
+                    $stmt->bindParam(":reason", $reason, PDO::PARAM_STR);
+                    $stmt->bindParam(":end", $javaEND, PDO::PARAM_STR);
+
+                    //UUID von User im Webinterface
+                    $stmtUUID = MySQLWrapper()->prepare("SELECT * FROM accounts WHERE USERNAME = :name");
+                    $stmtUUID->bindParam(":name", $_SESSION["username"], PDO::PARAM_STR);
+                    $stmtUUID->execute();
+                    $row = $stmtUUID->fetch();
+
+                    if (!empty($row)) {
+                      $stmt->bindParam(":webUUID", $row["UUID"], PDO::PARAM_STR);
+                      $stmt->bindParam(":uuid", $uuid, PDO::PARAM_STR);
+                      $stmt->execute();
+                      addBanCounter($uuid);
+                      showModalRedirect("SUCCESS", "Erfolgreich", "Der Spieler <strong>" . htmlspecialchars($_POST["spieler"]) . "</strong> wurde erfolgreich gebannt.", "bans.php");
+                    } else {
+                      showModal("ERROR", "Fehler", "Unbekannter fehler aufgetreten, bitte versuche es erneut.");
+                    }
+                  } else {
+                    showModal("ERROR", "Fehler", "Dieser Spieler hat das Netzwerk noch nie betreten.");
+                  }
                 }
               }
             } else {
@@ -157,11 +161,8 @@
               $stmt = MySQLWrapper()->prepare("SELECT * FROM bans WHERE NAME = :username");
               $stmt->bindParam(":username", $_GET['name'], PDO::PARAM_STR);
               $stmt->execute();
-              $data = 0;
-              while ($row = $stmt->fetch()) {
-                $data++;
-              }
-              if ($data == 1) {
+              $row = $stmt->fetch();
+              if (!empty($row)) {
                 $stmt = MySQLWrapper()->prepare("UPDATE bans SET BANNED = 0 WHERE NAME = :username");
                 $stmt->bindParam(":username", $_GET['name'], PDO::PARAM_STR);
                 $stmt->execute();
@@ -175,11 +176,8 @@
               $stmt = MySQLWrapper()->prepare("SELECT * FROM ips WHERE IP = :ip");
               $stmt->bindParam(":ip", $_GET['ip'], PDO::PARAM_STR);
               $stmt->execute();
-              $data = 0;
-              while ($row = $stmt->fetch()) {
-                $data++;
-              }
-              if ($data == 1) {
+              $row = $stmt->fetch();
+              if (!empty($row)) {
                 $stmt = MySQLWrapper()->prepare("UPDATE ips SET BANNED = 0 WHERE IP = :ip");
                 $stmt->bindParam(":ip", $_GET['ip'], PDO::PARAM_STR);
                 $stmt->execute();
