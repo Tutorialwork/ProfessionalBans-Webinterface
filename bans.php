@@ -32,7 +32,7 @@
                         echo "<tr>";
                         echo '<td>' . $row["NAME"] . '</td>';
                         echo '<td>' . htmlspecialchars($row["REASON"]) . '</td>';
-                        echo '<td>' . date('d.m.Y H:i', $row["END"] / 1000) . '</td>';
+                        echo '<td>' . (($row["END"] <= 0) ? "Permanent" : date('d.m.Y H:i', $row["END"] / 1000)) . '</td>';
                         echo '<td>';
                         if ($row["TEAMUUID"] == "KONSOLE") {
                           echo "Konsole";
@@ -79,7 +79,7 @@
                         }
                         echo '</td>';
                         echo '<td>' . htmlspecialchars($row["REASON"]) . '</td>';
-                        echo '<td>' . date('d.m.Y H:i', $row["END"] / 1000) . '</td>';
+                        echo '<td>' . ($row["END"] <= 0) ? "Permanent" : date('d.m.Y H:i', $row["END"] / 1000) . '</td>';
                         echo '<td>';
                         if ($row["TEAMUUID"] == "KONSOLE") {
                           echo "Konsole";
