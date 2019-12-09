@@ -4,38 +4,38 @@
 <head>
     <meta charset="utf-8">
     <title><?php
-    $request = explode("/", $_SERVER['REQUEST_URI']);
-    $request_file = end($request);
-    switch($request_file){
-        case 'index.php':
-            echo "Übersicht";
-        break;
-        case 'search.php':
-            echo "Suche";
-        break;
-        case 'bans.php':
-            echo "Bans";
-        break;
-        case 'mutes.php':
-            echo "Mutes";
-        break;
-        case 'reports.php':
-            echo "Reports";
-        break;
-        case 'accounts.php':
-            echo "Accounts";
-        break;
-        case 'reasons.php':
-            echo "Bangründe";
-        break;
-        case 'unbans.php':
-            echo "Entbannungsanträge";
-        break;
-        default:
-            echo "ProfessionalBans";
-        break;
-    }
-    ?></title>
+            $request = explode("/", $_SERVER['REQUEST_URI']);
+            $request_file = end($request);
+            switch ($request_file) {
+                case 'index.php':
+                    echo "Übersicht";
+                    break;
+                case 'search.php':
+                    echo "Suche";
+                    break;
+                case 'bans.php':
+                    echo "Bans";
+                    break;
+                case 'mutes.php':
+                    echo "Mutes";
+                    break;
+                case 'reports.php':
+                    echo "Reports";
+                    break;
+                case 'accounts.php':
+                    echo "Accounts";
+                    break;
+                case 'reasons.php':
+                    echo "Bangründe";
+                    break;
+                case 'unbans.php':
+                    echo "Entbannungsanträge";
+                    break;
+                default:
+                    echo "ProfessionalBans";
+                    break;
+            }
+            ?></title>
     <link rel="stylesheet" href="css/master.css">
     <link rel="stylesheet" href="css/animate.css">
     <link rel="stylesheet" href="css/jquery.sweet-modal.min.css" />
@@ -51,21 +51,21 @@
 </head>
 <?php
 
-    session_start();
-    if (!isset($_SESSION['username'])) {
-        header("Location: login.php");
-        exit;
-    }
+session_start();
+if (!isset($_SESSION['username'])) {
+    header("Location: login.php");
+    exit;
+}
 
-    require("./datamanager.php");
-    if (isInitialPassword($_SESSION['username'])) {
-        header("Location: resetpassword.php?name=" . $_SESSION['username']);
-        exit;
-    }
+require("./datamanager.php");
+if (isInitialPassword($_SESSION['username'])) {
+    header("Location: resetpassword.php?name=" . $_SESSION['username']);
+    exit;
+}
 
-    validateSession();
+validateSession();
 
-    ?>
+?>
 
 <body>
     <div class="container">
@@ -76,36 +76,36 @@
                 <li <?php activeItem("index.php") ?>><a href="index.php"><i class="fas fa-home"></i> Übersicht</a></li>
                 <li <?php activeItem("search.php") ?>><a href="search.php"><i class="fas fa-search"></i> Suche</a></li>
                 <?php
-                    if (isMod($_SESSION["username"])) {
-                        ?>
+                if (isMod($_SESSION["username"])) {
+                    ?>
                     <li <?php activeItem("bans.php") ?>><a href="bans.php"><i class="fas fa-ban"></i> Bans</a></li>
                 <?php
-                    }
-                    ?>
+                }
+                ?>
                 <li <?php activeItem("mutes.php") ?>><a href="mutes.php"><i class="fas fa-volume-mute"></i> Mutes</a></li>
                 <li <?php activeItem("livechat.php") ?>><a href="livechat.php"><i class="fas fa-comment"></i> Livechat</a></li>
                 <?php
-                    if (isMod($_SESSION["username"])) {
-                        ?>
+                if (isMod($_SESSION["username"])) {
+                    ?>
                     <li <?php activeItem("reports.php") ?>><a href="reports.php"><i class="fas fa-flag"></i> Reports</a></li>
                 <?php
-                    }
-                    ?>
+                }
+                ?>
                 <?php
-                    if (isAdmin($_SESSION["username"])) {
-                        ?>
+                if (isAdmin($_SESSION["username"])) {
+                    ?>
                     <li <?php activeItem("accounts.php") ?>><a href="accounts.php"><i class="fas fa-users"></i> Accounts</a></li>
                     <li <?php activeItem("reasons.php") ?>><a href="reasons.php"><i class="fas fa-cogs"></i> Bangründe</a></li>
                 <?php
-                    }
-                    ?>
+                }
+                ?>
                 <?php
-                    if (isMod($_SESSION["username"])) {
-                        ?>
+                if (isMod($_SESSION["username"])) {
+                    ?>
                     <li <?php activeItem("unbans.php") ?>><a href="unbans.php"><i class="fas fa-envelope"></i> Entbannungsanträge</a></li>
                 <?php
-                    }
-                    ?>
+                }
+                ?>
             </ul>
             <!-- END 
             Navbar for desktop devices -->
@@ -124,36 +124,36 @@
                         <li <?php activeItem("index.php") ?>><a href="index.php"><i class="fas fa-home"></i> Übersicht</a></li>
                         <li <?php activeItem("search.php") ?>><a href="search.php"><i class="fas fa-search"></i> Suche</a></li>
                         <?php
-                            if (isMod($_SESSION["username"])) {
-                                ?>
+                        if (isMod($_SESSION["username"])) {
+                            ?>
                             <li <?php activeItem("bans.php") ?>><a href="bans.php"><i class="fas fa-ban"></i> Bans</a></li>
                         <?php
-                            }
-                            ?>
+                        }
+                        ?>
                         <li><a href="mutes.php"><i class="fas fa-volume-mute"></i> Mutes</a></li>
                         <li><a href="livechat.php"><i class="fas fa-comment"></i> Livechat</a></li>
                         <?php
-                            if (isMod($_SESSION["username"])) {
-                                ?>
+                        if (isMod($_SESSION["username"])) {
+                            ?>
                             <li <?php activeItem("reports.php") ?>><a href="reports.php"><i class="fas fa-flag"></i> Reports</a></li>
                         <?php
-                            }
-                            ?>
+                        }
+                        ?>
                         <?php
-                            if (isAdmin($_SESSION["username"])) {
-                                ?>
+                        if (isAdmin($_SESSION["username"])) {
+                            ?>
                             <li <?php activeItem("accounts.php") ?>><a href="accounts.php"><i class="fas fa-users"></i> Accounts</a></li>
                             <li <?php activeItem("reasons.php") ?>><a href="reasons.php"><i class="fas fa-cogs"></i> Bangründe</a></li>
                         <?php
-                            }
-                            ?>
+                        }
+                        ?>
                         <?php
-                            if (isMod($_SESSION["username"])) {
-                                ?>
+                        if (isMod($_SESSION["username"])) {
+                            ?>
                             <li <?php activeItem("unbans.php") ?>><a href="unbans.php"><i class="fas fa-envelope"></i> Entbannungsanträge</a></li>
                         <?php
-                            }
-                            ?>
+                        }
+                        ?>
                     </ul>
                     <!-- END 
                     Navbar for mobile devices -->
@@ -167,12 +167,13 @@
                 })
             </script>
 
-<?php
+            <?php
 
-function activeItem($file){
-    $request = explode("/", $_SERVER['REQUEST_URI']);
-    $request_file = end($request);
-    if($request_file == $file){
-        echo 'class="active"';
-    }
-}
+            function activeItem($file)
+            {
+                $request = explode("/", $_SERVER['REQUEST_URI']);
+                $request_file = end($request);
+                if ($request_file == $file) {
+                    echo 'class="active"';
+                }
+            }
