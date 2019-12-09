@@ -52,7 +52,7 @@ if (isset($_GET["clean"])) {
 //Update function
 if (isset($_GET["update"])) {
   if (!isset($_GET["server"])) {
-    $page = filter_input(INPUT_GET, $_GET["page"], FILTER_VALIDATE_INT);
+    $page = $_GET["page"];
     $sqlint = ($page * 5) - 5;
 
     $stmt = MySQLWrapper()->prepare("SELECT * FROM chat ORDER BY SENDDATE DESC LIMIT $sqlint,5");
@@ -108,7 +108,7 @@ if (isset($_GET["update"])) {
     <?php
         exit;
       } else {
-        $page = filter_input(INPUT_GET, $_GET["page"], FILTER_VALIDATE_INT);
+        $page = $_GET["page"];
         $sqlint = ($page * 5) - 5;
 
         $stmt = MySQLWrapper()->prepare("SELECT * FROM chat WHERE SERVER = :server ORDER BY SENDDATE DESC LIMIT $sqlint,5");
