@@ -161,7 +161,8 @@ while ($row = $bstmt->fetch()) {
         $stmt = $mysql->prepare("SELECT * FROM accounts WHERE USERNAME = :username");
         $stmt->bindParam(":username", $_SESSION['username'], PDO::PARAM_STR);
         $stmt->execute();
-        while ($row = $stmt->fetch()) {
+        $row = $stmt->fetch();
+        if(!empty($row)) {
           if (password_verify($_POST['currentpw'], $row["PASSWORD"])) {
             if ($_POST["newpw"] == $_POST["newpw2"]) {
               $hash = password_hash($_POST["newpw"], PASSWORD_BCRYPT);
@@ -176,6 +177,8 @@ while ($row = $bstmt->fetch()) {
           } else {
             showModal("ERROR", "Fehler", "Dein altes Passwort stimmt nicht.");
           }
+        } else {
+          showModal("ERROR", "Fehler", "Dein Passwort konnte nicht geändert werden, bitte versuche es erneut.");
         }
       }
     } else {
