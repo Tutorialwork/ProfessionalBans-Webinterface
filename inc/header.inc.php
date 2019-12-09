@@ -14,6 +14,15 @@ if (isInitialPassword($_SESSION['username'])) {
 }
 
 validateSession();
+
+function activeItem($file)
+{
+    $request = explode("/", $_SERVER['REQUEST_URI']);
+    $request_file = end($request);
+    if ($request_file == $file) {
+        echo 'class="active"';
+    }
+}
 ?>
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
@@ -166,14 +175,3 @@ validateSession();
                     })
                 })
             </script>
-
-            <?php
-
-            function activeItem($file)
-            {
-                $request = explode("/", $_SERVER['REQUEST_URI']);
-                $request_file = end($request);
-                if ($request_file == $file) {
-                    echo 'class="active"';
-                }
-            }
