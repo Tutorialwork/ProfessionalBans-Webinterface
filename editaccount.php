@@ -16,9 +16,9 @@ if (!isAdmin($_SESSION['username'])) {
       if ($_POST["CSRFToken"] != $_SESSION["CSRF"]) {
         showModal("ERROR", "CSRF Fehler", "Deine Sitzung ist abgelaufen. Versuche die Seite erneut zu öffnen.");
       } else {
-        require("./mysql.php");
+
         //Fetch UUID from Userinput
-        $stmt = $mysql->prepare("SELECT UUID FROM bans WHERE NAME = :username");
+        $stmt = MySQLWrapper()->prepare("SELECT UUID FROM bans WHERE NAME = :username");
         $stmt->bindParam(":username", $_POST["mcusername"], PDO::PARAM_STR);
         $stmt->execute();
         while ($row = $stmt->fetch()) {
@@ -28,14 +28,14 @@ if (!isAdmin($_SESSION['username'])) {
           $rankint = (int) $_POST["rang"];
           if (!empty($_POST["pw"])) {
             $hash = password_hash($_POST["pw"], PASSWORD_BCRYPT);
-            $stmt = $mysql->prepare("UPDATE accounts SET UUID = :uuid, RANK = :rank, PASSWORD = :pw WHERE USERNAME = :user");
+            $stmt = MySQLWrapper()->prepare("UPDATE accounts SET UUID = :uuid, RANK = :rank, PASSWORD = :pw WHERE USERNAME = :user");
             $stmt->bindParam(":uuid", $uuid, PDO::PARAM_STR);
             $stmt->bindParam(":rank", $rankint, PDO::PARAM_INT);
             $stmt->bindParam(":user", $_GET["name"], PDO::PARAM_STR);
             $stmt->bindParam(":pw", $hash, PDO::PARAM_STR);
             $stmt->execute();
           } else {
-            $stmt = $mysql->prepare("UPDATE accounts SET UUID = :uuid, RANK = :rank WHERE USERNAME = :user");
+            $stmt = MySQLWrapper()->prepare("UPDATE accounts SET UUID = :uuid, RANK = :rank WHERE USERNAME = :user");
             $stmt->bindParam(":uuid", $uuid, PDO::PARAM_STR);
             $stmt->bindParam(":rank", $rankint, PDO::PARAM_INT);
             $stmt->bindParam(":user", $_GET["name"], PDO::PARAM_STR);
@@ -44,7 +44,7 @@ if (!isAdmin($_SESSION['username'])) {
           if (hasGoogleAuth($_GET["name"])) {
             $statusint = (int) $_POST["gauth"];
             if ($statusint == 0) {
-              $stmt = $mysql->prepare("UPDATE accounts SET GOOGLE_AUTH = 'null' WHERE USERNAME = :user");
+              $stmt = MySQLWrapper()->prepare("UPDATE accounts SET GOOGLE_AUTH = 'null' WHERE USERNAME = :user");
               $stmt->bindParam(":user", $_GET["name"], PDO::PARAM_STR);
               $stmt->execute();
             }
@@ -63,8 +63,8 @@ if (!isAdmin($_SESSION['username'])) {
     <form action="editaccount.php?name=<?php echo $_GET["name"]; ?>" method="post">
       <input type="hidden" name="CSRFToken" value="<?php echo $_SESSION["CSRF"]; ?>">
       <?php
-      require("./mysql.php");
-      $stmt = $mysql->prepare("SELECT * FROM accounts WHERE USERNAME = :username");
+
+      $stmt = MySQLWrapper()->prepare("SELECT * FROM accounts WHERE USERNAME = :username");
       $stmt->bindParam(":username", $_GET['name'], PDO::PARAM_STR);
       $stmt->execute();
       while ($row = $stmt->fetch()) {
