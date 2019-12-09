@@ -78,67 +78,72 @@ while ($row = $bstmt->fetch()) {
       while ($row = $stmt->fetch()) {
         ?>
         <tr>
-          <td><?php
-                if ($row["UUID"] == "KONSOLE") {
-                  echo "Konsole";
-                } else {
-                  echo UUIDResolve($row["UUID"]);
-                }
-                ?></td>
-          <td><?php
-                if ($row["BYUUID"] == "KONSOLE") {
-                  echo "Konsole";
-                } else {
-                  echo UUIDResolve($row["BYUUID"]);
-                }
-                ?></td>
-          <td><?php
-                //Verfügbare Action Codes (Stand: 25.05.2019)
-                //BAN, MUTE, ADD_WORD_BLACKLIST, DEL_WORD_BLACKLIST, CREATE_CHATLOG, IPBAN_IP, IPBAN_PLAYER, KICK, REPORT, REPORT_OFFLINE, REPORT_ACCEPT, UNBAN_IP, UNBAN_BAN, UNBAN_MUTE,
-                //ADD_WEBACCOUNT, DEL_WEBACCOUNT, AUTOMUTE_ADBLACKLIST, AUTOMUTE_BLACKLIST
-                $action = $row["ACTION"];
-                $note = htmlspecialchars($row["NOTE"]);
-                if ($action == "BAN") {
-                  echo "wurde gebannt wegen <strong>" . htmlspecialchars(getReasonByReasonID($note)) . "</strong>";
-                } else if ($action == "MUTE") {
-                  echo "wurde gemutet wegen <strong>" . htmlspecialchars(getReasonByReasonID($note)) . "</strong>";
-                } else if ($action == "ADD_WORD_BLACKLIST") {
-                  echo "hat das Wort <strong>" . $note . "</strong> verboten";
-                } else if ($action == "DEL_WORD_BLACKLIST") {
-                  echo "hat das Wort <strong>" . $note . "</strong> erlaubt";
-                } else if ($action == "CREATE_CHATLOG") {
-                  //Prepare Chatlog URL
-                  $url = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
-                  $finish_url = str_replace("index.php", "public/chatlog.php?id=", $url);
-                  echo 'hat einen <a href="' . $finish_url . $note . '">Chatlog</a> erstellt';
-                } else if ($action == "IPBAN_IP") {
-                  echo "hat die IP <strong>" . $note . "</strong> gebannt";
-                } else if ($action == "IPBAN_PLAYER") {
-                  echo "wurde IP gebannt wegen <strong>" . htmlspecialchars(getReasonByReasonID($note)) . "</strong>";
-                } else if ($action == "KICK") {
-                  echo "wurde gekickt wegen <strong>" . $note . "</strong>";
-                } else if ($action == "REPORT") {
-                  echo "wurde gemeldet wegen <strong>" . $note . "</strong>";
-                } else if ($action == "REPORT_OFFLINE") {
-                  echo "wurde gemeldet wegen <strong>" . $note . "</strong>";
-                } else if ($action == "REPORT_ACCEPT") {
-                  echo "hat einen Report angenommen <strong>#" . $note . "</strong>";
-                } else if ($action == "UNBAN_IP") {
-                  echo "hat die IP <strong>" . $note . "</strong> entbannt";
-                } else if ($action == "UNBAN_BAN") {
-                  echo "wurde entbannt";
-                } else if ($action == "UNBAN_MUTE") {
-                  echo "wurde entmutet";
-                } else if ($action == "ADD_WEBACCOUNT") {
-                  echo "hat einen Webaccount mit dem Rang <strong>" . $note . "</strong> erstellt";
-                } else if ($action == "DEL_WEBACCOUNT") {
-                  echo "hat den Webaccount gelöscht";
-                } else if ($action == "AUTOMUTE_ADBLACKLIST") {
-                  echo "wurde automatisch gemutet wegen Werbung (<strong>" . $note . "</strong>)";
-                } else if ($action == "AUTOMUTE_BLACKLIST") {
-                  echo "wurde automatisch gemutet wegen seinem Verhalten (<strong>" . $note . "</strong>)";
-                }
-                ?></td>
+          <td>
+            <?php
+              if ($row["UUID"] == "KONSOLE") {
+                echo "Konsole";
+              } else {
+                echo UUIDResolve($row["UUID"]);
+              }
+              ?>
+          </td>
+          <td>
+            <?php
+              if ($row["BYUUID"] == "KONSOLE") {
+                echo "Konsole";
+              } else {
+                echo UUIDResolve($row["BYUUID"]);
+              }
+              ?></td>
+          <td>
+            <?php
+              //Verfügbare Action Codes (Stand: 25.05.2019)
+              //BAN, MUTE, ADD_WORD_BLACKLIST, DEL_WORD_BLACKLIST, CREATE_CHATLOG, IPBAN_IP, IPBAN_PLAYER, KICK, REPORT, REPORT_OFFLINE, REPORT_ACCEPT, UNBAN_IP, UNBAN_BAN, UNBAN_MUTE,
+              //ADD_WEBACCOUNT, DEL_WEBACCOUNT, AUTOMUTE_ADBLACKLIST, AUTOMUTE_BLACKLIST
+              $action = $row["ACTION"];
+              $note = htmlspecialchars($row["NOTE"]);
+              if ($action == "BAN") {
+                echo "wurde gebannt wegen <strong>" . htmlspecialchars(getReasonByReasonID($note)) . "</strong>";
+              } else if ($action == "MUTE") {
+                echo "wurde gemutet wegen <strong>" . htmlspecialchars(getReasonByReasonID($note)) . "</strong>";
+              } else if ($action == "ADD_WORD_BLACKLIST") {
+                echo "hat das Wort <strong>" . $note . "</strong> verboten";
+              } else if ($action == "DEL_WORD_BLACKLIST") {
+                echo "hat das Wort <strong>" . $note . "</strong> erlaubt";
+              } else if ($action == "CREATE_CHATLOG") {
+                //Prepare Chatlog URL
+                $url = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+                $finish_url = str_replace("index.php", "public/chatlog.php?id=", $url);
+                echo 'hat einen <a href="' . $finish_url . $note . '">Chatlog</a> erstellt';
+              } else if ($action == "IPBAN_IP") {
+                echo "hat die IP <strong>" . $note . "</strong> gebannt";
+              } else if ($action == "IPBAN_PLAYER") {
+                echo "wurde IP gebannt wegen <strong>" . htmlspecialchars(getReasonByReasonID($note)) . "</strong>";
+              } else if ($action == "KICK") {
+                echo "wurde gekickt wegen <strong>" . $note . "</strong>";
+              } else if ($action == "REPORT") {
+                echo "wurde gemeldet wegen <strong>" . $note . "</strong>";
+              } else if ($action == "REPORT_OFFLINE") {
+                echo "wurde gemeldet wegen <strong>" . $note . "</strong>";
+              } else if ($action == "REPORT_ACCEPT") {
+                echo "hat einen Report angenommen <strong>#" . $note . "</strong>";
+              } else if ($action == "UNBAN_IP") {
+                echo "hat die IP <strong>" . $note . "</strong> entbannt";
+              } else if ($action == "UNBAN_BAN") {
+                echo "wurde entbannt";
+              } else if ($action == "UNBAN_MUTE") {
+                echo "wurde entmutet";
+              } else if ($action == "ADD_WEBACCOUNT") {
+                echo "hat einen Webaccount mit dem Rang <strong>" . $note . "</strong> erstellt";
+              } else if ($action == "DEL_WEBACCOUNT") {
+                echo "hat den Webaccount gelöscht";
+              } else if ($action == "AUTOMUTE_ADBLACKLIST") {
+                echo "wurde automatisch gemutet wegen Werbung (<strong>" . $note . "</strong>)";
+              } else if ($action == "AUTOMUTE_BLACKLIST") {
+                echo "wurde automatisch gemutet wegen seinem Verhalten (<strong>" . $note . "</strong>)";
+              }
+              ?>
+          </td>
           <td><?php echo date('d.m.Y H:i', $row["DATE"] / 1000); ?></td>
         </tr>
       <?php
