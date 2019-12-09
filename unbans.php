@@ -92,7 +92,7 @@ if (!isset($_GET["id"])) {
       $stmt->bindParam(":uuid", $uuid, PDO::PARAM_STR);
       $stmt->execute();
     }
-    header("Location: unbans.php");
+    redirect("unbans.php");
   }
   ?>
   <div class="flex-container animated fadeIn">
