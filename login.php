@@ -2,6 +2,39 @@
 session_start();
 require_once("./mysql.php");
 require("./datamanager.php");
+
+$Error = false;
+if (isset($_POST["submit"])) {
+
+  $stmt = $mysql->prepare("SELECT * FROM accounts WHERE USERNAME = :username");
+  $stmt->bindParam(":username", $_POST['username'], PDO::PARAM_STR);
+  $stmt->execute();
+  $row = $stmt->fetch();
+
+  if (!empty($row)) {
+    if (password_verify($_POST['password'], $row["PASSWORD"])) {
+      //Login war erfolgreich
+      if (!hasGoogleAuth($row["USERNAME"])) {
+        //Starte Session
+        $_SESSION['username'] = $row["USERNAME"];
+        if ($row["AUTHCODE"] == "initialpassword") {
+          header("Location: resetpassword.php?name=" . $row["USERNAME"]);
+          exit;
+        }
+        header('Location: index.php');
+      } else {
+        //Google Auth aktiviert
+        $_SESSION['username_unauth'] = $row["USERNAME"];
+        header('Location: verify.php');
+      }
+    } else {
+      $Error = true;
+    }
+  } else {
+    $Error = true;
+  }
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
@@ -18,43 +51,12 @@ require("./datamanager.php");
 <body>
   <form class="login" action="login.php" method="post">
     <?php
-    if (isset($_POST["submit"])) {
-
-      $stmt = $mysql->prepare("SELECT * FROM accounts WHERE USERNAME = :username");
-      $stmt->bindParam(":username", $_POST['username'], PDO::PARAM_STR);
-      $stmt->execute();
-      $row = $stmt->fetch();
-      
-      if (!empty($row)) {
-        if (password_verify($_POST['password'], $row["PASSWORD"])) {
-          //Login war erfolgreich
-          if (!hasGoogleAuth($row["USERNAME"])) {
-            //Starte Session
-            $_SESSION['username'] = $row["USERNAME"];
-            if ($row["AUTHCODE"] == "initialpassword") {
-              header("Location: resetpassword.php?name=" . $row["USERNAME"]);
-              exit;
-            }
-            header('Location: index.php');
-          } else {
-            //Google Auth aktiviert
-            $_SESSION['username_unauth'] = $row["USERNAME"];
-            header('Location: verify.php');
-          }
-        } else {
-          ?>
-          <div class="error">
-            <h4>Der Login ist fehlgeschlagen.</h4>
-          </div>
-        <?php
-            }
-          } else {
-            ?>
-        <div class="error">
-          <h4>Der Login ist fehlgeschlagen.</h4>
-        </div>
+    if ($Error) {
+      ?>
+      <div class="error">
+        <h4>Der Login ist fehlgeschlagen.</h4>
+      </div>
     <?php
-      }
     }
     ?>
     <h1><i class="fas fa-user"></i> Login</h1>
