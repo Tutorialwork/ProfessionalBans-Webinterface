@@ -120,7 +120,7 @@ validateSession();
                 <nav>
                     <!-- START 
                     Navbar for mobile devices -->
-                    <ul class="navbar animated bounceInDown">
+                    <ul class="navbar animated slideInDown">
                         <li <?php activeItem("index.php") ?>><a href="index.php"><i class="fas fa-home"></i> Übersicht</a></li>
                         <li <?php activeItem("search.php") ?>><a href="search.php"><i class="fas fa-search"></i> Suche</a></li>
                         <?php
