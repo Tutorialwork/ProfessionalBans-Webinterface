@@ -1,5 +1,6 @@
 <?php
 session_start();
+require_once("./mysql.php");
 require_once("./datamanager.php");
 
 
