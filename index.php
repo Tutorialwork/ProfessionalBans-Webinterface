@@ -17,7 +17,6 @@ require("./inc/header.inc.php");
   </div>
 </div>
 <?php
-require_once("./mysql.php");
 $pstmt = $mysql->prepare("SELECT * FROM bans");
 $pstmt->execute();
 $data = 0;
@@ -74,7 +73,6 @@ while ($row = $bstmt->fetch()) {
         <th>Datum</th>
       </tr>
       <?php
-      require_once("./mysql.php");
       $stmt = $mysql->prepare("SELECT * FROM log ORDER BY DATE DESC LIMIT 4");
       $stmt->execute();
       while ($row = $stmt->fetch()) {
