@@ -1,4 +1,5 @@
 <?php
+ob_start();
 require("./inc/header.inc.php");
 if (!isMod($_SESSION['username'])) {
   showModalRedirect("ERROR", "Fehler", "Der Zugriff auf diese Seite wurde verweigert.", "index.php");
@@ -72,7 +73,6 @@ if (!isset($_GET["id"])) {
 <?php
 } else {
   if (isset($_POST["submit"])) {
-
     $status = (int) $_POST["choose"];
     $stmt = MySQLWrapper()->prepare("UPDATE unbans SET STATUS = :status WHERE ID = :id");
     $stmt->bindParam(":status", $status, PDO::PARAM_INT);
@@ -152,3 +152,4 @@ if (!isset($_GET["id"])) {
 </body>
 
 </html>
+<?php ob_end_flush(); ?>
