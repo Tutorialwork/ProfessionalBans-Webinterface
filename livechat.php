@@ -7,7 +7,7 @@ require("./inc/livechat_header.inc.php");
     <?php
     if (isset($_GET["server"])) {
       ?>
-      <p>Nachrichten von: <strong><?php echo $_GET["server"] ?></strong></p>
+      <p>Nachrichten von: <strong><?php echo htmlspecialchars($_GET["server"]); ?></strong></p>
     <?php
     } else {
       ?>
@@ -20,7 +20,7 @@ require("./inc/livechat_header.inc.php");
     //Update Counter function
     if (isset($_GET["server"])) {
       if (isset($_GET["page"])) {
-        $givenpage = $_GET["page"];
+        $givenpage = urlencode($_GET["page"]);
       } else {
         $givenpage = 1;
       }
@@ -30,7 +30,7 @@ require("./inc/livechat_header.inc.php");
 
 
           var updateDiv = function() {
-            $('#output').load('livechat.php?update&server=<?php echo $_GET["server"] ?>&page=<?php echo $givenpage ?>', function() {
+            $('#output').load('livechat.php?update&server=<?php echo urlencode($_GET["server"]); ?>&page=<?php echo $givenpage ?>', function() {
               deinTimer = window.setTimeout(updateDiv, 250);
             });
           }
@@ -41,7 +41,7 @@ require("./inc/livechat_header.inc.php");
     <?php
     } else {
       if (isset($_GET["page"])) {
-        $givenpage = $_GET["page"];
+        $givenpage = urlencode($_GET["page"]);
       } else {
         $givenpage = 1;
       }
@@ -78,7 +78,7 @@ require("./inc/livechat_header.inc.php");
           }
         }
         foreach ($server as $value) {
-          echo '<option value="livechat.php?server=' . $value . '">' . $value . '</option>';
+          echo '<option value="livechat.php?server=' . urlencode($value) . '">' . htmlspecialchars($value) . '</option>';
         }
       } else {
         require("./mysql.php");
@@ -90,10 +90,10 @@ require("./inc/livechat_header.inc.php");
             array_push($server, $row["SERVER"]);
           }
         }
-        echo '<option value="livechat.php?server=' . $_GET["server"] . '">' . $_GET["server"] . '</option>';
+        echo '<option value="livechat.php?server=' . urlencode($_GET["server"]) . '">' . htmlspecialchars($_GET["server"]) . '</option>';
         foreach ($server as $value) {
           if ($value != $_GET["server"]) {
-            echo '<option value="livechat.php?server=' . $value . '">' . $value . '</option>';
+            echo '<option value="livechat.php?server=' . urlencode($value) . '">' . htmlspecialchars($value) . '</option>';
           }
         }
         echo '<option value="livechat.php">Alle Server</option>';
