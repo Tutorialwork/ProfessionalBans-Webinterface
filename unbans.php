@@ -1,5 +1,4 @@
 <?php
-ob_start();
 require("./inc/header.inc.php");
 if (!isMod($_SESSION['username'])) {
   showModalRedirect("ERROR", "Fehler", "Der Zugriff auf diese Seite wurde verweigert.", "index.php");
@@ -152,4 +151,3 @@ if (!isset($_GET["id"])) {
 </body>
 
 </html>
-<?php ob_end_flush(); ?>
