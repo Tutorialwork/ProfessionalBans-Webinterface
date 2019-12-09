@@ -1,5 +1,4 @@
 <?php
-ob_start(); // Too many header after content (will be flushed automaticly)
 session_start();
 require_once("./mysql.php");
 require_once("./datamanager.php");
