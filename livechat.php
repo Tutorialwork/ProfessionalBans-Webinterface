@@ -68,9 +68,9 @@ require("./inc/livechat_header.inc.php");
       <?php
       if (!isset($_GET["server"])) {
         echo '<option value="livechat.php">Alle Server</option>';
-        require("./mysql.php");
+        
         $server = array();
-        $stmt = $mysql->prepare("SELECT SERVER FROM chat");
+        $stmt = MySQLWrapper()->prepare("SELECT SERVER FROM chat");
         $stmt->execute();
         while ($row = $stmt->fetch()) {
           if (!in_array($row["SERVER"], $server)) {
@@ -81,9 +81,9 @@ require("./inc/livechat_header.inc.php");
           echo '<option value="livechat.php?server=' . urlencode($value) . '">' . htmlspecialchars($value) . '</option>';
         }
       } else {
-        require("./mysql.php");
+        
         $server = array();
-        $stmt = $mysql->prepare("SELECT SERVER FROM chat");
+        $stmt = MySQLWrapper()->prepare("SELECT SERVER FROM chat");
         $stmt->execute();
         while ($row = $stmt->fetch()) {
           if (!in_array($row["SERVER"], $server)) {
