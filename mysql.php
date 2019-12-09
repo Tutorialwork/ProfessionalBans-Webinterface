@@ -1,9 +1,12 @@
 <?php
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 /////////////////////////////////////////////////
 // Stelle hier deine Datenbankverbindung ein!
 /////////////////////////////////////////////////
 $host = "localhost";
-$name = "bans";
+$name = "webinterface";
 $user = "root";
 $passwort = "";
 /////////////////////////////////////////////////
@@ -12,4 +15,8 @@ try{
 } catch (PDOException $e){
     echo "SQL Error: ".$e->getMessage();
 }
- ?>
+
+function MySQLWrapper() {
+    global $mysql;
+    return $mysql;
+}
