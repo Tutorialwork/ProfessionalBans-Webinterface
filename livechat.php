@@ -34,7 +34,7 @@ require("./inc/livechat_header.inc.php");
               deinTimer = window.setTimeout(updateDiv, 1000);
             });
           }
-          var deinTimer = window.setTimeout(updateDiv, 1000);
+          var deinTimer = window.setTimeout(updateDiv, 250);
 
         });
       </script>
