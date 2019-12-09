@@ -72,15 +72,6 @@ if (!isset($_GET["id"])) {
 <?php
 } else {
   if (isset($_POST["submit"])) {
-    function getUUID($id)
-    {
-
-      $stmt = MySQLWrapper()->prepare("SELECT * FROM unbans WHERE ID = :id");
-      $stmt->bindParam(":id", $_GET["id"], PDO::PARAM_INT);
-      $stmt->execute();
-      $row = $stmt->fetch();
-      return $row["UUID"];
-    }
 
     $status = (int) $_POST["choose"];
     $stmt = MySQLWrapper()->prepare("UPDATE unbans SET STATUS = :status WHERE ID = :id");
