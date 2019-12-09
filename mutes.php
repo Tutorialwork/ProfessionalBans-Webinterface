@@ -14,8 +14,8 @@ require("./inc/header.inc.php");
       </tr>
       <tr>
         <?php
-        require("./mysql.php");
-        $stmt = $mysql->prepare("SELECT * FROM bans");
+
+        $stmt = MySQLWrapper()->prepare("SELECT * FROM bans");
         $stmt->execute();
         while ($row = $stmt->fetch()) {
           if ($row["MUTED"] == 1) {
@@ -51,7 +51,7 @@ require("./inc/header.inc.php");
         showModal("ERROR", "CSRF Fehler", "Deine Sitzung ist abgelaufen. Versuche die Seite erneut zu öffnen.");
       } else {
         //Fetch UUID from Userinput
-        $stmt = $mysql->prepare("SELECT UUID FROM bans WHERE NAME = :username");
+        $stmt = MySQLWrapper()->prepare("SELECT UUID FROM bans WHERE NAME = :username");
         $stmt->bindParam(":username", $_POST["spieler"], PDO::PARAM_STR);
         $stmt->execute();
         while ($row = $stmt->fetch()) {
@@ -70,13 +70,13 @@ require("./inc/header.inc.php");
             //PERMA BAN
             $javaEND = -1;
           }
-          $stmt = $mysql->prepare("UPDATE bans SET MUTED = 1, REASON = :reason, END = :end, TEAMUUID = :webUUID  WHERE UUID = :uuid");
+          $stmt = MySQLWrapper()->prepare("UPDATE bans SET MUTED = 1, REASON = :reason, END = :end, TEAMUUID = :webUUID  WHERE UUID = :uuid");
           $reason = getReasonByReasonID($_POST["grund"]);
           $stmt->bindParam(":reason", $reason, PDO::PARAM_STR);
           $stmt->bindParam(":end", $javaEND, PDO::PARAM_STR);
 
           //UUID von User im Webinterface
-          $stmtUUID = $mysql->prepare("SELECT * FROM accounts WHERE USERNAME = :name");
+          $stmtUUID = MySQLWrapper()->prepare("SELECT * FROM accounts WHERE USERNAME = :name");
           $stmtUUID->bindParam(":name", $_SESSION["username"], PDO::PARAM_STR);
           $stmtUUID->execute();
           while ($row = $stmtUUID->fetch()) {
@@ -99,8 +99,8 @@ require("./inc/header.inc.php");
       $_SESSION["CSRF"] = generateRandomString(25);
     }
     if (isset($_GET["delete"]) && isset($_GET["name"])) {
-      require("./mysql.php");
-      $stmt = $mysql->prepare("SELECT * FROM bans WHERE NAME = :username");
+
+      $stmt = MySQLWrapper()->prepare("SELECT * FROM bans WHERE NAME = :username");
       $stmt->bindParam(":username", $_GET['name'], PDO::PARAM_STR);
       $stmt->execute();
       $data = 0;
@@ -108,7 +108,7 @@ require("./inc/header.inc.php");
         $data++;
       }
       if ($data == 1) {
-        $stmt = $mysql->prepare("UPDATE bans SET MUTED = 0 WHERE NAME = :username");
+        $stmt = MySQLWrapper()->prepare("UPDATE bans SET MUTED = 0 WHERE NAME = :username");
         $stmt->bindParam(":username", $_GET['name'], PDO::PARAM_STR);
         $stmt->execute();
         showModalRedirect("SUCCESS", "Erfolgreich", "<strong>" . $_GET["name"] . "</strong> wurde erfolgreich entmutet.", "mutes.php");
@@ -123,8 +123,8 @@ require("./inc/header.inc.php");
       <input type="text" name="spieler" placeholder="Spieler" required><br>
       <select name="grund">
         <?php
-        require("./mysql.php");
-        $stmt = $mysql->prepare("SELECT * FROM reasons");
+
+        $stmt = MySQLWrapper()->prepare("SELECT * FROM reasons");
         $stmt->execute();
         while ($row = $stmt->fetch()) {
           if ($row["TYPE"] == 1) {
