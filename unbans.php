@@ -45,7 +45,7 @@ if (!isset($_GET["id"])) {
         <tr>
           <?php
 
-            $stmt = MySQLWrapper()->prepare("SELECT * FROM unbans");
+            $stmt = MySQLWrapper()->prepare("SELECT * FROM unbans ORDER BY id DESC");
             $stmt->execute();
             while ($row = $stmt->fetch()) {
               echo "<tr>";
