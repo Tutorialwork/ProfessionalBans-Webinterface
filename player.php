@@ -1,6 +1,5 @@
 <?php
 require("./inc/header.inc.php");
-require("./mysql.php");
 if (isset($_GET["id"]) && !empty($_GET["id"]) && isPlayerExists($_GET["id"])) {
   ?>
   <div class="flex-container animated fadeIn">
