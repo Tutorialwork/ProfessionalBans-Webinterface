@@ -1,6 +1,6 @@
 <?php
 function isAdmin($username){
-  require("./mysql.php");
+  require("mysql.php");
   $stmt = $mysql->prepare("SELECT RANK FROM accounts WHERE USERNAME = :username");
   $stmt->bindParam(":username", $username, PDO::PARAM_STR);
   $stmt->execute();
@@ -13,7 +13,7 @@ function isAdmin($username){
   }
 }
 function isMod($username){
-  require("./mysql.php");
+  require("mysql.php");
   $stmt = $mysql->prepare("SELECT RANK FROM accounts WHERE USERNAME = :username");
   $stmt->bindParam(":username", $username, PDO::PARAM_STR);
   $stmt->execute();
@@ -26,7 +26,7 @@ function isMod($username){
   }
 }
 function isSup($username){
-  require("./mysql.php");
+  require("mysql.php");
   $stmt = $mysql->prepare("SELECT RANK FROM accounts WHERE USERNAME = :username");
   $stmt->bindParam(":username", $username, PDO::PARAM_STR);
   $stmt->execute();
@@ -39,7 +39,7 @@ function isSup($username){
   }
 }
 function UUIDResolve($uuid){
-  require("./mysql.php");
+  require("mysql.php");
   $stmt = $mysql->prepare("SELECT NAME, UUID FROM bans WHERE UUID = :uuid");
   $stmt->bindParam(":uuid", $uuid, PDO::PARAM_STR);
   $stmt->execute();
@@ -50,7 +50,7 @@ function UUIDResolve($uuid){
   }
 }
 function isInitialPassword($username){
-  require("./mysql.php");
+  require("mysql.php");
   $stmt = $mysql->prepare("SELECT AUTHCODE FROM accounts WHERE USERNAME = :username");
   $stmt->bindParam(":username", $username, PDO::PARAM_STR);
   $stmt->execute();
@@ -63,7 +63,7 @@ function isInitialPassword($username){
   }
 }
 function getAuthCodeByMCName($mcusername){
-  require("./mysql.php");
+  require("mysql.php");
   //Name resolve
   $uuid = null;
   $stmt = $mysql->prepare("SELECT NAME, UUID FROM bans WHERE NAME = :name");
@@ -82,7 +82,7 @@ function getAuthCodeByMCName($mcusername){
   return $row["AUTHCODE"];
 }
 function setAuthCodeByMCName($mcusername, $code){
-  require("./mysql.php");
+  require("mysql.php");
   //Name Resolve
   $uuid = null;
   $stmt = $mysql->prepare("SELECT NAME, UUID FROM bans WHERE NAME = :name");
@@ -100,7 +100,7 @@ function setAuthCodeByMCName($mcusername, $code){
   $stmt2->execute();
 }
 function isAuth($mcusername){
-  require("./mysql.php");
+  require("mysql.php");
   //Name Resolve
   $uuid = null;
   $stmt = $mysql->prepare("SELECT NAME, UUID FROM bans WHERE NAME = :name");
@@ -119,7 +119,7 @@ function isAuth($mcusername){
   }
 }
 function resetAuthStatus($mcusername){
-  require("./mysql.php");
+  require("mysql.php");
   //Name Resolve
   $uuid = null;
   $stmt = $mysql->prepare("SELECT NAME, UUID FROM bans WHERE NAME = :name");
@@ -132,7 +132,7 @@ function resetAuthStatus($mcusername){
   $stmt2->execute();
 }
 function updatePasswordByMCName($mcusername, $pw){
-  require("./mysql.php");
+  require("mysql.php");
   //Name Resolve
   $uuid = null;
   $resolvestmt = $mysql->prepare("SELECT NAME, UUID FROM bans WHERE NAME = :name");
@@ -148,7 +148,7 @@ function updatePasswordByMCName($mcusername, $pw){
   $stmt->execute();
 }
 function isPlayerExists($uuid){
-  require("./mysql.php");
+  require("mysql.php");
   $stmt = $mysql->prepare("SELECT * FROM bans WHERE UUID = :uuid");
   $stmt->bindParam(":uuid", $uuid, PDO::PARAM_STR);
   $stmt->execute();
@@ -163,7 +163,7 @@ function isPlayerExists($uuid){
   }
 }
 function getMinutesByReasonID($id){
-  require("./mysql.php");
+  require("mysql.php");
   $stmt = $mysql->prepare("SELECT TIME FROM reasons WHERE ID = :id");
   $stmt->bindParam(":id", $id, PDO::PARAM_STR);
   $stmt->execute();
@@ -172,7 +172,7 @@ function getMinutesByReasonID($id){
   }
 }
 function getReasonByReasonID($id){
-  require("./mysql.php");
+  require("mysql.php");
   $stmt = $mysql->prepare("SELECT REASON FROM reasons WHERE ID = :id");
   $stmt->bindParam(":id", $id, PDO::PARAM_STR);
   $stmt->execute();
@@ -181,7 +181,7 @@ function getReasonByReasonID($id){
   }
 }
 function getBanCounter($uuid){
-  require("./mysql.php");
+  require("mysql.php");
   $stmt = $mysql->prepare("SELECT BANS FROM bans WHERE UUID = :uuid");
   $stmt->bindParam(":uuid", $uuid, PDO::PARAM_STR);
   $stmt->execute();
@@ -190,7 +190,7 @@ function getBanCounter($uuid){
   }
 }
 function addBanCounter($uuid){
-  require("./mysql.php");
+  require("mysql.php");
   $bans = getBanCounter($uuid);
   $bans++;
   $stmt = $mysql->prepare("UPDATE bans SET BANS = :counter WHERE UUID = :uuid");
@@ -199,7 +199,7 @@ function addBanCounter($uuid){
   $stmt->execute();
 }
 function getMuteCounter($uuid){
-  require("./mysql.php");
+  require("mysql.php");
   $stmt = $mysql->prepare("SELECT MUTES FROM bans WHERE UUID = :uuid");
   $stmt->bindParam(":uuid", $uuid, PDO::PARAM_STR);
   $stmt->execute();
@@ -208,7 +208,7 @@ function getMuteCounter($uuid){
   }
 }
 function addMuteCounter($uuid){
-  require("./mysql.php");
+  require("mysql.php");
   $mutes = getMuteCounter($uuid);
   $mutes++;
   $stmt = $mysql->prepare("UPDATE bans SET MUTES = :counter WHERE UUID = :uuid");
@@ -217,7 +217,7 @@ function addMuteCounter($uuid){
   $stmt->execute();
 }
 function isBanned($uuid){
-  require("./mysql.php");
+  require("mysql.php");
   $stmt = $mysql->prepare("SELECT BANNED FROM bans WHERE UUID = :uuid");
   $stmt->bindParam(":uuid", $uuid, PDO::PARAM_STR);
   $stmt->execute();
@@ -230,7 +230,7 @@ function isBanned($uuid){
   }
 }
 function isMuted($uuid){
-  require("./mysql.php");
+  require("mysql.php");
   $stmt = $mysql->prepare("SELECT MUTED FROM bans WHERE UUID = :uuid");
   $stmt->bindParam(":uuid", $uuid, PDO::PARAM_STR);
   $stmt->execute();
@@ -252,7 +252,7 @@ function generateRandomString($length = 10) {
   return $randomString;
 }
 function getGrundByReasonID($id){
-  require("./mysql.php");
+  require("mysql.php");
   $stmt = $mysql->prepare("SELECT REASON FROM reasons WHERE ID = :id");
   $stmt->bindParam(":id", $id, PDO::PARAM_STR);
   $stmt->execute();
@@ -261,7 +261,7 @@ function getGrundByReasonID($id){
   }
 }
 function getPermsByReasonID($id){
-  require("./mysql.php");
+  require("mysql.php");
   $stmt = $mysql->prepare("SELECT PERMS FROM reasons WHERE ID = :id");
   $stmt->bindParam(":id", $id, PDO::PARAM_STR);
   $stmt->execute();
@@ -272,7 +272,7 @@ function getPermsByReasonID($id){
   }
 }
 function getTimeByReasonID($id){
-  require("./mysql.php");
+  require("mysql.php");
   $stmt = $mysql->prepare("SELECT TIME FROM reasons WHERE ID = :id");
   $stmt->bindParam(":id", $id, PDO::PARAM_STR);
   $stmt->execute();
@@ -281,7 +281,7 @@ function getTimeByReasonID($id){
   }
 }
 function isMuteByReasonID($id){
-  require("./mysql.php");
+  require("mysql.php");
   $stmt = $mysql->prepare("SELECT TYPE FROM reasons WHERE ID = :id");
   $stmt->bindParam(":id", $id, PDO::PARAM_STR);
   $stmt->execute();
@@ -294,7 +294,7 @@ function isMuteByReasonID($id){
   }
 }
 function hasGoogleAuth($username){
-  require("./mysql.php");
+  require("mysql.php");
   $stmt = $mysql->prepare("SELECT * FROM accounts WHERE USERNAME = :user");
   $stmt->bindParam(":user", $username, PDO::PARAM_STR);
   $stmt->execute();
@@ -307,7 +307,7 @@ function hasGoogleAuth($username){
   }
 }
 function getGToken($username){
-  require("./mysql.php");
+  require("mysql.php");
   $stmt = $mysql->prepare("SELECT * FROM accounts WHERE USERNAME = :user");
   $stmt->bindParam(":user", $username, PDO::PARAM_STR);
   $stmt->execute();
@@ -342,7 +342,7 @@ function showModalRedirect($type, $title, $message, $location){
 }
 function validateSession(){
   $username = $_SESSION["username"];
-  require("./mysql.php");
+  require("mysql.php");
   $stmt = $mysql->prepare("SELECT * FROM accounts WHERE USERNAME = :user");
   $stmt->execute(array(":user" => $username));
   if($stmt->rowCount() == 0){
@@ -351,14 +351,14 @@ function validateSession(){
   }
 }
 function getLastlogin($uuid){
-  require("./mysql.php");
+  require("mysql.php");
   $stmt = $mysql->prepare("SELECT * FROM bans WHERE UUID = :uuid");
   $stmt->execute(array(":uuid" => $uuid));
   $row = $stmt->fetch();
   return date('d.m.Y H:i',$row["LASTLOGIN"]/1000);
 }
 function getUUID(){
-  require("./mysql.php");
+  require("mysql.php");
   $user = $_SESSION["username"];
   $stmt = $mysql->prepare("SELECT UUID FROM bans WHERE NAME = :name");
   $stmt->execute(array(":name" => $user));
@@ -366,7 +366,7 @@ function getUUID(){
   return $row["UUID"];
 }
 function getAutoMuteMessage($uuid){
-  require("./mysql.php");
+  require("mysql.php");
   $stmt = $mysql->prepare("SELECT * FROM log WHERE UUID = :uuid AND ACTION = 'AUTOMUTE_BLACKLIST' OR UUID = :uuid AND ACTION = 'AUTOMUTE_ADBLACKLIST' ORDER BY DATE DESC");
   $stmt->execute(array(":uuid" => $uuid));
   if($stmt->rowCount() != 0){
@@ -377,7 +377,7 @@ function getAutoMuteMessage($uuid){
   }
 }
 function isMuteAutoMute($uuid){
-  require("./mysql.php");
+  require("mysql.php");
   $stmt = $mysql->prepare("SELECT * FROM log WHERE UUID = :uuid AND ACTION = 'AUTOMUTE_BLACKLIST' OR UUID = :uuid AND ACTION = 'AUTOMUTE_ADBLACKLIST' ORDER BY DATE DESC");
   $stmt->execute(array(":uuid" => $uuid));
   $row = $stmt->fetch();
