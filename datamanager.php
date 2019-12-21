@@ -49,6 +49,14 @@ function UUIDResolve($uuid){
     }
   }
 }
+function NameResolve($mcname){
+  require("mysql.php");
+  $stmt = $mysql->prepare("SELECT UUID FROM bans WHERE NAME = :name");
+  $stmt->bindParam(":name", $mcname, PDO::PARAM_STR);
+  $stmt->execute();
+  $row = $stmt->fetch();
+  return $row["UUID"];
+}
 function isInitialPassword($username){
   require("mysql.php");
   $stmt = $mysql->prepare("SELECT AUTHCODE FROM accounts WHERE USERNAME = :username");
