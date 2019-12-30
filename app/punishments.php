@@ -19,61 +19,6 @@ function getUUIDByName($name)
   $row = $stmt->fetch();
   return $row["UUID"];
 }
-function getMinutesByReasonID($id)
-{
-  require("../mysql.php");
-  $stmt = $mysql->prepare("SELECT TIME FROM reasons WHERE ID = :id");
-  $stmt->bindParam(":id", $id, PDO::PARAM_STR);
-  $stmt->execute();
-  while ($row = $stmt->fetch()) {
-    return $row["TIME"];
-  }
-}
-function getReasonByReasonID($id){
-  require("../mysql.php");
-  $stmt = $mysql->prepare("SELECT REASON FROM reasons WHERE ID = :id");
-  $stmt->bindParam(":id", $id, PDO::PARAM_STR);
-  $stmt->execute();
-  while($row = $stmt->fetch()){
-    return $row["REASON"];
-  }
-}
-function getBanCounter($uuid){
-  require("../mysql.php");
-  $stmt = $mysql->prepare("SELECT BANS FROM bans WHERE UUID = :uuid");
-  $stmt->bindParam(":uuid", $uuid, PDO::PARAM_STR);
-  $stmt->execute();
-  while($row = $stmt->fetch()){
-    return $row["BANS"];
-  }
-}
-function addBanCounter($uuid){
-  require("../mysql.php");
-  $bans = getBanCounter($uuid);
-  $bans++;
-  $stmt = $mysql->prepare("UPDATE bans SET BANS = :counter WHERE UUID = :uuid");
-  $stmt->bindParam(":uuid", $uuid, PDO::PARAM_STR);
-  $stmt->bindParam(":counter", $bans, PDO::PARAM_INT);
-  $stmt->execute();
-}
-function getMuteCounter($uuid){
-  require("../mysql.php");
-  $stmt = $mysql->prepare("SELECT MUTES FROM bans WHERE UUID = :uuid");
-  $stmt->bindParam(":uuid", $uuid, PDO::PARAM_STR);
-  $stmt->execute();
-  while($row = $stmt->fetch()){
-    return $row["MUTES"];
-  }
-}
-function addMuteCounter($uuid){
-  require("../mysql.php");
-  $mutes = getMuteCounter($uuid);
-  $mutes++;
-  $stmt = $mysql->prepare("UPDATE bans SET MUTES = :counter WHERE UUID = :uuid");
-  $stmt->bindParam(":uuid", $uuid, PDO::PARAM_STR);
-  $stmt->bindParam(":counter", $mutes, PDO::PARAM_INT);
-  $stmt->execute();
-}
 $response = array();
 $JSONRequest = file_get_contents("php://input");
 $request = json_decode($JSONRequest, TRUE);

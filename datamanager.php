@@ -25,7 +25,6 @@ function redirect($url, $exit = true)
 
 function isAdmin($username)
 {
-
   $stmt = MySQLWrapper()->prepare("SELECT RANK FROM accounts WHERE USERNAME = :username");
   $stmt->bindParam(":username", $username, PDO::PARAM_STR);
   $stmt->execute();
@@ -37,9 +36,9 @@ function isAdmin($username)
     }
   }
 }
+
 function isMod($username)
 {
-
   $stmt = MySQLWrapper()->prepare("SELECT RANK FROM accounts WHERE USERNAME = :username");
   $stmt->bindParam(":username", $username, PDO::PARAM_STR);
   $stmt->execute();
@@ -51,9 +50,9 @@ function isMod($username)
     }
   }
 }
+
 function isSup($username)
 {
-
   $stmt = MySQLWrapper()->prepare("SELECT RANK FROM accounts WHERE USERNAME = :username");
   $stmt->bindParam(":username", $username, PDO::PARAM_STR);
   $stmt->execute();
@@ -65,9 +64,9 @@ function isSup($username)
     }
   }
 }
+
 function UUIDResolve($uuid)
 {
-
   $stmt = MySQLWrapper()->prepare("SELECT NAME, UUID FROM bans WHERE UUID = :uuid");
   $stmt->bindParam(":uuid", $uuid, PDO::PARAM_STR);
   $stmt->execute();
@@ -77,9 +76,17 @@ function UUIDResolve($uuid)
     }
   }
 }
+
+function NameResolve($mcname){
+  $stmt = MySQLWrapper()->prepare("SELECT UUID FROM bans WHERE NAME = :name");
+  $stmt->bindParam(":name", $mcname, PDO::PARAM_STR);
+  $stmt->execute();
+  $row = $stmt->fetch();
+  return $row["UUID"];
+}
+
 function isInitialPassword($username)
 {
-
   $stmt = MySQLWrapper()->prepare("SELECT AUTHCODE FROM accounts WHERE USERNAME = :username");
   $stmt->bindParam(":username", $username, PDO::PARAM_STR);
   $stmt->execute();
@@ -91,9 +98,9 @@ function isInitialPassword($username)
     }
   }
 }
+
 function getAuthCodeByMCName($mcusername)
 {
-
   //Name resolve
   $uuid = null;
   $stmt = MySQLWrapper()->prepare("SELECT NAME, UUID FROM bans WHERE NAME = :name");
@@ -111,9 +118,9 @@ function getAuthCodeByMCName($mcusername)
   $row = $getstmt->fetch();
   return $row["AUTHCODE"];
 }
+
 function setAuthCodeByMCName($mcusername, $code)
 {
-
   //Name Resolve
   $uuid = null;
   $stmt = MySQLWrapper()->prepare("SELECT NAME, UUID FROM bans WHERE NAME = :name");
@@ -130,9 +137,9 @@ function setAuthCodeByMCName($mcusername, $code)
   $stmt2->bindParam(":code", $code, PDO::PARAM_STR);
   $stmt2->execute();
 }
+
 function isAuth($mcusername)
 {
-
   //Name Resolve
   $uuid = null;
   $stmt = MySQLWrapper()->prepare("SELECT NAME, UUID FROM bans WHERE NAME = :name");
@@ -150,9 +157,9 @@ function isAuth($mcusername)
     return false;
   }
 }
+
 function resetAuthStatus($mcusername)
 {
-
   //Name Resolve
   $uuid = null;
   $stmt = MySQLWrapper()->prepare("SELECT NAME, UUID FROM bans WHERE NAME = :name");
@@ -164,9 +171,9 @@ function resetAuthStatus($mcusername)
   $stmt2->bindParam(":uuid", $uuid, PDO::PARAM_STR);
   $stmt2->execute();
 }
+
 function updatePasswordByMCName($mcusername, $pw)
 {
-
   //Name Resolve
   $uuid = null;
   $resolvestmt = MySQLWrapper()->prepare("SELECT NAME, UUID FROM bans WHERE NAME = :name");
@@ -181,9 +188,9 @@ function updatePasswordByMCName($mcusername, $pw)
   $stmt->bindParam(":pw", $hash, PDO::PARAM_STR);
   $stmt->execute();
 }
+
 function isPlayerExists($uuid)
 {
-
   $stmt = MySQLWrapper()->prepare("SELECT * FROM bans WHERE UUID = :uuid");
   $stmt->bindParam(":uuid", $uuid, PDO::PARAM_STR);
   $stmt->execute();
@@ -197,9 +204,9 @@ function isPlayerExists($uuid)
     return true;
   }
 }
+
 function getMinutesByReasonID($id)
 {
-
   $stmt = MySQLWrapper()->prepare("SELECT TIME FROM reasons WHERE ID = :id");
   $stmt->bindParam(":id", $id, PDO::PARAM_STR);
   $stmt->execute();
@@ -207,9 +214,9 @@ function getMinutesByReasonID($id)
     return $row["TIME"];
   }
 }
+
 function getReasonByReasonID($id)
 {
-
   $stmt = MySQLWrapper()->prepare("SELECT REASON FROM reasons WHERE ID = :id");
   $stmt->bindParam(":id", $id, PDO::PARAM_STR);
   $stmt->execute();
@@ -217,9 +224,9 @@ function getReasonByReasonID($id)
     return $row["REASON"];
   }
 }
+
 function getBanCounter($uuid)
 {
-
   $stmt = MySQLWrapper()->prepare("SELECT BANS FROM bans WHERE UUID = :uuid");
   $stmt->bindParam(":uuid", $uuid, PDO::PARAM_STR);
   $stmt->execute();
@@ -227,9 +234,9 @@ function getBanCounter($uuid)
     return $row["BANS"];
   }
 }
+
 function addBanCounter($uuid)
 {
-
   $bans = getBanCounter($uuid);
   $bans++;
   $stmt = MySQLWrapper()->prepare("UPDATE bans SET BANS = :counter WHERE UUID = :uuid");
@@ -237,9 +244,9 @@ function addBanCounter($uuid)
   $stmt->bindParam(":counter", $bans, PDO::PARAM_INT);
   $stmt->execute();
 }
+
 function getMuteCounter($uuid)
 {
-
   $stmt = MySQLWrapper()->prepare("SELECT MUTES FROM bans WHERE UUID = :uuid");
   $stmt->bindParam(":uuid", $uuid, PDO::PARAM_STR);
   $stmt->execute();
@@ -247,9 +254,9 @@ function getMuteCounter($uuid)
     return $row["MUTES"];
   }
 }
+
 function addMuteCounter($uuid)
 {
-
   $mutes = getMuteCounter($uuid);
   $mutes++;
   $stmt = MySQLWrapper()->prepare("UPDATE bans SET MUTES = :counter WHERE UUID = :uuid");
@@ -257,9 +264,9 @@ function addMuteCounter($uuid)
   $stmt->bindParam(":counter", $mutes, PDO::PARAM_INT);
   $stmt->execute();
 }
+
 function isBanned($uuid)
 {
-
   $stmt = MySQLWrapper()->prepare("SELECT BANNED FROM bans WHERE UUID = :uuid");
   $stmt->bindParam(":uuid", $uuid, PDO::PARAM_STR);
   $stmt->execute();
@@ -271,9 +278,9 @@ function isBanned($uuid)
     }
   }
 }
+
 function isMuted($uuid)
 {
-
   $stmt = MySQLWrapper()->prepare("SELECT MUTED FROM bans WHERE UUID = :uuid");
   $stmt->bindParam(":uuid", $uuid, PDO::PARAM_STR);
   $stmt->execute();
@@ -295,9 +302,9 @@ function generateRandomString($length = 10)
   }
   return $randomString;
 }
+
 function getGrundByReasonID($id)
 {
-
   $stmt = MySQLWrapper()->prepare("SELECT REASON FROM reasons WHERE ID = :id");
   $stmt->bindParam(":id", $id, PDO::PARAM_STR);
   $stmt->execute();
@@ -305,9 +312,9 @@ function getGrundByReasonID($id)
     return $row["REASON"];
   }
 }
+
 function getPermsByReasonID($id)
 {
-
   $stmt = MySQLWrapper()->prepare("SELECT PERMS FROM reasons WHERE ID = :id");
   $stmt->bindParam(":id", $id, PDO::PARAM_STR);
   $stmt->execute();
@@ -317,9 +324,9 @@ function getPermsByReasonID($id)
     }
   }
 }
+
 function getTimeByReasonID($id)
 {
-
   $stmt = MySQLWrapper()->prepare("SELECT TIME FROM reasons WHERE ID = :id");
   $stmt->bindParam(":id", $id, PDO::PARAM_STR);
   $stmt->execute();
@@ -327,9 +334,9 @@ function getTimeByReasonID($id)
     return $row["TIME"];
   }
 }
+
 function isMuteByReasonID($id)
 {
-
   $stmt = MySQLWrapper()->prepare("SELECT TYPE FROM reasons WHERE ID = :id");
   $stmt->bindParam(":id", $id, PDO::PARAM_STR);
   $stmt->execute();
@@ -341,9 +348,9 @@ function isMuteByReasonID($id)
     }
   }
 }
+
 function hasGoogleAuth($username)
 {
-
   $stmt = MySQLWrapper()->prepare("SELECT * FROM accounts WHERE USERNAME = :user");
   $stmt->bindParam(":user", $username, PDO::PARAM_STR);
   $stmt->execute();
@@ -355,9 +362,9 @@ function hasGoogleAuth($username)
     }
   }
 }
+
 function getGToken($username)
 {
-
   $stmt = MySQLWrapper()->prepare("SELECT * FROM accounts WHERE USERNAME = :user");
   $stmt->bindParam(":user", $username, PDO::PARAM_STR);
   $stmt->execute();
@@ -395,7 +402,6 @@ function showModalRedirect($type, $title, $message, $location)
 function validateSession()
 {
   $username = $_SESSION["username"];
-
   $stmt = MySQLWrapper()->prepare("SELECT * FROM accounts WHERE USERNAME = :user");
   $stmt->execute(array(":user" => $username));
   if ($stmt->rowCount() == 0) {
@@ -403,26 +409,26 @@ function validateSession()
     header("Location: login.php");
   }
 }
+
 function getLastlogin($uuid)
 {
-
   $stmt = MySQLWrapper()->prepare("SELECT * FROM bans WHERE UUID = :uuid");
   $stmt->execute(array(":uuid" => $uuid));
   $row = $stmt->fetch();
   return date('d.m.Y H:i', $row["LASTLOGIN"] / 1000);
 }
+
 function getUUID()
 {
-
   $user = $_SESSION["username"];
   $stmt = MySQLWrapper()->prepare("SELECT UUID FROM bans WHERE NAME = :name");
   $stmt->execute(array(":name" => $user));
   $row = $stmt->fetch();
   return $row["UUID"];
 }
+
 function getAutoMuteMessage($uuid)
 {
-
   $stmt = MySQLWrapper()->prepare("SELECT * FROM log WHERE UUID = :uuid AND ACTION = 'AUTOMUTE_BLACKLIST' OR UUID = :uuid AND ACTION = 'AUTOMUTE_ADBLACKLIST' ORDER BY DATE DESC");
   $stmt->execute(array(":uuid" => $uuid));
   if ($stmt->rowCount() != 0) {
@@ -432,9 +438,9 @@ function getAutoMuteMessage($uuid)
     return null;
   }
 }
+
 function isMuteAutoMute($uuid)
 {
-
   $stmt = MySQLWrapper()->prepare("SELECT * FROM log WHERE UUID = :uuid AND ACTION = 'AUTOMUTE_BLACKLIST' OR UUID = :uuid AND ACTION = 'AUTOMUTE_ADBLACKLIST' ORDER BY DATE DESC");
   $stmt->execute(array(":uuid" => $uuid));
   $row = $stmt->fetch();
