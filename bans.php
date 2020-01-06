@@ -30,7 +30,7 @@
                 while($row = $stmt->fetch()){
                   if($row["BANNED"] == 1){
                     echo "<tr>";
-                    echo '<td>'.$row["NAME"].'</td>';
+                    echo '<td><a href="player.php?id='.$row["UUID"].'">'.$row["NAME"].'<a></td>';
                     echo '<td>'.htmlspecialchars($row["REASON"]).'</td>';
                     echo '<td>'.date('d.m.Y H:i',$row["END"]/1000).'</td>';
                     echo '<td>';

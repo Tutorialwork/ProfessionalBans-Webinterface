@@ -3,7 +3,7 @@
 // Stelle hier deine Datenbankverbindung ein!
 /////////////////////////////////////////////////
 $host = "localhost";
-$name = "bans";
+$name = "professionalbans";
 $user = "root";
 $passwort = "";
 /////////////////////////////////////////////////

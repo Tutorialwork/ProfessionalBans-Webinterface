@@ -46,7 +46,7 @@ if(isset($_GET["id"]) && !empty($_GET["id"]) && isPlayerExists($_GET["id"])){
                       case "MUTE":
                         echo "wurde gemutet wegen ".htmlspecialchars(getReasonByReasonID($row["NOTE"]));
                         break;
-                      case "UNBAN_BAN":
+                      case "UNBAN_MUTE":
                         echo "wurde entmutet";
                         break;
                       case "AUTOMUTE_BLACKLIST":

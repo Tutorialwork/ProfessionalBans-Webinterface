@@ -20,7 +20,7 @@
                 while($row = $stmt->fetch()){
                   if($row["MUTED"] == 1){
                     echo "<tr>";
-                    echo '<td>'.$row["NAME"].'</td>';
+                    echo '<td><a href="player.php?id='.$row["UUID"].'">'.$row["NAME"].'</a></td>';
                     echo '<td>';
                     if(isMuteAutoMute($row["UUID"])){
                       echo htmlspecialchars($row["REASON"])." (<strong>".htmlspecialchars(getAutoMuteMessage($row["UUID"]))."</strong>)";

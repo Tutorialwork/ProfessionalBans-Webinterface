@@ -188,6 +188,12 @@ function getReasonByReasonID($id){
     return $row["REASON"];
   }
 }
+function countReasons(){
+  require("mysql.php");
+  $stmt = $mysql->prepare("SELECT * FROM reasons");
+  $stmt->execute();
+  return $stmt->rowCount();
+}
 function getBanCounter($uuid){
   require("mysql.php");
   $stmt = $mysql->prepare("SELECT BANS FROM bans WHERE UUID = :uuid");

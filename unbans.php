@@ -7,31 +7,42 @@
         ?>
         <?php
         if(!isset($_GET["id"])){
+          require("./mysql.php");
           ?>
           <div class="flex-container animated fadeIn">
             <div class="flex item-1">
-              <h1>Offene Entbannungsanträge</h1>
-              <table>
-                <tr>
-                  <th>Spieler</th>
-                  <th>Datum</th>
-                  <th>Aktionen</th>
-                </tr>
-                <tr>
-                  <?php
-                  require("./mysql.php");
-                  $stmt = $mysql->prepare("SELECT * FROM unbans WHERE STATUS = 0");
-                  $stmt->execute();
-                  while($row = $stmt->fetch()){
-                    echo "<tr>";
-                    echo '<td>'.UUIDResolve($row["UUID"]).'</td>';
-                    echo '<td>'.date('d.m.Y H:i',$row["DATE"]).'</td>';
-                    echo '<td><a href="unbans.php?id='.$row["ID"].'""><i class="fas fa-eye"></i></a> ';
-                    echo "</tr>";
-                  }
-                   ?>
-                </tr>
-              </table>
+              <?php
+              $stmt = $mysql->prepare("SELECT * FROM unbans WHERE STATUS = 0");
+              $stmt->execute();
+              $count = $stmt->rowCount();
+              if($count != 0){
+                ?>
+                <h1>Offene Entbannungsanträge (<?php echo $count ?>)</h1>
+                <table>
+                  <tr>
+                    <th>Spieler</th>
+                    <th>Datum</th>
+                    <th>Aktionen</th>
+                  </tr>
+                  <tr>
+                    <?php
+                    $stmt = $mysql->prepare("SELECT * FROM unbans WHERE STATUS = 0");
+                    $stmt->execute();
+                    while($row = $stmt->fetch()){
+                      echo "<tr>";
+                      echo '<td>'.UUIDResolve($row["UUID"]).'</td>';
+                      echo '<td>'.date('d.m.Y H:i',$row["DATE"]).'</td>';
+                      echo '<td><a href="unbans.php?id='.$row["ID"].'""><i class="fas fa-eye"></i></a> ';
+                      echo "</tr>";
+                    }
+                    ?>
+                  </tr>
+                </table>
+                <?php
+              } else {
+                echo '<p style="color: red;">Keine offene Entbannungsanträge vorhanden</p>';
+              }
+              ?>
             </div>
             <div class="flex item-1">
               <h1>Alle Entbannungsanträge</h1>
@@ -44,12 +55,11 @@
                 </tr>
                 <tr>
                   <?php
-                  require("./mysql.php");
-                  $stmt = $mysql->prepare("SELECT * FROM unbans");
+                  $stmt = $mysql->prepare("SELECT * FROM unbans ORDER BY DATE DESC");
                   $stmt->execute();
                   while($row = $stmt->fetch()){
                     echo "<tr>";
-                    echo '<td>'.UUIDResolve($row["UUID"]).'</td>';
+                    echo '<td><a href="player.php?id='.$row["UUID"].'">'.UUIDResolve($row["UUID"]).'<a></td>';
                     echo '<td>'.date('d.m.Y H:i',$row["DATE"]).'</td>';
                     echo '<td>';
                     if($row["STATUS"] == 1){
@@ -73,7 +83,7 @@
           <?php
         } else {
           if(isset($_POST["submit"])){
-            function getUUID($id){
+            function getUUIDFromRequest($id){
               require("./mysql.php");
               $stmt = $mysql->prepare("SELECT * FROM unbans WHERE ID = :id");
               $stmt->bindParam(":id", $_GET["id"], PDO::PARAM_INT);
@@ -88,13 +98,13 @@
             $stmt->bindParam(":id", $_GET["id"], PDO::PARAM_INT);
             $stmt->execute();
             if($status == 1){
-              $uuid = getUUID($_GET["id"]);
+              $uuid = getUUIDFromRequest($_GET["id"]);
               $stmt = $mysql->prepare("UPDATE bans SET BANNED = 0 WHERE UUID = :uuid");
               $stmt->bindParam(":uuid", $uuid, PDO::PARAM_STR);
               $stmt->execute();
             } else if($status == 2){
               //Verkürzen auf 3 Tage
-              $uuid = getUUID($_GET["id"]);
+              $uuid = getUUIDFromRequest($_GET["id"]);
               $time = 259200 * 1000;
               $javatime = round(time() * 1000) + round($time);
               $stmt = $mysql->prepare("UPDATE bans SET END = :end WHERE UUID = :uuid");
@@ -102,7 +112,9 @@
               $stmt->bindParam(":uuid", $uuid, PDO::PARAM_STR);
               $stmt->execute();
             }
-            header("Location: unbans.php");
+            ?>
+            <meta http-equiv="refresh" content="0; URL=unbans.php">
+            <?php
           }
           ?>
           <div class="flex-container animated fadeIn">
@@ -145,6 +157,17 @@
                      <button type="submit" name="submit">Speichern</button>
                    </form>
                    <?php
+                 } else {
+                   ?>
+                   <h5>Entscheidung</h5>
+                   <?php
+                   if($row["STATUS"] == 1){
+                    echo "Ban aufgehoben";
+                   } else if($row["STATUS"] == 2){
+                    echo "Ban verkürzt";
+                   } else if($row["STATUS"] == 3){
+                    echo "Abgelehnt";
+                   }
                  }
                   ?>
                 <?php

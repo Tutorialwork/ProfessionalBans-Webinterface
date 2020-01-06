@@ -117,12 +117,13 @@
                 showModal("ERROR", "CSRF Fehler", "Deine Sitzung ist abgelaufen. Versuche die Seite erneut zu öffnen.");
               } else {
                 require("./mysql.php");
-                $idstmt = $mysql->prepare("SELECT * FROM reasons");
-                $idstmt->execute();
-                $id = 1;
-                while($row = $idstmt->fetch()){
-                      $id++;
+                $id = 0;
+                if(isset($_POST["id"])){
+                  $id = $_POST["id"];
+                } else {
+                  $id = countReasons() + 1;
                 }
+
                 if(filter_var($_POST['zeit'], FILTER_VALIDATE_INT)){
                   $zeit = $_POST['zeit'];
                 } else {
@@ -130,14 +131,7 @@
                   exit;
                 }
 
-                $stmt = $mysql->prepare("SELECT * FROM reasons WHERE id = :id");
-                $stmt->bindParam(":id", $id, PDO::PARAM_INT);
-                $stmt->execute();
-                $data = 0;
-                while($row = $stmt->fetch()){
-                      $data++;
-                }
-                if($data == 0){
+                if(getReasonByReasonID($id) == null){
                   if($_POST["einheit"] == "m"){
                     $minuten = $zeit;
                   } else if($_POST["einheit"] == "s"){
@@ -159,10 +153,9 @@
                   $stmt = $mysql->prepare("SELECT * FROM reasons WHERE REASON = :grund");
                   $stmt->bindParam(":grund", $_POST['grund'], PDO::PARAM_STR);
                   $stmt->execute();
-                  while($row = $stmt->fetch()){
-                    $data++;
-                  }
-                  if($data == 0){
+                  $count = $stmt->rowCount();
+  
+                  if($count == 0){
                     $uhrzeit = time();
                     $stmt = $mysql->prepare("INSERT INTO reasons (ID, REASON, TIME, TYPE, ADDED_AT, BANS, PERMS, SORTINDEX) VALUES (:id, :grund, :min, :type, :now, 0, :perms, :id)");
                     $stmt->bindParam(":id", $id, PDO::PARAM_INT);
@@ -178,12 +171,15 @@
                     $stmt->bindParam(":perms", $perms, PDO::PARAM_STR);
                     $stmt->execute();
                     showModalRedirect("SUCCESS", "Erfolgreich", "Der Grund <strong>".htmlspecialchars($_POST["grund"])."</strong> wurde erfolgreich hinzugefügt.", "reasons.php");
-              } else {
-                showModal("ERROR", "Fehler", "Dieser Grund ist bereits registriert.");
-              }
                 } else {
                   showModal("ERROR", "Fehler", "Diese ID ist bereits registriert.");
                 }
+
+                
+              } else {
+                showModal("ERROR", "Fehler", "Dieser Grund ist bereits registriert.");
+              }
+               
               }
             } else {
               //Erstelle Token wenn Formular nicht abgesendet wurde
@@ -193,6 +189,7 @@
             <h1>Bangrund erstellen</h1>
             <form action="reasons.php" method="post">
               <input type="hidden" name="CSRFToken" value="<?php echo $_SESSION["CSRF"]; ?>">
+              <input type="number" name="id" placeholder="ID" value="<?php echo countReasons() + 1 ?>" require><br>
               <input type="text" name="grund" placeholder="Grund" required><br>
               <input type="number" name="zeit" placeholder="Dauer" required><br>
               <input type="text" name="perms" placeholder="Permission (optional)"><br>
