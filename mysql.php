@@ -6,7 +6,7 @@ error_reporting(E_ALL);
 // Stelle hier deine Datenbankverbindung ein!
 /////////////////////////////////////////////////
 $host = "localhost";
-$name = "webinterface";
+$name = "professionalbans";
 $user = "root";
 $passwort = "";
 /////////////////////////////////////////////////

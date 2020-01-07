@@ -24,26 +24,47 @@ if (!isMod($_SESSION['username'])) {
         </tr>
         <tr>
           <?php
+          if(!isset($_GET["ipbans"])){
+            ?>
+            <div class="flex-button">
+              <a href="bans.php?ipbans" class="btn"><i class="fas fa-book-open"></i> IP-Bans</a>
+            </div>
+            <h1>Aktive Bans</h1>
+            <table>
+              <tr>
+                <th>Spieler</th>
+                <th>Grund</th>
+                <th>gebannt bis</th>
+                <th>gebannt von</th>
+                <th>Aktionen</th>
+              </tr>
+              <tr>
+                <?php
+                $stmt = MySQLWrapper()->prepare("SELECT * FROM bans");
+                $stmt->execute();
+                while($row = $stmt->fetch()){
+                  if($row["BANNED"] == 1){
+                    echo "<tr>";
+                    echo '<td><a href="player.php?id='.$row["UUID"].'">'.$row["NAME"].'<a></td>';
+                    echo '<td>'.htmlspecialchars($row["REASON"]).'</td>';
+                    echo '<td>'.date('d.m.Y H:i',$row["END"]/1000).'</td>';
+                    echo '<td>';
+                    if($row["TEAMUUID"] == "KONSOLE"){
+                      echo "Konsole";
+                    } else {
+                      echo UUIDResolve($row["TEAMUUID"]);
+                    }
+                    echo '</td>';
+                    echo '<td><a href="bans.php?delete&name='.$row["NAME"].'"><i class="material-icons">block</i></a></td>';
+                    echo "</tr>";
+                  }
 
-            $stmt = MySQLWrapper()->prepare("SELECT * FROM bans");
-            $stmt->execute();
-            while ($row = $stmt->fetch()) {
-              if ($row["BANNED"] == 1) {
-                echo "<tr>";
-                echo '<td>' . $row["NAME"] . '</td>';
-                echo '<td>' . htmlspecialchars($row["REASON"]) . '</td>';
-                echo '<td>' . (($row["END"] <= 0) ? "Permanent" : date('d.m.Y H:i', $row["END"] / 1000)) . '</td>';
-                echo '<td>';
-                if ($row["TEAMUUID"] == "KONSOLE") {
-                  echo "Konsole";
-                } else {
-                  echo UUIDResolve($row["TEAMUUID"]);
                 }
                 echo '</td>';
                 echo '<td><a href="bans.php?delete&name=' . $row["NAME"] . '"><i class="material-icons">block</i></a></td>';
                 echo "</tr>";
               }
-            }
+            
             ?>
         </tr>
       </table>

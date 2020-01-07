@@ -224,9 +224,12 @@ function getReasonByReasonID($id)
     return $row["REASON"];
   }
 }
-
-function getBanCounter($uuid)
-{
+function countReasons(){
+  $stmt = MySQLWrapper()->prepare("SELECT * FROM reasons");
+  $stmt->execute();
+  return $stmt->rowCount();
+}
+function getBanCounter($uuid){
   $stmt = MySQLWrapper()->prepare("SELECT BANS FROM bans WHERE UUID = :uuid");
   $stmt->bindParam(":uuid", $uuid, PDO::PARAM_STR);
   $stmt->execute();

@@ -14,6 +14,90 @@ require("./inc/header.inc.php");
       </tr>
       <tr>
         <?php
+        require("./inc/header.inc.php");
+        ?>
+        <div class="flex-container animated fadeIn">
+          <div class="flex item-1">
+            <h1>Aktive Mutes</h1>
+            <table>
+              <tr>
+                <th>Spieler</th>
+                <th>Grund</th>
+                <th>gemutet bis</th>
+                <th>gemutet von</th>
+                <th>Aktionen</th>
+              </tr>
+              <tr>
+                <?php
+                $stmt = MySQLWrapper()->prepare("SELECT * FROM bans");
+                $stmt->execute();
+                while($row = $stmt->fetch()){
+                  if($row["MUTED"] == 1){
+                    echo "<tr>";
+                    echo '<td><a href="player.php?id='.$row["UUID"].'">'.$row["NAME"].'</a></td>';
+                    echo '<td>';
+                    if(isMuteAutoMute($row["UUID"])){
+                      echo htmlspecialchars($row["REASON"])." (<strong>".htmlspecialchars(getAutoMuteMessage($row["UUID"]))."</strong>)";
+                    } else {
+                      echo htmlspecialchars($row["REASON"]);
+                    }
+                    echo '</td>';
+                    echo '<td>'.date('d.m.Y H:i',$row["END"]/1000).'</td>';
+                    echo '<td>';
+                    if($row["TEAMUUID"] == "KONSOLE"){
+                      echo "Konsole";
+                    } else {
+                      echo UUIDResolve($row["TEAMUUID"]);
+                    }
+                    echo '</td>';
+                    echo '<td><a href="mutes.php?delete&name='.$row["NAME"].'"><i class="material-icons">block</i></a></td>';
+                    echo "</tr>";
+                  }
+                }
+                 ?>
+              </tr>
+            </table>
+          </div>
+          <div class="flex item-2 sidebox">
+            <?php
+            if(isset($_POST["submit"]) && isset($_SESSION["CSRF"])){
+              if($_POST["CSRFToken"] != $_SESSION["CSRF"]){
+                showModal("ERROR", "CSRF Fehler", "Deine Sitzung ist abgelaufen. Versuche die Seite erneut zu öffnen.");
+              } else {
+                //Fetch UUID from Userinput
+                $stmt = MySQLWrapper()->prepare("SELECT UUID FROM bans WHERE NAME = :username");
+                $stmt->bindParam(":username", $_POST["spieler"], PDO::PARAM_STR);
+                $stmt->execute();
+                while($row = $stmt->fetch()){
+                  $uuid = $row["UUID"];
+                }
+                if(isPlayerExists($uuid)){
+                  if(isMuted($uuid)){
+                    showModalRedirect("ERROR", "Fehler", "Dieser Spieler ist bereits gemutet.", "mutes.php");
+                    exit;
+                  }
+                  $now = time();
+                  if(getMinutesByReasonID($_POST["grund"]) != "-1"){ //Kein Perma Ban
+                    $phpEND = $now + getMinutesByReasonID($_POST["grund"]) * 60;
+                    $javaEND = $phpEND * 1000;
+                  } else {
+                    //PERMA BAN
+                    $javaEND = -1;
+                  }
+                  $stmt = MySQLWrapper()->prepare("UPDATE bans SET MUTED = 1, REASON = :reason, END = :end, TEAMUUID = :webUUID  WHERE UUID = :uuid");
+                  $reason = getReasonByReasonID($_POST["grund"]);
+                  $stmt->bindParam(":reason", $reason, PDO::PARAM_STR);
+                  $stmt->bindParam(":end", $javaEND, PDO::PARAM_STR);
+
+                  //UUID von User im Webinterface
+                  $stmtUUID = MySQLWrapper()->prepare("SELECT * FROM accounts WHERE USERNAME = :name");
+                  $stmtUUID->bindParam(":name", $_SESSION["username"], PDO::PARAM_STR);
+                  $stmtUUID->execute();
+                  while($row = $stmtUUID->fetch()){
+                    if($row["USERNAME"] == $_SESSION["username"]){
+                      $useruuid = $row["UUID"];
+                    }
+                  }
 
         $stmt = MySQLWrapper()->prepare("SELECT * FROM bans");
         $stmt->execute();
