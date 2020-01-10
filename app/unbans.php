@@ -1,6 +1,14 @@
 <?php
 require("tokenhandler.php");
 require("../mysql.php");
+function getUUIDFromRequest($id){
+  require("../mysql.php");
+  $stmt = $mysql->prepare("SELECT * FROM unbans WHERE ID = :id");
+  $stmt->bindParam(":id", $id, PDO::PARAM_INT);
+  $stmt->execute();
+  $row = $stmt->fetch();
+  return $row["UUID"];
+}
 $response = array();
 $JSONRequest = file_get_contents("php://input");
 $request = json_decode($JSONRequest, TRUE);
@@ -21,13 +29,13 @@ if(isset($request["token"])){
             $stmt->bindParam(":id", $request["done"], PDO::PARAM_INT);
             $stmt->execute();
             if($status == 1){
-              $uuid = getUUID($request["done"]);
+              $uuid = getUUIDFromRequest($request["done"]);
               $stmt = $mysql->prepare("UPDATE bans SET BANNED = 0 WHERE UUID = :uuid");
               $stmt->bindParam(":uuid", $uuid, PDO::PARAM_STR);
               $stmt->execute();
             } else if($status == 2){
               //Verkürzen auf 3 Tage
-              $uuid = getUUID($request["done"]);
+              $uuid = getUUIDFromRequest($request["done"]);
               $time = 259200 * 1000;
               $javatime = round(time() * 1000) + round($time);
               $stmt = $mysql->prepare("UPDATE bans SET END = :end WHERE UUID = :uuid");
@@ -57,7 +65,7 @@ if(isset($request["token"])){
         }
         $response["open_unbans"] = $unbans;
 
-        $stmt2 = $mysql->prepare("SELECT * FROM unbans ORDER BY DATE DESC");
+        $stmt2 = $mysql->prepare("SELECT * FROM unbans WHERE STATUS IN (1, 2, 3) ORDER BY DATE DESC");
         $stmt2->execute();
         $unbans_done = array();
         while ($row2 = $stmt2->fetch()) {
