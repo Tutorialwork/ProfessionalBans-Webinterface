@@ -16,16 +16,20 @@
             <p><i class="fas fa-user-clock"></i> Letzter Login: <?php 
             echo getLastlogin(getUUID());
             ?></p>
-          </div>
-          <div class="flex">
-            <h1>App QR Code</h1>
-            <p>Scanne diesen QR-Code in der App um die App mit diesem Server zu verbinden.</p>
+            <p><i class="fas fa-mobile-alt"></i> App QR-Code: <a onclick="showQR()">Anzeigen</a></p>
             <?php
             $url = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
             $url = str_replace("index.php", "", $url);
             $url = $url . "app/login.php";
             ?>
-            <img src="https://chart.googleapis.com/chart?chs=150x150&cht=qr&chl=<?php echo $url ?>&choe=UTF-8" title="ProfessionalBans App QR-Code" />
+            <script>
+            function showQR(){
+              $.sweetModal({
+                title: 'ProfessionalBans App',
+                content: 'Scanne diesen QR-Code um die App mit diesem Server zu verbinden.<br><img src="https://chart.googleapis.com/chart?chs=150x150&cht=qr&chl=<?php echo $url ?>&choe=UTF-8" title="ProfessionalBans App QR-Code" /><br><h3>App Download</h3><a href="https://play.google.com/store/apps/details?id=de.tutorialwork.professionalbansreloaded&pcampaignid=pcampaignidMKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1"><img alt="Jetzt bei Google Play" src="https://play.google.com/intl/en_us/badges/static/images/badges/de_badge_web_generic.png" width="150"/></a>'
+              });
+            }
+            </script>
           </div>
         </div>
         <?php
