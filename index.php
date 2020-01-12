@@ -17,6 +17,16 @@
             echo getLastlogin(getUUID());
             ?></p>
           </div>
+          <div class="flex">
+            <h1>App QR Code</h1>
+            <p>Scanne diesen QR-Code in der App um die App mit diesem Server zu verbinden.</p>
+            <?php
+            $url = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+            $url = str_replace("index.php", "", $url);
+            $url = $url . "app/login.php";
+            ?>
+            <img src="https://chart.googleapis.com/chart?chs=150x150&cht=qr&chl=<?php echo $url ?>&choe=UTF-8" title="ProfessionalBans App QR-Code" />
+          </div>
         </div>
         <?php
         require("./mysql.php");
