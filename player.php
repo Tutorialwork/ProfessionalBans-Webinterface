@@ -10,6 +10,15 @@ if(isset($_GET["id"]) && !empty($_GET["id"]) && isPlayerExists($_GET["id"])){
             $stmt = $mysql->prepare("SELECT * FROM bans WHERE UUID = :id");
             $stmt->execute(array(":id" => $_GET["id"]));
             $row = $stmt->fetch();
+
+            $datetime1 = new DateTime();
+            $datetime1->setTimestamp(time());
+            $datetime2 = new DateTime();
+            $datetime2->setTimestamp(time() - $row["ONLINE_TIME"] / 1000);
+            $interval = $datetime1->diff($datetime2);
+            ?>
+            <p>Onlinezeit: <?php echo $interval->format('<strong>%a</strong> Tage, <strong>%h</strong> Stunden und <strong>%i</strong> Minuten'); ?></p>
+            <?php
             if($row["ONLINE_STATUS"] == 1){
                 ?>
                 <p><?php echo UUIDResolve($_GET["id"]) ?> ist zur Zeit <strong>ONLINE</strong></p>

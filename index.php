@@ -36,22 +36,30 @@
         require("./mysql.php");
         $pstmt = $mysql->prepare("SELECT * FROM bans");
         $pstmt->execute();
-        $data = 0;
-        while($row = $pstmt->fetch()){
-              $data++;
-        }
+
         $mstmt = $mysql->prepare("SELECT * FROM bans WHERE MUTED = 1");
         $mstmt->execute();
-        $mutes = 0;
-        while($row = $mstmt->fetch()){
-              $mutes++;
-        }
+
         $bstmt = $mysql->prepare("SELECT * FROM bans WHERE BANNED = 1");
         $bstmt->execute();
-        $bans = 0;
-        while($row = $bstmt->fetch()){
-              $bans++;
+
+        $onstmt = $mysql->prepare("SELECT * FROM bans WHERE ONLINE_STATUS = 1");
+        $onstmt->execute();
+
+        $punishstmt = $mysql->prepare("SELECT * FROM log WHERE ACTION = 'BAN' OR ACTION = 'MUTE'");
+        $punishstmt->execute();
+
+        $total_ontime = 0;
+        while ($row = $pstmt->fetch()){
+            $total_ontime += $row["ONLINE_TIME"];
         }
+
+        $datetime1 = new DateTime();
+        $datetime1->setTimestamp(time());
+        $datetime2 = new DateTime();
+        $datetime2->setTimestamp(time() - $total_ontime / 1000);
+        $interval = $datetime1->diff($datetime2);
+
          ?>
         <div class="flex-container animated fadeIn">
           <div class="flex item-1">
@@ -60,7 +68,7 @@
                 <i class="fas fa-users fa-2x"></i>
               </div>
             </h1>
-            <h1 class="count"><?php echo $data; ?></h1>
+            <h1 class="count"><?php echo $pstmt->rowCount(); ?></h1>
           </div>
           <div class="flex item-2">
             <h1>Aktive Bans
@@ -68,7 +76,7 @@
                 <i class="fas fa-ban fa-2x"></i>
               </div>
             </h1>
-            <h1 class="count"><?php echo $bans; ?></h1>
+            <h1 class="count"><?php echo $bstmt->rowCount(); ?></h1>
           </div>
           <div class="flex item-3">
             <h1>Aktive Mutes
@@ -76,8 +84,34 @@
                 <i class="fas fa-volume-mute fa-2x"></i>
               </div>
             </h1>
-            <h1 class="count"><?php echo $mutes; ?></h1>
+            <h1 class="count"><?php echo $mstmt->rowCount(); ?></h1>
           </div>
+        </div>
+        <div class="flex-container animated fadeIn">
+            <div class="flex item-1">
+                <h1>Spieler online
+                    <div class="flex-icon">
+                        <i class="fas fa-user-alt fa-2x"></i>
+                    </div>
+                </h1>
+                <h1 class="count"><?php echo $onstmt->rowCount(); ?></h1>
+            </div>
+            <div class="flex item-2">
+                <h1>Bestrafte Spieler heute
+                    <div class="flex-icon">
+                        <i class="fas fa-user-lock fa-2x"></i>
+                    </div>
+                </h1>
+                <h1 class="count"><?php echo $punishstmt->rowCount() ?></h1>
+            </div>
+            <div class="flex item-3">
+                <h1>Onlinezeit Gesamt
+                    <div class="flex-icon">
+                        <i class="fas fa-hourglass-half fa-2x"></i>
+                    </div>
+                </h1>
+                <h1 class="count"><?php echo $interval->format('<strong>%a</strong> Tage und <strong>%h</strong> Stunden'); ?></h1>
+            </div>
         </div>
         <div class="flex-container animated fadeIn">
           <div class="flex item-1">
