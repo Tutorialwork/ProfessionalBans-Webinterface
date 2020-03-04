@@ -108,29 +108,36 @@ if (isset($request["token"])) {
             $stmt->execute();
             $row = $stmt->fetch();
             if ($row["BANNED"] == 0) {
-              $now = time();
-              if (getMinutesByReasonID($request["banid"]) != "-1") { //Kein Perma Ban
-                $phpEND = $now + getMinutesByReasonID($request["banid"]) * 60;
-                $javaEND = $phpEND * 1000;
-              } else {
-                //PERMA BAN
-                $javaEND = -1;
-              }
-              $stmt = $mysql->prepare("UPDATE bans SET BANNED = 1, MUTED = 0, REASON = :reason, END = :end, TEAMUUID = :webUUID  WHERE NAME = :user");
-              $reason = getReasonByReasonID($request["banid"]);
-              $stmt->bindParam(":reason", $reason, PDO::PARAM_STR);
-              $stmt->bindParam(":end", $javaEND, PDO::PARAM_STR);
-  
-              //UUID von User im Webinterface
-              $useruuid = $access->uuid;
-  
-              $stmt->bindParam(":webUUID", $useruuid, PDO::PARAM_STR);
-              $stmt->bindParam(":user", $request["player"], PDO::PARAM_STR);
-              $stmt->execute();
-              addBanCounter(getUUIDByName($request["player"]));
-  
-              $response["status"] = 1;
-              $response["msg"] = "OK";
+                $stmt = $mysql->prepare("SELECT * FROM accounts WHERE USERNAME = ?");
+                $stmt->execute(array($request["player"]));
+                if($stmt->rowCount() == 0){
+                    $now = time();
+                    if (getMinutesByReasonID($request["banid"]) != "-1") { //Kein Perma Ban
+                        $phpEND = $now + getMinutesByReasonID($request["banid"]) * 60;
+                        $javaEND = $phpEND * 1000;
+                    } else {
+                        //PERMA BAN
+                        $javaEND = -1;
+                    }
+                    $stmt = $mysql->prepare("UPDATE bans SET BANNED = 1, MUTED = 0, REASON = :reason, END = :end, TEAMUUID = :webUUID  WHERE NAME = :user");
+                    $reason = getReasonByReasonID($request["banid"]);
+                    $stmt->bindParam(":reason", $reason, PDO::PARAM_STR);
+                    $stmt->bindParam(":end", $javaEND, PDO::PARAM_STR);
+
+                    //UUID von User im Webinterface
+                    $useruuid = $access->uuid;
+
+                    $stmt->bindParam(":webUUID", $useruuid, PDO::PARAM_STR);
+                    $stmt->bindParam(":user", $request["player"], PDO::PARAM_STR);
+                    $stmt->execute();
+                    addBanCounter(getUUIDByName($request["player"]));
+
+                    $response["status"] = 1;
+                    $response["msg"] = "OK";
+                } else {
+                    $response["status"] = 0;
+                    $response["msg"] = "You are not permitted to ban this user";
+                }
             } else {
               $response["status"] = 0;
               $response["msg"] = "User is already banned";

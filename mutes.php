@@ -62,6 +62,10 @@
                     showModalRedirect("ERROR", "Fehler", "Dieser Spieler ist bereits gemutet.", "mutes.php");
                     exit;
                   }
+                  if(hasWebAccount($_POST["spieler"])){
+                      showModalRedirect("ERROR", "Fehler", "Diesen Spieler darfst du nicht muten.", "bans.php");
+                      exit;
+                  }
                   $now = time();
                   if(getMinutesByReasonID($_POST["grund"]) != "-1"){ //Kein Perma Ban
                     $phpEND = $now + getMinutesByReasonID($_POST["grund"]) * 60;

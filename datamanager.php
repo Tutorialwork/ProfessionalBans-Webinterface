@@ -407,4 +407,14 @@ function isMuteAutoMute($uuid){
   }
 
 }
+function hasWebAccount($username){
+    require("mysql.php");
+    $stmt = $mysql->prepare("SELECT * FROM accounts WHERE USERNAME = ?");
+    $stmt->execute(array($username));
+    if($stmt->rowCount() == 1){
+        return true;
+    } else {
+        return false;
+    }
+}
  ?>
