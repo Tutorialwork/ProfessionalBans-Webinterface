@@ -20,7 +20,7 @@
                <a href="reports.php" class="btn"><i class="fas fa-flag"></i> Reports</a>
              </div>
              <h1>Chatlogs</h1>
-             <input type="text" name="username" id="username" placeholder="Nach ID oder Server suchen..." required>
+             <input type="text" name="username" id="username" placeholder="<?php echo $messages["chatlog_search"] ?>" required>
              <div id="result"></div>
              <script>
            $(document).ready(function(){

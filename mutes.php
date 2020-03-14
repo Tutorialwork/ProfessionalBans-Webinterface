@@ -3,14 +3,14 @@
         ?>
         <div class="flex-container animated fadeIn">
           <div class="flex item-1">
-            <h1>Aktive Mutes</h1>
+            <h1><?php echo $messages["mutes"] ?></h1>
             <table>
               <tr>
-                <th>Spieler</th>
-                <th>Grund</th>
-                <th>gemutet bis</th>
-                <th>gemutet von</th>
-                <th>Aktionen</th>
+                <th><?php echo $messages["player"] ?></th>
+                <th><?php echo $messages["reason"] ?></th>
+                <th><?php echo $messages["muted_to"] ?></th>
+                <th><?php echo $messages["punisher_mute"] ?></th>
+                <th><?php echo $messages["event"] ?></th>
               </tr>
               <tr>
                 <?php
@@ -48,7 +48,7 @@
             <?php
             if(isset($_POST["submit"]) && isset($_SESSION["CSRF"])){
               if($_POST["CSRFToken"] != $_SESSION["CSRF"]){
-                showModal("ERROR", "CSRF Fehler", "Deine Sitzung ist abgelaufen. Versuche die Seite erneut zu öffnen.");
+                showModal("ERROR", $messages["error"], $messages["csrf_err"]);
               } else {
                 //Fetch UUID from Userinput
                 $stmt = $mysql->prepare("SELECT UUID FROM bans WHERE NAME = :username");
@@ -59,11 +59,11 @@
                 }
                 if(isPlayerExists($uuid)){
                   if(isMuted($uuid)){
-                    showModalRedirect("ERROR", "Fehler", "Dieser Spieler ist bereits gemutet.", "mutes.php");
+                    showModalRedirect("ERROR", $messages["error"], $messages["already_muted"], "mutes.php");
                     exit;
                   }
                   if(hasWebAccount($_POST["spieler"])){
-                      showModalRedirect("ERROR", "Fehler", "Diesen Spieler darfst du nicht muten.", "bans.php");
+                      showModalRedirect("ERROR", $messages["error"], $messages["not_muted"], "mutes.php");
                       exit;
                   }
                   $now = time();
@@ -93,9 +93,9 @@
                   $stmt->bindParam(":uuid", $uuid, PDO::PARAM_STR);
                   $stmt->execute();
                   addMuteCounter($uuid);
-                  showModalRedirect("SUCCESS", "Erfolgreich", "Der Spieler <strong>".htmlspecialchars($_POST["spieler"])."</strong> wurde erfolgreich gemutet.", "mutes.php");
+                  showModalRedirect("SUCCESS", $messages["success"], str_replace("%username%", htmlspecialchars($_POST["spieler"]), $messages["player_muted"]), "mutes.php");
                 } else {
-                  showModal("ERROR", "Fehler", "Dieser Spieler hat das Netzwerk noch nie betreten.");
+                  showModal("ERROR", $messages["error"], $messages["player_404"]);
                 }
               }
             } else {
@@ -115,16 +115,16 @@
                 $stmt = $mysql->prepare("UPDATE bans SET MUTED = 0 WHERE NAME = :username");
                 $stmt->bindParam(":username", $_GET['name'], PDO::PARAM_STR);
                 $stmt->execute();
-                showModalRedirect("SUCCESS", "Erfolgreich", "<strong>".$_GET["name"]."</strong> wurde erfolgreich entmutet.", "mutes.php");
+                showModalRedirect("SUCCESS", "Erfolgreich", "<strong>".$_GET["name"]."</strong> ".$messages["unmuted"], "mutes.php");
               } else {
                 showModal("ERROR", "Fehler", "Der angeforderte Benutzer wurde nicht gefunden.");
               }
             }
              ?>
-            <h1>Spieler muten</h1>
+            <h1><?php echo $messages["player_punish_mute"] ?></h1>
             <form action="mutes.php" method="post">
               <input type="hidden" name="CSRFToken" value="<?php echo $_SESSION["CSRF"]; ?>">
-              <input type="text" name="spieler" placeholder="Spieler" required><br>
+              <input type="text" name="spieler" placeholder="<?php echo $messages["player"] ?>" required><br>
               <select name="grund">
                 <?php
                 require("./mysql.php");
@@ -137,7 +137,7 @@
                 }
                  ?>
               </select><br>
-              <button type="submit" name="submit">Spieler muten</button>
+              <button type="submit" name="submit"><?php echo $messages["player_punish_mute"] ?></button>
             </form>
           </div>
         </div>

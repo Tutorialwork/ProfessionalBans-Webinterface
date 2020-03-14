@@ -1,7 +1,7 @@
         <?php
         require("./inc/header.inc.php");
         if(!isAdmin($_SESSION['username'])){
-          showModalRedirect("ERROR", "Fehler", "Der Zugriff auf diese Seite wurde verweigert.", "index.php");
+          showModalRedirect("ERROR", $messages["error"], $messages["perms_err"], "index.php");
           exit;
         }
         ?>
@@ -14,14 +14,14 @@
             }
             if(isset($_POST["submit"]) && isset($_SESSION["CSRF"])){
               if($_POST["CSRFToken"] != $_SESSION["CSRF"]){
-                showModal("ERROR", "CSRF Fehler", "Deine Sitzung ist abgelaufen. Versuche die Seite erneut zu öffnen.");
+                showModal("ERROR", $messages["error"], $messages["csrf_err"]);
               } else {
                 require("./mysql.php");
                 $id = $_GET["id"];
                 if(filter_var($_POST['zeit'], FILTER_VALIDATE_INT)){
                   $zeit = $_POST['zeit'];
                 } else {
-                  showModalRedirect("ERROR", "Fehler", "Du hast keine gültige Zahl angegeben.", "editreason.php?id=".$_GET["id"]);
+                  showModalRedirect("ERROR", $messages["error"], $messages["no_valid_number"], "editreason.php?id=".$_GET["id"]);
                   exit;
                 }
 
@@ -66,7 +66,7 @@
                     }
                     $stmt->bindParam(":perms", $perms, PDO::PARAM_STR);
                     $stmt->execute();
-                    showModalRedirect("SUCCESS", "Erfolgreich", "Der Grund <strong>".htmlspecialchars($_POST["grund"])."</strong> wurde erfolgreich bearbeitet.", "editreason.php?id=".$_GET["id"]);
+                    showModalRedirect("SUCCESS", "Erfolgreich", str_replace("%reason%", htmlspecialchars($_POST["grund"]), $messages["banreason_edit"]), "reasons.php");
                 } else {
                   showModal("ERROR", "Fehler", "Diese ID ist nicht registriert.");
                 }
@@ -77,12 +77,12 @@
               $_SESSION["CSRF"] = generateRandomString(25);
             }
              ?>
-            <h1>Bangrund bearbeiten #<strong><?php echo $_GET["id"]; ?></strong></h1>
+            <h1><?php echo $messages["edit_banreason"] . '<strong>' .  $_GET["id"]; ?></strong></h1>
             <form action="editreason.php?id=<?php echo $_GET["id"]; ?>" method="post">
               <input type="hidden" name="CSRFToken" value="<?php echo $_SESSION["CSRF"]; ?>">
-              <p>Grund</p>
+              <p><?php echo $messages["reason"] ?></p>
               <input type="text" name="grund" value="<?php echo getReasonByReasonID($_GET["id"]) ?>" maxlength="16" required/>
-              <p>Zeit</p>
+              <p><?php echo $messages["duration"] ?></p>
               <input type="number" name="zeit" value="<?php
               if(getTimeByReasonID($_GET["id"]) < 60){
                 echo getTimeByReasonID($_GET["id"]);
@@ -96,25 +96,25 @@
                ?>" required/>
                <p>Permission</p>
                <input type="text" name="perms" value="<?php echo getPermsByReasonID($_GET["id"]) ?>"/>
-               <p>Einheit</p>
+               <p><?php echo $messages["unit"] ?></p>
                <select name="einheit">
                  <?php
                  if($type == 0){
-                   echo '<option value="m">Minuten</option>
-                   <option value="s">Stunden</option>
-                   <option value="t">Tage</option>';
+                   echo '<option value="m">'.$messages["minutes"].'</option>
+                   <option value="s">'.$messages["hours"].'</option>
+                   <option value="t">'.$messages["days"].'</option>';
                  } else if($type == 1){
-                   echo '<option value="s">Stunden</option>
-                   <option value="m">Minuten</option>
-                   <option value="t">Tage</option>';
+                   echo '<option value="s">'.$messages["hours"].'</option>
+                   <option value="m">'.$messages["minutes"].'</option>
+                   <option value="t">'.$messages["days"].'</option>';
                  } else if($type == 2){
-                   echo '<option value="t">Tage</option>
-                   <option value="s">Stunden</option>
-                   <option value="m">Minuten</option>';
+                   echo '<option value="t">'.$messages["days"].'</option>
+                   <option value="s">'.$messages["hours"].'</option>
+                   <option value="m">'.$messages["minutes"].'</option>';
                  }
                   ?>
                </select>
-               <p>Typ</p>
+               <p>Type</p>
                <select name="type">
                  <?php
                  if(isMuteByReasonID($_GET["id"]) && getTimeByReasonID($_GET["id"]) == -1){
@@ -140,7 +140,7 @@
                  }
                   ?>
                </select>
-              <button type="submit" name="submit">Speichern</button>
+              <button type="submit" name="submit"><?php echo $messages["save"] ?></button>
             </form>
           </div>
         </div>

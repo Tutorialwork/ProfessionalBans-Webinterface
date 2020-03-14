@@ -1,7 +1,7 @@
         <?php
         require("./inc/header.inc.php");
         if(!isMod($_SESSION['username'])){
-          showModalRedirect("ERROR", "Fehler", "Der Zugriff auf diese Seite wurde verweigert.", "index.php");
+          showModalRedirect("ERROR", $messages["error"], $messages["perms_err"], "index.php");
           exit;
         }
         ?>
@@ -13,14 +13,14 @@
             <div class="flex-button">
               <a href="bans.php?ipbans" class="btn"><i class="fas fa-book-open"></i> IP-Bans</a>
             </div>
-            <h1>Aktive Bans</h1>
+            <h1><?php echo $messages["bans"] ?></h1>
             <table>
               <tr>
-                <th>Spieler</th>
-                <th>Grund</th>
-                <th>gebannt bis</th>
-                <th>gebannt von</th>
-                <th>Aktionen</th>
+                <th><?php echo $messages["player"] ?></th>
+                <th><?php echo $messages["reason"] ?></th>
+                <th><?php echo $messages["banned_to"] ?></th>
+                <th><?php echo $messages["punisher_ban"] ?></th>
+                <th><?php echo $messages["event"] ?></th>
               </tr>
               <tr>
                 <?php
@@ -54,15 +54,15 @@
             <div class="flex-button">
               <a href="bans.php" class="btn"><i class="fas fa-ban"></i> Bans</a>
             </div>
-            <h1>Aktive IP-Bans</h1>
+            <h1><?php echo $messages["ipbans"] ?></h1>
             <table>
               <tr>
                 <th>IP</th>
-                <th>Spieler</th>
-                <th>Grund</th>
-                <th>gebannt bis</th>
-                <th>gebannt von</th>
-                <th>Aktionen</th>
+                  <th><?php echo $messages["player"] ?></th>
+                  <th><?php echo $messages["reason"] ?></th>
+                  <th><?php echo $messages["banned_to"] ?></th>
+                  <th><?php echo $messages["punisher_ban"] ?></th>
+                  <th><?php echo $messages["event"] ?></th>
               </tr>
               <tr>
                 <?php
@@ -102,7 +102,7 @@
             <?php
             if(isset($_POST["submit"]) && isset($_SESSION["CSRF"])){
               if($_POST["CSRFToken"] != $_SESSION["CSRF"]){
-                showModal("ERROR", "CSRF Fehler", "Deine Sitzung ist abgelaufen. Versuche die Seite erneut zu öffnen.");
+                showModal("ERROR", $messages["error"], $messages["csrf_err"]);
               } else {
                 //Fetch UUID from Userinput
                 $stmt = $mysql->prepare("SELECT UUID FROM bans WHERE NAME = :username");
@@ -113,11 +113,11 @@
                 }
                 if(isPlayerExists($uuid)){
                   if(isBanned($uuid)){
-                    showModalRedirect("ERROR", "Fehler", "Dieser Spieler ist bereits gebannt.", "bans.php");
+                    showModalRedirect("ERROR", $messages["error"], $messages["already_banned"], "bans.php");
                     exit;
                   }
                   if(hasWebAccount($_POST["spieler"])){
-                      showModalRedirect("ERROR", "Fehler", "Diesen Spieler darfst du nicht bannen.", "bans.php");
+                      showModalRedirect("ERROR", $messages["error"], $messages["not_bannable"], "bans.php");
                       exit;
                   }
                   $now = time();
@@ -147,9 +147,9 @@
                   $stmt->bindParam(":uuid", $uuid, PDO::PARAM_STR);
                   $stmt->execute();
                   addBanCounter($uuid);
-                  showModalRedirect("SUCCESS", "Erfolgreich", "Der Spieler <strong>".htmlspecialchars($_POST["spieler"])."</strong> wurde erfolgreich gebannt.", "bans.php");
+                  showModalRedirect("SUCCESS", $messages["success"], str_replace("%username%", htmlspecialchars($_POST["spieler"]), $messages["player_banned"]), "bans.php");
                 } else {
-                  showModal("ERROR", "Fehler", "Dieser Spieler hat das Netzwerk noch nie betreten.");
+                  showModal("ERROR", $messages["error"], $messages["player_404"]);
                 }
               }
             } else {
@@ -169,7 +169,7 @@
                 $stmt = $mysql->prepare("UPDATE bans SET BANNED = 0 WHERE NAME = :username");
                 $stmt->bindParam(":username", $_GET['name'], PDO::PARAM_STR);
                 $stmt->execute();
-                showModalRedirect("SUCCESS", "Erfolgreich", "<strong>".$_GET["name"]."</strong> wurde erfolgreich entbannt.", "bans.php");
+                showModalRedirect("SUCCESS", "Erfolgreich", "<strong>".$_GET["name"]."</strong> ".$messages["unbanned"], "bans.php");
               } else {
                 showModal("ERROR", "Fehler", "Der angeforderte Benutzer wurde nicht gefunden.");
               }
@@ -187,16 +187,16 @@
                 $stmt = $mysql->prepare("UPDATE ips SET BANNED = 0 WHERE IP = :ip");
                 $stmt->bindParam(":ip", $_GET['ip'], PDO::PARAM_STR);
                 $stmt->execute();
-                showModalRedirect("SUCCESS", "Erfolgreich", "Die IP-Adresse <strong>".$_GET["ip"]."</strong> wurde erfolgreich entbannt.", "bans.php?ipbans");
+                showModalRedirect("SUCCESS", "Erfolgreich", "<strong>".$_GET["ip"]."</strong> ".$messages["unbanned"], "bans.php?ipbans");
               } else {
                 showModal("ERROR", "Fehler", "Die angeforderte IP-Adresse wurde nicht gefunden.");
               }
             }
              ?>
-            <h1>Spieler bannen</h1>
+            <h1><?php echo $messages["player_punish_ban"] ?></h1>
             <form action="bans.php" method="post">
               <input type="hidden" name="CSRFToken" value="<?php echo $_SESSION["CSRF"]; ?>">
-              <input type="text" name="spieler" placeholder="Spieler" required><br>
+              <input type="text" name="spieler" placeholder="<?php echo $messages["player"] ?>" required><br>
               <select name="grund">
                 <?php
                 require("./mysql.php");
@@ -209,7 +209,7 @@
                 }
                  ?>
               </select><br>
-              <button type="submit" name="submit">Spieler bannen</button>
+              <button type="submit" name="submit"><?php echo $messages["player_punish_ban"] ?></button>
             </form>
           </div>
         </div>

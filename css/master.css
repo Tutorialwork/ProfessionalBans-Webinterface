@@ -234,6 +234,7 @@ th:nth-child(odd) {
 td{
   padding: 15px;
   background: #DDDDDD;
+  text-align: center;
 }
 .sidebox{
   width: 45%;

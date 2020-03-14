@@ -7,11 +7,11 @@ require("./inc/livechat_header.inc.php");
             <?php
             if(isset($_GET["server"])){
               ?>
-              <p>Nachrichten von: <strong><?php echo $_GET["server"] ?></strong></p>
+              <p><?php echo $messages["messages_from"] ?>: <strong><?php echo $_GET["server"] ?></strong></p>
               <?php
             } else {
               ?>
-              <p>Nachrichten von: <strong>Alle Server</strong></p>
+              <p><?php echo $messages["messages_from"] ?>: <strong><?php echo $messages["all_servers"] ?></strong></p>
               <?php
             }
              ?>
@@ -69,7 +69,7 @@ require("./inc/livechat_header.inc.php");
             <select name="server" onChange="window.document.location.href=this.options[this.selectedIndex].value;">
               <?php
               if(!isset($_GET["server"])){
-                echo '<option value="livechat.php">Alle Server</option>';
+                echo '<option value="livechat.php">'.$messages["all_servers"].'</option>';
                 require("./mysql.php");
                 $server = array();
                 $stmt = $mysql->prepare("SELECT SERVER FROM chat");
@@ -98,14 +98,14 @@ require("./inc/livechat_header.inc.php");
                     echo '<option value="livechat.php?server='.$value.'">'.$value.'</option>';
                   }
                 }
-                echo '<option value="livechat.php">Alle Server</option>';
+                echo '<option value="livechat.php">'.$messages["all_servers"].'</option>';
               }
                ?>
             </select>
             <div class="flex-button">
               <p></p>
               <a href="livechat.php?download" class="btn"><i class="fas fa-file-download"></i> Download</a>
-              <a href="livechat.php?clean" class="btn"><i class="far fa-trash-alt"></i> Löschen</a>
+              <a href="livechat.php?clean" class="btn"><i class="far fa-trash-alt"></i> <?php echo $messages["delete"] ?></a>
             </div>
           </div>
         </div>

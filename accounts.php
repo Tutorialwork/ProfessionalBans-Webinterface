@@ -10,14 +10,14 @@
               $name = htmlspecialchars($_GET["name"], ENT_QUOTES, 'UTF-8');
               ?>
               <script>
-                $.sweetModal.defaultSettings.confirm.yes.label = "Löschen";
-                $.sweetModal.defaultSettings.confirm.cancel.label = "Abbrechen";
-                $.sweetModal.confirm('Möchtest du wirklich <strong><?php echo $name ?></strong> löschen?', function() {
+                $.sweetModal.defaultSettings.confirm.yes.label = "<?php echo $messages["delete"] ?>";
+                $.sweetModal.defaultSettings.confirm.cancel.label = "<?php echo $messages["cancel"] ?>";
+                $.sweetModal.confirm('<?php echo str_replace("%username%", $name, $messages["delete_account_question"]) ?>', function() {
                   var xhttp = new XMLHttpRequest();
                   xhttp.open("GET", "accounts.php?delete&name=<?php echo $name ?>&confirmed");
                   xhttp.send();
                   $.sweetModal({
-                    content: '<strong><?php echo $name ?></strong> wurde erfolgreich gelöscht.',
+                    content: '<strong><?php echo $name ?></strong> <?php echo $messages["delete_account_success"] ?>',
                     icon: $.sweetModal.ICON_SUCCESS,
                     onClose: function(){
                       window.location = "accounts.php";
@@ -38,7 +38,7 @@
         if(isset($_POST["submit"]) && isset($_SESSION["CSRF"])){
           if(!empty($_POST["username"]) && !empty($_POST["mcusername"])){
             if($_POST["CSRFToken"] != $_SESSION["CSRF"]){
-              showModal("ERROR", "CSRF Fehler", "Deine Sitzung ist abgelaufen. Versuche die Seite erneut zu öffnen.");
+              showModal("ERROR", $messages["error"], $messages["csrf_err"]);
             } else {
               require("./mysql.php");
               $stmt = $mysql->prepare("SELECT * FROM bans WHERE NAME = :request");
@@ -56,19 +56,19 @@
                     $klartext = generateRandomString();
                     $hash = password_hash($klartext, PASSWORD_BCRYPT);
                     $stmt->execute(array(":uuid" => $row["UUID"], ":name" => $_POST["username"], ":hash" => $hash, ":rank" => $_POST["rang"]));
-                    showModalRedirect("SUCCESS", "Erfolgreich", "Es wurde erfolgreich für <strong>".htmlspecialchars($_POST["mcusername"])."</strong> ein Webaccount angelegt mit dem temporären Passwort: <strong>".$klartext."</strong>", "accounts.php");
+                    showModalRedirect("SUCCESS", $messages["success"], str_replace(array("%username%", "%password%"), array(htmlspecialchars($_POST["mcusername"]), $klartext), $messages["create_account_success"]), "accounts.php");
                   } else {
-                    showModal("ERROR", "Fehler", "Dieser Username ist bereits vergeben");
+                    showModal("ERROR", $messages["error"], $messages["username_taken"]);
                   }
                 } else {
-                  showModal("ERROR", "Fehler", "Dieser Spieler hat bereits einen Webaccount");
+                  showModal("ERROR", $messages["error"], $messages["account_exist"]);
                 }
               } else {
-                showModal("ERROR", "Fehler", "Dieser Spieler hat das Netzwerk noch nie betreten");
+                showModal("ERROR", $messages["error"], $messages["player_404"]);
               }
             }
           } else {
-            showModal("ERROR", "Fehler", "Damit ein neuer Account erstellt werden kann werden alle Felder benötigt");
+            showModal("ERROR", $messages["error"], $messages["fill_err"]);
           }
         } else {
           //Erstelle Token wenn Formular nicht abgesendet wurde
@@ -81,9 +81,9 @@
             <table>
               <tr>
                 <th>Username</th>
-                <th>Rang</th>
+                <th><?php echo $messages["rank"] ?></th>
                 <th>Google Authenticator</th>
-                <th>Aktionen</th>
+                <th><?php echo $messages["event"] ?></th>
               </tr>
               <?php
               require("./mysql.php");
@@ -100,9 +100,9 @@
                   echo '<td>Supporter</td>';
                 }
                 if($row["GOOGLE_AUTH"] != "null"){
-                  echo '<td>Ja</td>';
+                  echo '<td>'.$messages["yes"].'</td>';
                 } else {
-                  echo '<td>Nein</td>';
+                  echo '<td>'.$messages["no"].'</td>';
                 }
                   echo '<td><a href="editaccount.php?name='.$row["USERNAME"].'""><i class="material-icons">edit</i></a> ';
                 if($row["USERNAME"] != $_SESSION["username"]){
@@ -114,7 +114,7 @@
             </table>
           </div>
           <div class="flex item-2 sidebox">
-            <h1>Account erstellen</h1>
+            <h1><?php echo $messages["create_account"] ?></h1>
             <form action="accounts.php" method="post">
               <input type="hidden" name="CSRFToken" value="<?php echo $_SESSION["CSRF"]; ?>">
               <input type="text" name="username" placeholder="Username" required><br>
@@ -124,7 +124,7 @@
                 <option value="2">Moderator</option>
                 <option value="1">Supporter</option>
               </select><br>
-              <button type="submit" name="submit">Account erstellen</button>
+              <button type="submit" name="submit"><?php echo $messages["create_account"] ?></button>
             </form>
           </div>
         </div>

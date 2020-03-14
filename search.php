@@ -12,8 +12,8 @@
               showModal("SUCCESS", "Erfolgreich", "Der Chatlog wurde erfolgreich gelöscht.");
             }
              ?>
-             <h1>Suche</h1>
-             <input type="text" name="username" id="username" placeholder="Nach einem Spieler suchen..." required>
+             <h1><?php echo $messages["search"] ?></h1>
+             <input type="text" name="username" id="username" placeholder="<?php echo $messages["search_for_player"] ?>" required>
              <div id="result"></div>
              <script>
            $(document).ready(function(){

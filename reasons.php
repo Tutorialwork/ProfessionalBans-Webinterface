@@ -1,7 +1,7 @@
         <?php
         require("./inc/header.inc.php");
         if(!isAdmin($_SESSION['username'])){
-          showModalRedirect("ERROR", "Fehler", "Der Zugriff auf diese Seite wurde verweigert.", "index.php");
+          showModalRedirect("ERROR", $messages["error"], $messages["perms_err"], "index.php");
           exit;
         }
         ?>
@@ -31,9 +31,9 @@
                   $stmt->bindParam(":dbid", $row["ID"], PDO::PARAM_INT);
                   $stmt->execute();
                 }
-                showModalRedirect("SUCCESS", "Erfolgreich", "Der Bangrund wurde erfolgreich gelöscht.", "reasons.php");
+                showModalRedirect("SUCCESS", $messages["success"], $messages["banreason_deleted"], "reasons.php");
               } else {
-                showModal("ERROR", "Fehler", "Der angeforderte Bangrund wurde nicht gefunden.");
+                showModal("ERROR", $messages["error"], $messages["banreason_404"]);
               }
             }
 
@@ -57,17 +57,17 @@
                   );
                 });
              </script>
-            <h1>Bangründe</h1>
+            <h1><?php echo $messages["banreasons"] ?></h1>
             <table> 
               <tr>
                 <th>ID</th>
-                <th>Bangrund</th>
-                <th>Zeit</th>
+                <th><?php echo $messages["reason"] ?></th>
+                <th><?php echo $messages["duration"] ?></th>
                 <th>Type</th>
-                <th>hinzugefügt am</th>
+                <th><?php echo $messages["added_at"] ?></th>
                 <th>Bans</th>
                 <th>Permission</th>
-                <th>Aktionen</th>
+                <th><?php echo $messages["event"] ?></th>
               </tr>
               <tbody>
                 <?php
@@ -81,23 +81,23 @@
                   if($row["TIME"] == -1){
                     echo "<td>Permanent</td>";
                   } else if($row["TIME"] < 60){
-                    echo '<td>'.$row["TIME"].' Minuten</td>';
+                    echo '<td>'.$row["TIME"].' '.$messages["minutes"].'</td>';
                   } else if($row["TIME"] < 1440){
                     $stunden = $row["TIME"] / 60;
-                    echo '<td>'.$stunden.' Stunden</td>';
+                    echo '<td>'.$stunden.' '.$messages["hours"].'</td>';
                   } else {
                     $tage = $row["TIME"] / 1440;
-                    echo '<td>'.$tage.' Tage</td>';
+                    echo '<td>'.$tage.' '.$messages["days"].'</td>';
                   }
                   if($row["TYPE"] == 0){
                     echo '<td>BAN</td>';
                   } else {
                     echo '<td>MUTE</td>';
                   }
-                  echo '<td>'.date('d.m.Y H:i',$row["ADDED_AT"]).'</td>';
+                  echo '<td>'.date($messages["date_format"],$row["ADDED_AT"]).'</td>';
                   echo '<td>'.$row["BANS"].'</td>';
                   if($row["PERMS"] == "null"){
-                    echo '<td>Keine</td>';
+                    echo '<td>'.$messages["none"].'</td>';
                   } else {
                     echo '<td>'.$row["PERMS"].'</td>';
                   }
@@ -114,7 +114,7 @@
             <?php
             if(isset($_POST["submit"]) && isset($_SESSION["CSRF"])){
               if($_POST["CSRFToken"] != $_SESSION["CSRF"]){
-                showModal("ERROR", "CSRF Fehler", "Deine Sitzung ist abgelaufen. Versuche die Seite erneut zu öffnen.");
+                showModal("ERROR", $messages["error"], $messages["csrf_err"]);
               } else {
                 require("./mysql.php");
                 $id = 0;
@@ -127,7 +127,7 @@
                 if(filter_var($_POST['zeit'], FILTER_VALIDATE_INT)){
                   $zeit = $_POST['zeit'];
                 } else {
-                  showModalRedirect("ERROR", "Fehler", "Du hast keine gültige Zahl angegeben.", "reasons.php");
+                  showModalRedirect("ERROR", $messages["error"], $messages["no_valid_number"], "reasons.php");
                   exit;
                 }
 
@@ -170,14 +170,14 @@
                     }
                     $stmt->bindParam(":perms", $perms, PDO::PARAM_STR);
                     $stmt->execute();
-                    showModalRedirect("SUCCESS", "Erfolgreich", "Der Grund <strong>".htmlspecialchars($_POST["grund"])."</strong> wurde erfolgreich hinzugefügt.", "reasons.php");
+                    showModalRedirect("SUCCESS", $messages["success"], str_replace("%reason%", htmlspecialchars($_POST["grund"]), $messages["banreason_created"]), "reasons.php");
                 } else {
-                  showModal("ERROR", "Fehler", "Diese ID ist bereits registriert.");
+                  showModal("ERROR", $messages["error"], $messages["banid_exists"]);
                 }
 
                 
               } else {
-                showModal("ERROR", "Fehler", "Dieser Grund ist bereits registriert.");
+                showModal("ERROR", $messages["error"], $messages["reason_exists"]);
               }
                
               }
@@ -186,17 +186,17 @@
               $_SESSION["CSRF"] = generateRandomString(25);
             }
              ?>
-            <h1>Bangrund erstellen</h1>
+            <h1><?php echo $messages["create_banreason"] ?></h1>
             <form action="reasons.php" method="post">
               <input type="hidden" name="CSRFToken" value="<?php echo $_SESSION["CSRF"]; ?>">
               <input type="number" name="id" placeholder="ID" value="<?php echo countReasons() + 1 ?>" require><br>
-              <input type="text" name="grund" placeholder="Grund" required><br>
-              <input type="number" name="zeit" placeholder="Dauer" required><br>
+              <input type="text" name="grund" placeholder="<?php echo $messages["reason"] ?>" required><br>
+              <input type="number" name="zeit" placeholder="<?php echo $messages["duration"] ?>" required><br>
               <input type="text" name="perms" placeholder="Permission (optional)"><br>
               <select name="einheit">
-                <option value="m">Minuten</option>
-                <option value="s">Stunden</option>
-                <option value="t">Tage</option>
+                <option value="m"><?php echo $messages["minutes"] ?></option>
+                <option value="s"><?php echo $messages["hours"] ?></option>
+                <option value="t"><?php echo $messages["days"] ?></option>
               </select><br>
               <select name="type">
                 <option value="ban">Ban</option>
@@ -204,7 +204,7 @@
                 <option value="permaban">Permanenter Ban</option>
                 <option value="permamute">Permanenter Mute</option>
               </select><br>
-              <button type="submit" name="submit">Grund hinzufügen</button>
+              <button type="submit" name="submit"><?php echo $messages["create_banreason"] ?></button>
             </form>
           </div>
         </div>

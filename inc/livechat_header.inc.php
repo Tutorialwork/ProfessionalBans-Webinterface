@@ -1,3 +1,11 @@
+<?php
+$lang = substr($_SERVER['HTTP_ACCEPT_LANGUAGE'], 0, 2);
+if($lang == "de" || $lang == "ch" || $lang == "at"){
+    require("./languages/de.php");
+} else {
+    require("./languages/en.php");
+}
+?>
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
 
@@ -48,7 +56,7 @@
     $log = array();
     $txt = "";
     while($row = $stmt->fetch()){
-      $txt = $txt.UUIDResolve($row["UUID"])." -> ".$row["MESSAGE"]." | um ".date('d.m.Y H:i',$row["SENDDATE"]/1000)." auf ".$row["SERVER"]."\n";
+      $txt = $txt.UUIDResolve($row["UUID"])." -> ".$row["MESSAGE"]." | ".date($messages["date_format"],$row["SENDDATE"]/1000)." @ ".$row["SERVER"]."\n";
     }
     fwrite($file, $txt);
     fclose($file);
@@ -138,7 +146,7 @@
           <img src="https://minotar.net/helm/<?php echo UUIDResolve($row["UUID"]); ?>/64.png" alt="head" class="mchead">
           <p><?php echo htmlspecialchars($row["MESSAGE"]); ?></p>
           <div class="chat-info">
-            <p><?php echo UUIDResolve($row["UUID"]); ?> | <?php echo date("H:i", $row["SENDDATE"] / 1000); ?></p>
+            <p><?php echo UUIDResolve($row["UUID"]); ?> | <?php echo date($messages["time_format"], $row["SENDDATE"] / 1000); ?></p>
           </div>
         </div>
         <?php
@@ -188,8 +196,8 @@
             <!-- START 
             Navbar for desktop devices -->
             <ul>
-                <li <?php activeItem("index.php") ?>><a href="index.php"><i class="fas fa-home"></i> Übersicht</a></li>
-                <li <?php activeItem("search.php") ?>><a href="search.php"><i class="fas fa-search"></i> Suche</a></li>
+                <li <?php activeItem("index.php") ?>><a href="index.php"><i class="fas fa-home"></i> <?php echo $messages["overview"] ?></a></li>
+                <li <?php activeItem("search.php") ?>><a href="search.php"><i class="fas fa-search"></i> <?php echo $messages["search"] ?></a></li>
                 <?php
                     if (isMod($_SESSION["username"])) {
                         ?>
@@ -210,15 +218,15 @@
                     if (isAdmin($_SESSION["username"])) {
                         ?>
                     <li <?php activeItem("accounts.php") ?>><a href="accounts.php"><i class="fas fa-users"></i> Accounts</a></li>
-                    <li <?php activeItem("reasons.php") ?>><a href="reasons.php"><i class="fas fa-cogs"></i> Bangründe</a></li>
+                    <li <?php activeItem("reasons.php") ?>><a href="reasons.php"><i class="fas fa-cogs"></i> <?php echo $messages["banreasons"] ?></a></li>
                 <?php
                     }
                     ?>
                 <?php
                     if (isMod($_SESSION["username"])) {
                         ?>
-                    <li <?php activeItem("unbans.php") ?>><a href="unbans.php"><i class="fas fa-envelope"></i> Entbannungsanträge</a></li>
-                <?php
+                        <li <?php activeItem("unbans.php") ?>><a href="unbans.php"><i class="fas fa-envelope"></i> <?php echo $messages["unbanrequests"] ?></a></li>
+                        <?php
                     }
                     ?>
             </ul>
@@ -236,39 +244,39 @@
                     <!-- START 
                     Navbar for mobile devices -->
                     <ul class="navbar animated bounceInDown">
-                        <li <?php activeItem("index.php") ?>><a href="index.php"><i class="fas fa-home"></i> Übersicht</a></li>
-                        <li <?php activeItem("search.php") ?>><a href="search.php"><i class="fas fa-search"></i> Suche</a></li>
+                        <li <?php activeItem("index.php") ?>><a href="index.php"><i class="fas fa-home"></i> <?php echo $messages["overview"] ?></a></li>
+                        <li <?php activeItem("search.php") ?>><a href="search.php"><i class="fas fa-search"></i> <?php echo $messages["search"] ?></a></li>
                         <?php
-                            if (isMod($_SESSION["username"])) {
-                                ?>
-                            <li <?php activeItem("bans.php") ?>><a href="bans.php"><i class="fas fa-ban"></i> Bans</a></li>
-                        <?php
-                            }
+                        if (isMod($_SESSION["username"])) {
                             ?>
+                            <li <?php activeItem("bans.php") ?>><a href="bans.php"><i class="fas fa-ban"></i> Bans</a></li>
+                            <?php
+                        }
+                        ?>
                         <li><a href="mutes.php"><i class="fas fa-volume-mute"></i> Mutes</a></li>
                         <li><a href="livechat.php"><i class="fas fa-comment"></i> Livechat</a></li>
                         <?php
-                            if (isMod($_SESSION["username"])) {
-                                ?>
+                        if (isMod($_SESSION["username"])) {
+                            ?>
                             <li <?php activeItem("reports.php") ?>><a href="reports.php"><i class="fas fa-flag"></i> Reports</a></li>
+                            <?php
+                        }
+                        ?>
                         <?php
-                            }
+                        if (isAdmin($_SESSION["username"])) {
                             ?>
-                        <?php
-                            if (isAdmin($_SESSION["username"])) {
-                                ?>
                             <li <?php activeItem("accounts.php") ?>><a href="accounts.php"><i class="fas fa-users"></i> Accounts</a></li>
-                            <li <?php activeItem("reasons.php") ?>><a href="reasons.php"><i class="fas fa-cogs"></i> Bangründe</a></li>
+                            <li <?php activeItem("reasons.php") ?>><a href="reasons.php"><i class="fas fa-cogs"></i> <?php echo $messages["banreasons"] ?></a></li>
+                            <?php
+                        }
+                        ?>
                         <?php
-                            }
+                        if (isMod($_SESSION["username"])) {
                             ?>
-                        <?php
-                            if (isMod($_SESSION["username"])) {
-                                ?>
-                            <li <?php activeItem("unbans.php") ?>><a href="unbans.php"><i class="fas fa-envelope"></i> Entbannungsanträge</a></li>
-                        <?php
-                            }
-                            ?>
+                            <li <?php activeItem("unbans.php") ?>><a href="unbans.php"><i class="fas fa-envelope"></i> <?php echo $messages["unbanrequests"] ?></a></li>
+                            <?php
+                        }
+                        ?>
                     </ul>
                     <!-- END 
                     Navbar for mobile devices -->

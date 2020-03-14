@@ -11,6 +11,12 @@
   <body>
 
     <?php
+    $lang = substr($_SERVER['HTTP_ACCEPT_LANGUAGE'], 0, 2);
+    if($lang == "de" || $lang == "ch" || $lang == "at"){
+        require("./languages/de.php");
+    } else {
+        require("./languages/en.php");
+    }
     require("./datamanager.php");
     require("./mysql.php");
     if(isset($_POST["submit"])){
@@ -80,11 +86,11 @@
       //Warte auf Anfrage...
       ?>
       <form class="login" action="recovery.php" method="post">
-        <h1 class="small-heading"><i class="fas fa-key"></i> Passwort vergessen</h1>
-        <p>Gebe deinen Minecraft Username ein. Dieser kann sich möglicherweise von deinem Username im Webinterface unterscheiden.</p>
+        <h1 class="small-heading"><i class="fas fa-key"></i> <?php echo $messages["forget_password"] ?></h1>
+        <p><?php echo $messages["forget_text"] ?></p>
         <input type="text" name="mcusername" placeholder="Minecraft Username" maxlength="16" minlength="3" required><br>
-        <button type="submit" name="submit">Bestätigen</button><br><br><br>
-        <a href="login.php"><i class="fas fa-arrow-left"></i> Zurück</a>
+        <button type="submit" name="submit"><?php echo $messages["confirm"] ?></button><br><br><br>
+        <a href="login.php"><i class="fas fa-arrow-left"></i> <?php echo $messages["back"] ?></a>
       </form>
       <?php
     }

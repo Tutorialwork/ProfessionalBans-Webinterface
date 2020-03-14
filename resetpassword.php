@@ -1,8 +1,16 @@
+<?php
+$lang = substr($_SERVER['HTTP_ACCEPT_LANGUAGE'], 0, 2);
+if($lang == "de" || $lang == "ch" || $lang == "at"){
+    require("./languages/de.php");
+} else {
+    require("./languages/en.php");
+}
+?>
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
   <head>
     <meta charset="utf-8">
-    <title>Passwort setzen</title>
+    <title><?php echo $messages["set_new_password"] ?></title>
     <link rel="stylesheet" href="css/login.css">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -29,7 +37,7 @@
         if($_POST["CSRFToken"] != $_SESSION["CSRF"]){
           ?>
           <div class="error">
-            <h4>Deine Sitzung ist abgelaufen. Versuche die Seite erneut zu öffnen.</h4>
+            <h4><?php echo $messages["csrf_err"] ?></h4>
           </div>
           <?php
           exit;
@@ -73,7 +81,7 @@
         } else {
           ?>
           <div class="error">
-            <h4>Die Passwörter stimmen nicht überein.</h4>
+            <h4><?php echo $messages["password_not_same"] ?></h4>
           </div>
           <?php
         }
@@ -83,11 +91,11 @@
         $_SESSION["CSRF"] = generateRandomString(25);
       }
        ?>
-      <h1 id="pw"><i class="fas fa-key"></i> Passwort setzen</h1>
+      <h1 id="pw"><i class="fas fa-key"></i> <?php echo $messages["set_new_password"] ?></h1>
       <input type="hidden" name="CSRFToken" value="<?php echo $_SESSION["CSRF"]; ?>">
-      <input type="password" name="pw1" placeholder="Passwort" minlength="6" autocomplete="new-password" required><br>
-      <input type="password" name="pw2" placeholder="Passwort bestätigen" minlength="6" autocomplete="new-password" required><br>
-      <button type="submit" name="submit">Passwort setzen</button><br>
+      <input type="password" name="pw1" placeholder="<?php echo $messages["new_password"] ?>" minlength="6" autocomplete="new-password" required><br>
+      <input type="password" name="pw2" placeholder="<?php echo $messages["new_password2"] ?>" minlength="6" autocomplete="new-password" required><br>
+      <button type="submit" name="submit"><?php echo $messages["set_new_password"] ?></button><br>
     </form>
   </body>
 </html>

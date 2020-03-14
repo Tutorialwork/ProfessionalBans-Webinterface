@@ -1,7 +1,7 @@
         <?php
         require("./inc/header.inc.php");
         if(!isAdmin($_SESSION['username'])){
-          showModalRedirect("ERROR", "Fehler", "Der Zugriff auf diese Seite wurde verweigert.", "index.php");
+          showModalRedirect("ERROR", $messages["error"], $messages["perms_err"], "index.php");
           exit;
         }
         ?>
@@ -14,7 +14,7 @@
             }
             if(isset($_POST["submit"]) && isset($_SESSION["CSRF"])){
               if($_POST["CSRFToken"] != $_SESSION["CSRF"]){
-                showModal("ERROR", "CSRF Fehler", "Deine Sitzung ist abgelaufen. Versuche die Seite erneut zu öffnen.");
+                showModal("ERROR", $messages["error"], $messages["csrf_err"]);
               } else {
                 require("./mysql.php");
                 //Fetch UUID from Userinput
@@ -49,9 +49,9 @@
                       $stmt->execute();
                     }
                   }
-                  showModalRedirect("SUCCESS", "Erfolgreich", "Der Benutzer wurde erfolgreich aktualisiert.", "editaccount.php?name=".$_GET["name"]);
+                  showModalRedirect("SUCCESS", $messages["success"], $messages["account_update"], "accounts.php");
                 } else {
-                  showModal("ERROR", "Fehler", "Der eingegebene Minecraft Account hat das Netzwerk noch nie betreten.");
+                  showModal("ERROR", $messages["error"], $messages["player_404"]);
                 }
               }
             } else {
@@ -59,7 +59,7 @@
               $_SESSION["CSRF"] = generateRandomString(25);
             }
              ?>
-            <h1>Account bearbeiten von <?php echo $_GET["name"]; ?></h1>
+            <h1><?php echo $messages["account_edit"]." ".$_GET["name"]; ?></h1>
             <form action="editaccount.php?name=<?php echo $_GET["name"]; ?>" method="post">
               <input type="hidden" name="CSRFToken" value="<?php echo $_SESSION["CSRF"]; ?>">
               <?php
@@ -69,11 +69,11 @@
               $stmt->execute();
               while($row = $stmt->fetch()){
                 ?>
-                <p>Verknüpfter Minecraft Account</p>
-                <input type="text" name="mcusername" placeholder="Verknüpfter Minecraft Account" value="<?php echo UUIDResolve($row["UUID"]); ?>" required><br>
-                <p>Neues Passwort festlegen</p>
-                <input type="password" name="pw" placeholder="Neues Passwort festlegen"><br>
-                <p>Rang</p>
+                <p><?php echo $messages["linked_account"] ?></p>
+                <input type="text" name="mcusername" placeholder="<?php echo $messages["linked_account"] ?>" value="<?php echo UUIDResolve($row["UUID"]); ?>" required><br>
+                <p><?php echo $messages["account_new_password"] ?></p>
+                <input type="password" name="pw" placeholder="<?php echo $messages["account_new_password"] ?>"><br>
+                <p><?php echo $messages["rank"] ?></p>
                 <select name="rang">
                   <?php
                   if(isAdmin($_GET["name"])){
@@ -102,14 +102,14 @@
                   ?>
                   <p>Google Authenticator</p>
                   <select name="gauth">
-                    <option value="1">Aktiviert</option>
-                    <option value="0">Deaktiviert</option>
+                    <option value="1"><?php echo $messages["enabled"] ?></option>
+                    <option value="0"><?php echo $messages["disabled"] ?></option>
                   </select>
                   <?php
                 }
               }
                ?>
-              <button type="submit" name="submit">Speichern</button>
+              <button type="submit" name="submit"><?php echo $messages["save"] ?></button>
             </form>
           </div>
         </div>

@@ -13,17 +13,22 @@
             if(hasGoogleAuth($_SESSION["username"])){
               ?>
               <h1>Google Authenticator</h1>
-              <p>Du schütze derzeit deinen Account mit der 2-Faktor Authentifizierung.</p>
+              <p><?php echo $messages["gauth_intro"] ?></p>
+              <br>
+              <p style="color: green;"><?php echo $messages["gauth_status_true"] ?></p>
               <br>
               <form action="google-auth.php" method="post">
                 <input type="hidden" name="CSRFToken" value="<?php echo $_SESSION["CSRF"]; ?>">
-                <button type="submit" name="gdisable"><i class="fas fa-lock-open"></i> Deaktivieren</button>
+                <button type="submit" name="gdisable"><i class="fas fa-lock-open"></i> <?php echo $messages["disable"] ?></button>
               </form>
               <?php
             } else {
               ?>
               <h1>Google Authenticator</h1>
-              <p>Schütze deinen Account mit der 2-Faktor Authentifizierung.</p>
+              <p><?php echo $messages["gauth_intro"] ?></p>
+              <br>
+              <p style="color: red;"><?php echo $messages["gauth_status_false"] ?></p>
+              <br>
               <?php
               //Erstelle Token
               require("./authmanager.php");
@@ -53,11 +58,11 @@
                 <?php
                 if(!isset($_POST["gactivate"])){
                   ?>
-                  <button type="submit" name="gactivate"><i class="fas fa-mobile-alt"></i> Aktivieren</button>
+                  <button type="submit" name="gactivate"><i class="fas fa-mobile-alt"></i> <?php echo $messages["enable"] ?></button>
                   <?php
                 } else {
                   ?>
-                  <button type="submit" name="gfinish"><i class="fas fa-lock"></i> Einrichtung abschließen</button>
+                  <button type="submit" name="gfinish"><i class="fas fa-lock"></i> <?php echo $messages["finish_setup"] ?></button>
                   <?php
                 }
                 ?>

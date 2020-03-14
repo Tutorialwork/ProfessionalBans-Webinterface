@@ -1,7 +1,7 @@
         <?php
         require("./inc/header.inc.php");
         if(!isMod($_SESSION['username'])){
-          showModalRedirect("ERROR", "Fehler", "Der Zugriff auf diese Seite wurde verweigert.", "index.php");
+          showModalRedirect("ERROR", $messages["error"], $messages["perms_err"], "index.php");
           exit;
         }
         ?>
@@ -25,21 +25,21 @@
                 $stmt->bindParam(":id", $_GET["id"], PDO::PARAM_INT);
                 $stmt->bindParam(":webuser", $uuid, PDO::PARAM_STR);
                 $stmt->execute();
-                showModalRedirect("SUCCESS", "Erfolgreich", "Der Report wurde erfolgreich als <strong>bearbeitet</strong> makiert.", "reports.php");
+                showModalRedirect("SUCCESS", $messages["success"], $messages["report_done"], "reports.php");
               }
               ?>
               <div class="flex-button">
-                <a href="reports.php?archiv" class="btn"><i class="fas fa-book-open"></i> Archiv</a>
+                <a href="reports.php?archiv" class="btn"><i class="fas fa-book-open"></i> <?php echo $messages["archive"] ?></a>
                 <a href="chatlogs.php" class="btn"><i class="fas fa-comments"></i> Chatlogs</a>
               </div>
-              <h1>Offene Reports</h1>
+              <h1><?php echo $messages["open_reports"] ?></h1>
               <table>
                 <tr>
-                  <th>Spieler</th>
-                  <th>Grund</th>
-                  <th>erstellt am</th>
-                  <th>erstellt von</th>
-                  <th>Aktionen</th>
+                  <th><?php echo $messages["player"] ?></th>
+                  <th><?php echo $messages["reason"] ?></th>
+                  <th><?php echo $messages["created_at"] ?></th>
+                  <th><?php echo $messages["created_from"] ?></th>
+                  <th><?php echo $messages["event"] ?></th>
                 </tr>
                 <tr>
                   <?php
@@ -51,11 +51,11 @@
                       echo "<tr>";
                       echo '<td>'.UUIDResolve($row["UUID"]).'</td>';
                       echo '<td>'.htmlspecialchars($row["REASON"]).'</td>';
-                      echo '<td>'.date('d.m.Y H:i',$row["CREATED_AT"]/1000).'</td>';
+                      echo '<td>'.date($messages["date_format"],$row["CREATED_AT"]/1000).'</td>';
                       if($row["REPORTER"] != "KONSOLE"){
                         echo '<td>'.UUIDResolve($row["REPORTER"]).'</td>';
                       } else {
-                        echo "<td>KONSOLE</td>";
+                        echo "<td>Console</td>";
                       }
                       echo '<td><a class="btn" href="reports.php?done&id='.$row["ID"].'"><i class="material-icons">done</i></a></td>';
                       echo "</tr>";
@@ -71,16 +71,16 @@
               ////////////////////////////////////////
               ?>
               <div class="flex-button">
-                <a href="reports.php" class="btn"><i class="fas fa-eye-slash"></i> Offene Reports</a>
+                <a href="reports.php" class="btn"><i class="fas fa-eye-slash"></i> <?php echo $messages["open_reports"] ?></a>
               </div>
-              <h1>Alle Reports</h1>
+              <h1><?php echo $messages["all_reports"] ?></h1>
               <table>
                 <tr>
-                  <th>Spieler</th>
-                  <th>Grund</th>
-                  <th>erstellt am</th>
-                  <th>erstellt von</th>
-                  <th>bearbeitet von</th>
+                  <th><?php echo $messages["player"] ?></th>
+                  <th><?php echo $messages["reason"] ?></th>
+                  <th><?php echo $messages["created_at"] ?></th>
+                  <th><?php echo $messages["created_from"] ?></th>
+                  <th><?php echo $messages["edited_by"] ?></th>
                   <th>Status</th>
                 </tr>
                 <tr>
@@ -92,7 +92,7 @@
                     echo "<tr>";
                     echo '<td>'.UUIDResolve($row["UUID"]).'</td>';
                     echo '<td>'.$row["REASON"].'</td>';
-                    echo '<td>'.date('d.m.Y H:i',$row["CREATED_AT"]/1000).'</td>';
+                    echo '<td>'.date($messages["date_format"],$row["CREATED_AT"]/1000).'</td>';
                     if($row["REPORTER"] != "KONSOLE"){
                       echo '<td>'.UUIDResolve($row["REPORTER"]).'</td>';
                     } else {
@@ -100,9 +100,9 @@
                     }
                     echo '<td>'.UUIDResolve($row["TEAM"]).'</td>';
                     if($row["STATUS"] == 0){
-                      echo '<td><p style="color: red;">Offen</td>';
+                      echo '<td><p style="color: red;">'.$messages["report_status_0"].'</td>';
                     } else {
-                      echo '<td><p style="color: green;">Erledigt</td>';
+                      echo '<td><p style="color: green;">'.$messages["report_status_1"].'</td>';
                     }
                     echo "</tr>";
                   }

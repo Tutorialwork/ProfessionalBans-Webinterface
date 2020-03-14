@@ -17,25 +17,24 @@ if(isset($_GET["id"]) && !empty($_GET["id"]) && isPlayerExists($_GET["id"])){
             $datetime2->setTimestamp(time() - $row["ONLINE_TIME"] / 1000);
             $interval = $datetime1->diff($datetime2);
             ?>
-            <p>Onlinezeit: <?php echo $interval->format('<strong>%a</strong> Tage, <strong>%h</strong> Stunden und <strong>%i</strong> Minuten'); ?></p>
+            <p><?php echo $messages["onlinetime"] . ": " . $interval->format('<strong>%a</strong> '.$messages["days"].', <strong>%h</strong> '.$messages["hours"].', <strong>%i</strong> '.$messages["minutes"].''); ?></p>
             <?php
             if($row["ONLINE_STATUS"] == 1){
                 ?>
-                <p><?php echo UUIDResolve($_GET["id"]) ?> ist zur Zeit <strong>ONLINE</strong></p>
+                <p><?php echo UUIDResolve($_GET["id"]) . " " . $messages["player_online_msg"] ?></p>
                 <p>Sein erster Login auf dem Netzwerk war am <strong><?php echo date('d.m.Y H:i',$row["FIRSTLOGIN"]/1000) ?></strong></p>
                 <?php
             } else {
                 ?>
-                <p><?php echo UUIDResolve($_GET["id"]) ?> wurde zuletzt am <strong><?php echo date('d.m.Y H:i',$row["LASTLOGIN"]/1000) ?></strong> gesehen.</p>
-                <p>Sein erster Login auf dem Netzwerk war am <strong><?php echo date('d.m.Y H:i',$row["FIRSTLOGIN"]/1000) ?></strong></p>
+                <p><?php echo UUIDResolve($_GET["id"])  . " " . str_replace("%date%", date($messages["date_format"],$row["LASTLOGIN"]/1000), $messages["player_offline_msg"]) ?></p>
                 <?php
             }
             ?>
             <table>
               <tr>
-                <th>Aktion</th>
-                <th>Von</th>
-                <th>Am</th>
+                <th><?php echo $messages["event"] ?></th>
+                <th><?php echo $messages["from"] ?></th>
+                <th><?php echo $messages["at"] ?></th>
               </tr>
               <?php
               $stmt = $mysql->prepare("SELECT * FROM log WHERE UUID = :id ORDER BY DATE DESC");
@@ -47,22 +46,22 @@ if(isset($_GET["id"]) && !empty($_GET["id"]) && isPlayerExists($_GET["id"])){
                     echo '<td><strong>';
                     switch($row["ACTION"]){
                       case "BAN":
-                        echo "wurde gebannt wegen ".htmlspecialchars(getReasonByReasonID($row["NOTE"]));
-                        break;
+                          echo str_replace("%text%", htmlspecialchars(getReasonByReasonID($row["NOTE"])), $messages["event_BAN"]);
+                          break;
                       case "UNBAN_BAN":
-                        echo "wurde entbannt";
+                          echo str_replace("%text%", "", $messages["event_UNBAN_BAN"]);
                         break;
                       case "MUTE":
-                        echo "wurde gemutet wegen ".htmlspecialchars(getReasonByReasonID($row["NOTE"]));
+                          echo str_replace("%text%", htmlspecialchars(getReasonByReasonID($row["NOTE"])), $messages["event_MUTE"]);
                         break;
                       case "UNBAN_MUTE":
-                        echo "wurde entmutet";
+                          echo str_replace("%text%", "", $messages["event_UNBAN_MUTE"]);
                         break;
                       case "AUTOMUTE_BLACKLIST":
-                        echo "wurde automatisch gemutet wegen seinem Verhalten (<strong>".$row["NOTE"]."</strong>)";
+                          echo str_replace("%text%", $row["NOTE"], $messages["event_AUTOMUTE_BLACKLIST"]);
                         break;
                       case "AUTOMUTE_ADBLACKLIST":
-                        echo "wurde automatisch gemutet wegen Werbung (<strong>".$row["NOTE"]."</strong>)";
+                          echo str_replace("%text%", $row["NOTE"], $messages["event_AUTOMUTE_ADBLACKLIST"]);
                         break;
                     }
                     echo '</strong></td>';
@@ -71,7 +70,7 @@ if(isset($_GET["id"]) && !empty($_GET["id"]) && isPlayerExists($_GET["id"])){
                     } else {
                       echo '<td>Konsole</td>';
                     }
-                    echo '<td>'.date('d.m.Y H:i',$row["DATE"]/1000).'</td>';
+                    echo '<td>'.date($messages["date_format"],$row["DATE"]/1000).'</td>';
                     echo "</tr>";
                   }
               }

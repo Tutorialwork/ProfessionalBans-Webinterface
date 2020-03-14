@@ -11,16 +11,19 @@
   <body>
     <form class="login" action="login.php" method="post">
       <?php
+      $lang = substr($_SERVER['HTTP_ACCEPT_LANGUAGE'], 0, 2);
+      if($lang == "de" || $lang == "ch" || $lang == "at"){
+          require("./languages/de.php");
+      } else {
+          require("./languages/en.php");
+      }
       if(isset($_POST["submit"])){
         require("./mysql.php");
         require("./datamanager.php");
         $stmt = $mysql->prepare("SELECT USERNAME FROM accounts WHERE USERNAME = :username");
         $stmt->bindParam(":username", $_POST['username'], PDO::PARAM_STR);
         $stmt->execute();
-        $data = 0;
-        while($row = $stmt->fetch()){
-              $data++;
-        }
+        $data = $stmt->rowCount();
         if($data == 1){
           $stmt = $mysql->prepare("SELECT * FROM accounts WHERE USERNAME = :username");
           $stmt->bindParam(":username", $_POST['username'], PDO::PARAM_STR);
@@ -46,7 +49,7 @@
             } else {
               ?>
               <div class="error">
-                <h4>Der Login ist fehlgeschlagen.</h4>
+                <h4><?php echo $messages["login_fail"] ?></h4>
               </div>
               <?php
             }
@@ -54,7 +57,7 @@
         } else {
           ?>
           <div class="error">
-            <h4>Der Login ist fehlgeschlagen.</h4>
+            <h4><?php echo $messages["login_fail"] ?></h4>
           </div>
           <?php
         }
@@ -62,9 +65,9 @@
        ?>
       <h1><i class="fas fa-user"></i> Login</h1>
       <input type="text" name="username" placeholder="Username" autocomplete="username" required><br>
-      <input type="password" name="password" placeholder="Passwort" autocomplete="current-password" required><br>
+      <input type="password" name="password" placeholder="<?php echo $messages["password"] ?>" autocomplete="current-password" required><br>
       <button type="submit" name="submit">Login</button><br><br><br>
-      <a href="recovery.php"><i class="fas fa-key"></i> Passwort vergessen?</a>
+      <a href="recovery.php"><i class="fas fa-key"></i> <?php echo $messages["forget_password"] ?></a>
     </form>
   </body>
 </html>

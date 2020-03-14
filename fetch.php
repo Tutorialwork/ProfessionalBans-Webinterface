@@ -1,4 +1,5 @@
 <?php
+require("./languages/en.php");
 if(isset($_GET["type"])){
 	if($_GET["type"] == "BAN"){
 		require("mysql.php");
@@ -121,11 +122,11 @@ if(isset($_GET["type"])){
 			$output .= '<table class="highlight">
 				<tr>
 					<th>ID</th>
-					<th>Spieler</th>
-					<th>erstellt von</th>
-	        <th>erstellt am</th>
+					<th>'.$messages['player'].'</th>
+					<th>'.$messages['created_from'].'</th>
+	        		<th>'.$messages['created_at'].'</th>
 					<th>Server</th>
-					<th>Aktionen</th>
+					<th>'.$messages['event'].'</th>
 				</tr>';
 			while($row = $stmt->fetch()){
 				if(!in_array($row["LOGID"], $logs)){
@@ -153,9 +154,9 @@ if(isset($_GET["type"])){
 			echo $output;
 		} else {
 			if(isset($_POST["query"])){
-				echo '<h3 style="color: red;">Es wurden keine Suchergebnisse gefunden die deiner Eingabe entsprechen!</h3>';
+				echo '<h3 style="color: red;">'.$messages["search_no_results"].'</h3>';
 			} else {
-				echo '<h3 style="color: red;">Es gibt derzeit keine Chatlogs!</h3>';
+				echo '<h3 style="color: red;">'.$messages["no_chatlogs_exists"].'</h3>';
 			}
 		}
 	} else if($_GET["type"] == "SORTINDEX"){
@@ -192,12 +193,12 @@ if(isset($_GET["type"])){
 			$output .= '<table class="highlight">
 				<tr>
 					<th>Name</th>
-					<th>Gebannt</th>
-					<th>Gemutet</th>
+					<th>'.$messages["banned"].'</th>
+					<th>'.$messages["muted"].'</th>
 	        		<th>Bans</th>
 					<th>Mutes</th>
-					<th>erster Login</th>
-					<th>letzter Login</th>
+					<th>'.$messages["firstlogin"].'</th>
+					<th>'.$messages["lastlogin"].'</th>
 					<th>Status</th>
 				</tr>';
 			while($row = $stmt->fetch()){
@@ -205,22 +206,22 @@ if(isset($_GET["type"])){
 	 				<td><a href="player.php?id='.$row["UUID"].'">'.$row["NAME"].'</a></td>
 	 				<td>';
 					 if($row["BANNED"] == 0){
-						 $output .= "Nein";
+						 $output .= $messages["no"];
 					 } else {
-						 $output .= "Ja, wegen ".htmlspecialchars($row["REASON"]);
+						 $output .= $messages["yes_because_of"]." ".htmlspecialchars($row["REASON"]);
 					 }
 					  $output .= '</td>
 	 				<td>';
 					 if($row["MUTED"] == 0){
-						 $output .= "Nein";
+						 $output .= $messages["no"];
 					 } else {
-						 $output .= "Ja, wegen ".htmlspecialchars($row["REASON"]);
+						 $output .= $messages["yes_because_of"]." ".htmlspecialchars($row["REASON"]);
 					 }
 					  $output .= '</td>
 	 				<td>'.$row["BANS"].'</td>
 	 				<td>'.$row["MUTES"].'</td>
-					<td>'.date('d.m.Y H:i',$row["FIRSTLOGIN"]/1000).'</td>
-					<td>'.date('d.m.Y H:i',$row["LASTLOGIN"]/1000).'</td>
+					<td>'.date($messages["date_format"],$row["FIRSTLOGIN"]/1000).'</td>
+					<td>'.date($messages["date_format"],$row["LASTLOGIN"]/1000).'</td>
 					<td>';
 					 if($row["ONLINE_STATUS"] == 0){
 						 $output .= '<p style="color: red;">Offline</p>';
@@ -233,7 +234,7 @@ if(isset($_GET["type"])){
 			echo $output;
 		} else {
 			if(isset($_POST["query"])){
-				echo '<h3 style="color: red;">Es wurden keine Suchergebnisse gefunden die deiner Eingabe entsprechen!</h3>';
+				echo '<h3 style="color: red;">'.$messages["search_no_results"].'</h3>';
 			} else {
 				echo '<h3 style="color: red;">Zurzeit gibt es keine Spieler!</h3>';
 			}
