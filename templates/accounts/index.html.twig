@@ -49,7 +49,7 @@
                                                 Yes
                                             {% endif %}
                                         </td>
-                                        <td><a class="btn btn-warning btn-sm" href="{{ path('accounts.manage') }}">
+                                        <td><a class="btn btn-warning btn-sm" href="{{ path('accounts.manage', {'username': user.username}) }}">
                                                 <i class="fas fa-edit"></i>
                                                 Manage
                                             </a>

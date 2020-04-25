@@ -28,20 +28,10 @@
             <div class="row">
                 <div class="col-12">
                     <div class="card">
-                        {{ form_start(role_manage) }}
-                        <div class="form-group">
-                            <div class="custom-control custom-switch custom-switch-off-danger custom-switch-on-success">
-                                {{ form_widget(role_manage.bans, { 'attr': {'class': 'custom-control-label'} }) }}
-                                {{ form_label(role_manage.bans) }}
-                            </div>
-                        </div>
-                        {{ form_end(role_manage) }}
-                        <div class="form-group">
-                            <div class="custom-control custom-switch custom-switch-off-danger custom-switch-on-success">
-                                <input type="checkbox" class="custom-control-input" id="customSwitch4">
-                                <label class="custom-control-label" for="customSwitch4">Toggle this custom switch element with custom colors danger/success</label>
-                            </div>
-                        </div>
+                        <br>
+                        <h5>Manage {{ username }}'s permissions</h5>
+                        <br>
+                        {{ form(role_manage) }}
                     </div>
                     <!-- /.card -->
 

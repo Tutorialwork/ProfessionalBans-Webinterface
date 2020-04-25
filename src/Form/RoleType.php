@@ -15,31 +15,27 @@ class RoleType extends AbstractType
         $builder
             ->add('bans', CheckboxType::class, [
                 'required' => false,
-                'label' => 'View bans',
-                'attr' => [
-                    'class' => 'custom-control'
-                ],
+                'label' => 'View/Edit bans',
             ])
             ->add('mutes', CheckboxType::class, [
                 'required' => false,
-                'label' => 'View mutes',
-                'attr' => [
-                    'class' => ''
-                ]
+                'label' => 'View/Edit mutes',
+            ])
+            ->add('reports', CheckboxType::class, [
+                'required' => false,
+                'label' => 'View/Edit reports',
+            ])
+            ->add('unban_requests', CheckboxType::class, [
+                'required' => false,
+                'label' => 'View/Edit unban requests',
             ])
             ->add('reasons', CheckboxType::class, [
                 'required' => false,
-                'label' => 'View reasons',
-                'attr' => [
-                    'class' => ''
-                ]
+                'label' => 'View/Edit reasons',
             ])
             ->add('admin', CheckboxType::class, [
                 'required' => false,
-                'label' => 'View admin section',
-                'attr' => [
-                    'class' => ''
-                ]
+                'label' => 'View/Edit admin section',
             ])
             ->add('submit', SubmitType::class, [
                 'label' => 'Speichern',
