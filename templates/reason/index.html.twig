@@ -1,0 +1,116 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Reasons{% endblock %}
+
+{% block body %}
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        <section class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                    <div class="col-sm-6">
+                        <h1>{{ 'nav_reasons'|trans }}</h1>
+                    </div>
+                    <div class="col-sm-6">
+                        <ol class="breadcrumb float-sm-right">
+                            <li class="breadcrumb-item"><a href="{{ path('home.index') }}">Home</a></li>
+                            <li class="breadcrumb-item active">{{ 'nav_reasons'|trans }}</li>
+                        </ol>
+                    </div>
+                </div>
+            </div><!-- /.container-fluid -->
+        </section>
+
+        <!-- Main content -->
+        <section class="content">
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <a class="btn btn-success btn-sm" href="{{ path('reason.add') }}">
+                                <i class="fas fa-plus">
+                                </i>
+                                {{ 'create'|trans }}
+                            </a>
+                        </div>
+                        <!-- /.card-header -->
+                        <div class="card-body">
+                            <table id="example2" class="table table-bordered table-hover">
+                                <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>{{ 'reason'|trans }}</th>
+                                    <th>{{ 'duration'|trans }}</th>
+                                    <th>{{ 'reasontype'|trans }}</th>
+                                    <th>{{ 'added_at'|trans }}</th>
+                                    <th>{{ 'uses'|trans }}</th>
+                                    <th>Permission</th>
+                                    <th>Action</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for reason in reasons %}
+                                    <tr>
+                                        <td>{{ reason.id}}</td>
+                                        <td>{{ reason.reason }}</td>
+                                        <td>{{ reason.FormattedTime }}</td>
+                                        <td>
+                                            {% if reason.type == 0 %}
+                                                Ban
+                                            {% else %}
+                                                Mute
+                                            {% endif %}
+                                        </td>
+                                        <td>{{ reason.addedat|format_datetime(locale="de") }}</td>
+                                        <td>{{ reason.bans }}</td>
+                                        <td>
+                                            {% if reason.perms == null %}
+                                                -
+                                            {% else %}
+                                                {{ reason.perms }}
+                                            {% endif %}
+                                        </td>
+                                        <td>
+                                            <a class="btn btn-warning btn-sm" href="{{ path('reason.edit', {'id': reason.id}) }}">
+                                                <i class="fas fa-edit"></i>
+                                                {{ 'edit'|trans }}
+                                            </a>
+                                            <a class="btn btn-danger btn-sm" href="{{ path('reason.delete', {'id': reason.id}) }}">
+                                                <i class="fas fa-trash">
+                                                </i>
+                                                {{ 'delete'|trans }}
+                                            </a>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                                <tfoot>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>{{ 'reason'|trans }}</th>
+                                    <th>{{ 'duration'|trans }}</th>
+                                    <th>{{ 'reasontype'|trans }}</th>
+                                    <th>{{ 'added_at'|trans }}</th>
+                                    <th>{{ 'uses'|trans }}</th>
+                                    <th>Permission</th>
+                                    <th>Action</th>
+                                </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                        <div class="navigation">
+                            {{ knp_pagination_render(reasons) }}
+                        </div>
+                        <!-- /.card-body -->
+                    </div>
+                    <!-- /.card -->
+
+                </div>
+                <!-- /.col -->
+            </div>
+            <!-- /.row -->
+        </section>
+        <!-- /.content -->
+    </div>
+{% endblock %}

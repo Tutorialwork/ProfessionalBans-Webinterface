@@ -1,0 +1,25 @@
+.pagination{
+    padding: 1%;
+    text-decoration: none;
+}
+.first, .previous, .page, .next, .last{
+    padding: .5%;
+    background: #F4F6F9;
+    font-size: 15px;
+    margin: 0 1%;
+    border-radius: 2px;
+}
+.current{
+    padding: .5%;
+    background: #A35757;
+    font-size: 15px;
+    margin: 0 1%;
+    border-radius: 2px;
+    color: #ffffff;
+}
+.first a, .previous a, .page a, .next a, .last a{
+    color: #333333;
+}
+.first a:hover, .previous a:hover, .page a:hover, .next a:hover, .last a:hover{
+    opacity: .5;
+}

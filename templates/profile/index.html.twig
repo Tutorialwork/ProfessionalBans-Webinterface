@@ -1,0 +1,181 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+
+    {% if player != null %}
+        {{ player.name }}
+    {% else %}
+        Not found
+    {% endif %}
+
+{% endblock %}
+
+{% block body %}
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        <section class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                    <div class="col-sm-6">
+                        <h1></h1>
+                    </div>
+                    <div class="col-sm-6">
+                        <ol class="breadcrumb float-sm-right">
+                            <li class="breadcrumb-item"><a href="{{ path('home.index') }}">Home</a></li>
+                            <li class="breadcrumb-item">Profiles</li>
+                            <li class="breadcrumb-item active">
+                                {% if player != null %}
+                                    {{ player.name }}
+                                {% else %}
+                                    Not found
+                                {% endif %}
+                            </li>
+                        </ol>
+                    </div>
+                </div>
+            </div><!-- /.container-fluid -->
+        </section>
+
+        {% if player != null %}
+
+        <!-- Main content -->
+        <section class="content">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-3">
+
+                        <!-- Profile Image -->
+                        <div class="card card-primary card-outline">
+                            <div class="card-body box-profile">
+                                <div class="text-center">
+                                    <img class="profile-user-img img-fluid img-circle"
+                                         src="https://minotar.net/armor/bust/{{ player.uUID }}/300.png"
+                                         alt="User profile picture">
+                                </div>
+
+                                <h3 class="profile-username text-center">{{ player.name }}</h3>
+
+                                <p class="text-muted text-center">
+                                    {% if user == null %}
+                                        Player
+                                    {% else %}
+                                        Teammember
+                                    {% endif %}
+                                </p>
+
+                                <ul class="list-group list-group-unbordered mb-3">
+                                    <li class="list-group-item">
+                                        <b>Punished</b> <a class="float-right">
+                                            {% if player.banned == 0 and player.muted == 0 %}
+                                                No
+                                            {% elseif player.banned == 1 %}
+                                                Banned
+                                            {% elseif player.muted == 1 %}
+                                                Muted
+                                            {% endif %}
+                                        </a>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <b>Bans</b> <a class="float-right">{{ player.bans }}</a>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <b>Mutes</b> <a class="float-right">{{ player.mutes }}</a>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <b>Onlinetime</b> <a class="float-right">{{ onlinetime }}</a>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <b>Lastlogin</b> <a class="float-right">{{ player.lastlogin|format_datetime(locale="de") }}</a>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <b>Member since</b> <a class="float-right">{{ player.firstlogin|format_datetime(locale="de") }}</a>
+                                    </li>
+                                </ul>
+
+                                <!-- <a href="#" class="btn btn-danger btn-block"><b>Ban</b></a> -->
+                            </div>
+                            <!-- /.card-body -->
+                        </div>
+                        <!-- /.card -->
+
+                    </div>
+                    <!-- /.col -->
+                    <div class="col-md-9">
+                        <div class="card">
+                            <div class="card-header p-2">
+                                <ul class="nav nav-pills">
+                                    <li class="nav-item"><a class="nav-link active" href="#activity" data-toggle="tab">History</a></li>
+                                    {% if app.user.username == player.name %}
+                                        <li class="nav-item"><a class="nav-link" href="#settings" data-toggle="tab">Settings</a></li>
+                                    {% endif %}
+                                </ul>
+                            </div><!-- /.card-header -->
+                            <div class="card-body">
+                                <div class="tab-content">
+                                    <div class="active tab-pane" id="activity">
+
+                                        <table id="example2" class="table table-bordered table-hover">
+                                            <thead>
+                                            <tr>
+                                                <th>Player</th>
+                                                <th>From</th>
+                                                <th>Event</th>
+                                                <th>Date</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            {% for log in logs %}
+                                                <tr>
+                                                    <td>{{ log.uUID}}</td>
+                                                    <td>{{ log.byUUID }}</td>
+                                                    <td>{{ log.action }}</td>
+                                                    <td>{{ log.date|format_datetime(locale="de") }}</td>
+                                                </tr>
+                                            {% endfor %}
+                                            </tbody>
+                                            <tfoot>
+                                            <tr>
+                                                <th>Players</th>
+                                                <th>From</th>
+                                                <th>Event</th>
+                                                <th>Date</th>
+                                            </tr>
+                                            </tfoot>
+                                        </table>
+
+                                        <div class="navigation">
+                                            {{ knp_pagination_render(logs) }}
+                                        </div>
+
+                                    </div>
+
+                                    {% if app.user.username == player.name %}
+                                    <div class="tab-pane" id="settings">
+                                        <h5>Change password</h5>
+                                        <br>
+                                        {{ form(changePasswordForm) }}
+                                    </div>
+                                    {% endif %}
+                                    <!-- /.tab-pane -->
+                                </div>
+                                <!-- /.tab-content -->
+                            </div><!-- /.card-body -->
+                        </div>
+                        <!-- /.nav-tabs-custom -->
+                    </div>
+                    <!-- /.col -->
+                </div>
+                <!-- /.row -->
+            </div><!-- /.container-fluid -->
+        </section>
+        <!-- /.content -->
+
+        {% else %}
+            The requested user was not found.
+        {% endif %}
+    </div>
+    <!-- /.content-wrapper -->
+
+    </div>
+{% endblock %}

@@ -1,0 +1,175 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Home{% endblock %}
+
+{% block body %}
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        <div class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                    <div class="col-sm-6">
+                        <h1 class="m-0 text-dark">Home</h1>
+                    </div><!-- /.col -->
+                    <div class="col-sm-6">
+                        <ol class="breadcrumb float-sm-right">
+                            <li class="breadcrumb-item active"><a href="#">Home</a></li>
+                        </ol>
+                    </div><!-- /.col -->
+                </div><!-- /.row -->
+            </div><!-- /.container-fluid -->
+        </div>
+        <!-- /.content-header -->
+
+        <!-- Main content -->
+        <div class="content">
+            <div class="container-fluid">
+                <div class="row">
+                    <!-- /.col -->
+                    <div class="col-md-3 col-sm-6 col-12">
+                        <div class="info-box">
+                            <span class="info-box-icon bg-info"><i class="fa fa-users"></i></span>
+
+                            <div class="info-box-content">
+                                <span class="info-box-text">{{ 'players'|trans }}</span>
+                                <span class="info-box-number">{{ players }}</span>
+                            </div>
+                            <!-- /.info-box-content -->
+                        </div>
+                        <!-- /.info-box -->
+                    </div>
+                    <!-- /.col -->
+                    <div class="col-md-3 col-sm-6 col-12">
+                        <div class="info-box">
+                            <span class="info-box-icon bg-success"><i class="fa fa-user"></i></span>
+
+                            <div class="info-box-content">
+                                <span class="info-box-text">{{ 'onplayers'|trans }}</span>
+                                <span class="info-box-number">{{ online_players }}</span>
+                            </div>
+                            <!-- /.info-box-content -->
+                        </div>
+                        <!-- /.info-box -->
+                    </div>
+                    <div class="col-md-3 col-sm-6 col-12">
+                        <div class="info-box">
+                            <span class="info-box-icon bg-danger"><i class="fa fa-ban"></i></span>
+
+                            <div class="info-box-content">
+                                <span class="info-box-text">Bans</span>
+                                <span class="info-box-number">{{ bans_count }}</span>
+                            </div>
+                            <!-- /.info-box-content -->
+                        </div>
+                        <!-- /.info-box -->
+                    </div>
+                    <!-- /.col -->
+                    <div class="col-md-3 col-sm-6 col-12">
+                        <div class="info-box">
+                            <span class="info-box-icon bg-danger"><i class="fas fa-volume-mute"></i></span>
+
+                            <div class="info-box-content">
+                                <span class="info-box-text">Mutes</span>
+                                <span class="info-box-number">{{ mute_count }}</span>
+                            </div>
+                            <!-- /.info-box-content -->
+                        </div>
+                        <!-- /.info-box -->
+                    </div>
+                    <!-- /.col -->
+                    <div class="col-md-3 col-sm-6 col-12">
+                        <div class="info-box">
+                            <span class="info-box-icon bg-secondary"><i class="fa fa-globe"></i></span>
+
+                            <div class="info-box-content">
+                                <span class="info-box-text">{{ 'ontime_total'|trans }}</span>
+                                <span class="info-box-number">{{ onlinetime }}</span>
+                            </div>
+                            <!-- /.info-box-content -->
+                        </div>
+                        <!-- /.info-box -->
+                    </div>
+                    <!-- /.col -->
+                    <div class="col-md-3 col-sm-6 col-12">
+                        <div class="info-box">
+                            <span class="info-box-icon bg-secondary"><i class="fas fa-exclamation-circle"></i></span>
+
+                            <div class="info-box-content">
+                                <span class="info-box-text">{{ 'punish_today'|trans }}</span>
+                                <span class="info-box-number">93,139</span>
+                            </div>
+                            <!-- /.info-box-content -->
+                        </div>
+                        <!-- /.info-box -->
+                    </div>
+                    <!-- /.col -->
+                    <!-- /.col -->
+                    <div class="col-md-3 col-sm-6 col-12">
+                        <div class="info-box">
+                            <span class="info-box-icon bg-secondary"><i class="fas fa-user-shield"></i></span>
+
+                            <div class="info-box-content">
+                                <span class="info-box-text">{{ 'teammembers'|trans }}</span>
+                                <span class="info-box-number">{{ teammembers }}</span>
+                            </div>
+                            <!-- /.info-box-content -->
+                        </div>
+                        <!-- /.info-box -->
+                    </div>
+                    <!-- /.col -->
+                </div>
+                <!-- /.row -->
+
+                <div class="card card-primary card-outline m-10">
+                    <div class="card-header">
+                        <h5 class="m-0">{{ 'last_activities'|trans }}</h5>
+                    </div>
+                    <div class="card-body">
+
+                        <table id="example2" class="table table-bordered table-hover">
+                            <thead>
+                            <tr>
+                                <th>{{ 'player'|trans }}</th>
+                                <th>{{ 'from'|trans }}</th>
+                                <th>{{ 'event'|trans }}</th>
+                                <th>{{ 'time'|trans }}</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for log in logs %}
+                                <tr>
+                                    <td><a href="{{ path('profile.user', {'user': log.uUID}) }}">{{ log.uUID}}</a></td>
+                                    {% if log.byUUID != null %}
+                                        <td><a href="{{ path('profile.user', {'user': log.byUUID}) }}">{{ log.byUUID}}</a></td>
+                                    {% else %}
+                                        <td>-</td>
+                                    {% endif %}
+                                    <td>{{ log.action }}</td>
+                                    <td>{{ log.date|format_datetime(locale="de") }}</td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                            <tfoot>
+                            <tr>
+                                <th>{{ 'player'|trans }}</th>
+                                <th>{{ 'from'|trans }}</th>
+                                <th>{{ 'event'|trans }}</th>
+                                <th>{{ 'time'|trans }}</th>
+                            </tr>
+                            </tfoot>
+                        </table>
+
+                        <div class="navigation">
+                            {{ knp_pagination_render(logs) }}
+                        </div>
+
+                    </div>
+                </div>
+
+            </div><!-- /.container-fluid -->
+        </div>
+        <!-- /.content -->
+    </div>
+    <!-- /.content-wrapper -->
+{% endblock %}

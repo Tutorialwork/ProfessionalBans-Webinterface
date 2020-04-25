@@ -1,0 +1,70 @@
+#Home
+players: Players
+onplayers: Online Players
+ontime_total: Onlinetime total
+punish_today: Punished today
+teammembers: Teammembers
+from: From
+event: Event
+last_activities: Last activities
+
+account_not_exits: The account does not exists
+account_deleted: The accounts was deleted
+#Actions
+event_BAN: was banned because of %text%
+event_MUTE: was muted because of %text%
+event_ADD_WORD_BLACKLIST: banned the word %text%
+event_DEL_WORD_BLACKLIST: unban the word %text%
+event_CREATE_CHATLOG: created a Chatlog (%text%)
+event_IPBAN_IP: banned the IP %text%
+event_IPBAN_PLAYER: banned the IP because of %text%
+event_KICK: was kicked because of %text%
+event_REPORT: was reported because of %text%
+event_REPORT_OFFLINE: was reported offline because of %text%
+event_REPORT_ACCEPT: has accepted the report %text%
+event_UNBAN_IP: unbanned the IP %text%
+event_UNBAN_BAN: was unbanned
+event_UNBAN_MUTE: was unmuted
+event_ADD_WEBACCOUNT: has created a webaccount with the rank %text%
+event_DEL_WEBACCOUNT: has deleted the webaccount
+event_AUTOMUTE_ADBLACKLIST: was auto muted because of ads (%text%)
+event_AUTOMUTE_BLACKLIST: was auto muted because of his chat behavior (%text%)
+#Navbar
+nav_overview: Overview
+nav_unbanrequests: Unbanrequests
+nav_reasons: Reasons
+nav_invites: Invitecodes
+#User Navbar
+nav_unbanrequest: Unbanrequest
+nav_imprint: Imprint
+nav_privacy: Privacy
+#Unban request
+player: Player
+fair_question: Do you you think your ban was fair?
+fair_answer_1: Yes, I want request a unban
+fair_answer_0: No, I think the punishment was a mistake
+message: Message
+unban_date: Unbanrequest created at
+ban_end: Ban ends at
+datepicker: Select new end for ban
+date: Date
+time: Time
+save: Save
+#Reasons
+minutes: Minutes
+hours: Hours
+days: Days
+create: Create
+reason: Reason
+add_reason: Add new reason
+duration: Time
+reasontype: Reasontype
+added_at: Added at
+uses: Uses
+edit: Edit
+delete: Delete
+unittype: Unittype
+type: Type
+add: Add
+err_time: Please enter a time for temporary bans
+success_added: The reason was successfully added

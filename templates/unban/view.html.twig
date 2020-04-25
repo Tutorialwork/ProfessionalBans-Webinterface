@@ -1,0 +1,114 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ 'nav_unbanrequests'|trans }}{% endblock %}
+
+{% block body %}
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        <section class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                    <div class="col-sm-6">
+                        <h1>{{ 'nav_unbanrequests'|trans }}</h1>
+                    </div>
+                    <div class="col-sm-6">
+                        <ol class="breadcrumb float-sm-right">
+                            <li class="breadcrumb-item"><a href="{{ path('home.index') }}">Home</a></li>
+                            <li class="breadcrumb-item active">{{ 'nav_unbanrequests'|trans }}</li>
+                        </ol>
+                    </div>
+                </div>
+            </div><!-- /.container-fluid -->
+        </section>
+
+        <!-- Main content -->
+        <section class="content">
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <!-- /.card-header -->
+                        <div class="card-body">
+                            <h3>{{ 'player'|trans }}</h3>
+                            <p>{{ unban.uuid }}</p>
+                            <br>
+                            <h3>{{ 'fair_question'|trans }}</h3>
+                            <p>
+                                {% if unban.fair == 1 %}
+                                    {{ 'fair_answer_1'|trans }}
+                                {% else %}
+                                    {{ 'fair_answer_0'|trans }}
+                                {% endif %}
+                            </p>
+                            <br>
+                            <h3>{{ 'message'|trans }}</h3>
+                            <p>{{ unban.message }}</p>
+                            <br>
+                            <h3>{{ 'unban_date'|trans }}</h3>
+                            <p>{{ unban.date|format_datetime(locale="de") }}</p>
+                            <br>
+                            <h3>{{ 'ban_end'|trans }}</h3>
+                            <p>{{ player.end|format_datetime(locale="de") }}</p>
+                            <br>
+                            {{ form_start(form) }}
+                            <div id="datepicker" style="display: none">
+                                <h3>{{ 'datepicker'|trans }}</h3>
+                                <br>
+                                <div class="container">
+                                    <p>{{ 'date'|trans }}</p>
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            {{ form_widget(form.endpicker.date.day, {'attr': {'class': 'form-control'}}) }}
+                                        </div>
+                                        <div class="col-md-4">
+                                            {{ form_widget(form.endpicker.date.month, {'attr': {'class': 'form-control'}}) }}
+                                        </div>
+                                        <div class="col-md-4">
+                                            {{ form_widget(form.endpicker.date.year, {'attr': {'class': 'form-control'}}) }}
+                                        </div>
+                                    </div>
+                                </div>
+                                <br>
+                                <div class="container">
+                                    <p>{{ 'time'|trans }}</p>
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            {{ form_widget(form.endpicker.time.hour, {'attr': {'class': 'form-control'}}) }}
+                                        </div>
+                                        <div class="col-md-8">
+                                            {{ form_widget(form.endpicker.time.minute, {'attr': {'class': 'form-control'}}) }}
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <br>
+                            {{ form_widget(form.status) }}
+                            <br>
+                            {{ form_widget(form.submit) }}
+                            {{ form_end(form) }}
+                            <script>
+                                function toggleDateField() {
+                                    var datepicker = document.getElementById('datepicker');
+                                    var choice = document.getElementById('unbanrequest_status');
+
+                                    if(choice.selectedIndex == 1){
+                                        datepicker.style.display = "block";
+                                    } else {
+                                        datepicker.style.display = "none";
+                                    }
+                                }
+                            </script>
+                        </div>
+                        <!-- /.card-body -->
+                    </div>
+                    <!-- /.card -->
+
+                </div>
+                <!-- /.col -->
+            </div>
+            <!-- /.row -->
+        </section>
+        <!-- /.content -->
+    </div>
+{% endblock %}

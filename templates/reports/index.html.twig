@@ -1,0 +1,93 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Reports{% endblock %}
+
+{% block body %}
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        <section class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                    <div class="col-sm-6">
+                        <h1>Reports</h1>
+                    </div>
+                    <div class="col-sm-6">
+                        <ol class="breadcrumb float-sm-right">
+                            <li class="breadcrumb-item"><a href="{{ path('home.index') }}">Home</a></li>
+                            <li class="breadcrumb-item active">Reports</li>
+                        </ol>
+                    </div>
+                </div>
+            </div><!-- /.container-fluid -->
+        </section>
+
+        <!-- Main content -->
+        <section class="content">
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <a class="btn btn-secondary btn-sm" href="{{ path('reports.archive') }}">
+                                <i class="fas fa-archive"></i>
+                                Archive
+                            </a>
+                            <a class="btn btn-success btn-sm" href="{{ path('chatlog.index') }}">
+                                <i class="fas fa-comments"></i>
+                                Chatlogs
+                            </a>
+                        </div>
+                        <!-- /.card-header -->
+                        <div class="card-body">
+                            <table id="example2" class="table table-bordered table-hover">
+                                <thead>
+                                <tr>
+                                    <th>Reported</th>
+                                    <th>Reported by</th>
+                                    <th>Reason</th>
+                                    <th>Chatlog</th>
+                                    <th>Created at</th>
+                                    <th>Action</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for report in reports %}
+                                    <tr>
+                                        <td>{{ report.uuid }}</td>
+                                        <td>{{ report.reporter }}</td>
+                                        <td>{{ report.reason }}</td>
+                                        <td>{{ report.log }}</td>
+                                        <td>{{ report.createdAt|format_datetime(locale="de") }}</td>
+                                        <td><a class="btn btn-danger btn-sm" href="{{ path('reports.delete', {'id': report.id}) }}">
+                                                <i class="fas fa-trash">
+                                                </i>
+                                                Done
+                                            </a>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                                <tfoot>
+                                <tr>
+                                    <th>Reported</th>
+                                    <th>Reported by</th>
+                                    <th>Reason</th>
+                                    <th>Chatlog</th>
+                                    <th>Created at</th>
+                                    <th>Action</th>
+                                </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                        <!-- /.card-body -->
+                    </div>
+                    <!-- /.card -->
+
+                </div>
+                <!-- /.col -->
+            </div>
+            <!-- /.row -->
+        </section>
+        <!-- /.content -->
+    </div>
+{% endblock %}

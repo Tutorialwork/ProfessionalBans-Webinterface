@@ -1,0 +1,70 @@
+#Home
+players: Spieler
+onplayers: Online Spieler
+ontime_total: Onlinezeit Gesamt
+punish_today: Bestrafte Spieler heute
+teammembers: Teammitglieder
+from: Von
+event: Ereignis
+last_activities: Letzte Aktivitäten
+
+account_not_exits: Der Account exisitiert nicht
+account_deleted: Der Account wurde gelöscht
+#Actions
+event_BAN: wurde gebannt wegen %text%
+event_MUTE: wurde gemutet wegen %text%
+event_ADD_WORD_BLACKLIST: hat das Wort %text% verboten
+event_DEL_WORD_BLACKLIST: hat das Wort %text% erlaubt
+event_CREATE_CHATLOG: hat einen Chatlog (%text%) erstellt
+event_IPBAN_IP: hat die IP %text% gebannt
+event_IPBAN_PLAYER: wurde IP gebannt wegen %text%
+event_KICK: wurde gekickt wegen %text%
+event_REPORT: wurde gemeldet wegen %text%
+event_REPORT_OFFLINE: wurde offline gemeldet wegen %text%
+event_REPORT_ACCEPT: hat einen Report angenommen %text%
+event_UNBAN_IP: hat die IP %text% entbannt
+event_UNBAN_BAN: wurde entbannt
+event_UNBAN_MUTE: wurde entmutet
+event_ADD_WEBACCOUNT: hat einen Webaccount mit dem Rang %text% erstellt
+event_DEL_WEBACCOUNT: hat den Webaccount gelöscht
+event_AUTOMUTE_ADBLACKLIST: wurde automatisch gemutet wegen Werbung (%text%)
+event_AUTOMUTE_BLACKLIST: wurde automatisch gemutet wegen seinem Verhalten (%text%)
+#Navbar
+nav_overview: Übersicht
+nav_unbanrequests: Entbannungsanträge
+nav_reasons: Bangründe
+nav_invites: Einladungscodes
+#User Navbar
+nav_unbanrequest: Entbannungsantrag
+nav_imprint: Impressum
+nav_privacy: Datenschutz
+#Unban request
+player: Spieler
+fair_question: Glaubst du der Ban war gerechtfertigt?
+fair_answer_1: Ja, aber ich sehe meinen Fehler ein
+fair_answer_0: Nein, ich denke das war ein Fehlban
+message: Nachricht
+unban_date: Entbannungsantrag erstellt am
+ban_end: Ban endet am
+datepicker: Neues Banende auswählen
+date: Datum
+time: Uhrzeit
+save: Speichern
+#Reasons
+minutes: Minuten
+hours: Stunden
+days: Tage
+create: Erstellen
+reason: Grund
+add_reason: Neuen Bangrund hinzufügen
+duration: Zeit
+reasontype: Grundtyp
+added_at: Hinzugefügt am
+uses: Nutzungen
+edit: Bearbeiten
+delete: Löschen
+unittype: Einheittyp
+type: Typ
+add: Hinzufügen
+err_time: Bitte gebe eine Dauer für temporäre Bans ein
+success_added: Der Bangrund wurde erfolgreich hinzugefügt

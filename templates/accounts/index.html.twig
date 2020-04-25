@@ -1,0 +1,87 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Accounts{% endblock %}
+
+{% block body %}
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        <section class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                    <div class="col-sm-6">
+                        <h1>Accounts</h1>
+                    </div>
+                    <div class="col-sm-6">
+                        <ol class="breadcrumb float-sm-right">
+                            <li class="breadcrumb-item"><a href="{{ path('home.index') }}">Home</a></li>
+                            <li class="breadcrumb-item">Administration</li>
+                            <li class="breadcrumb-item active">Accounts</li>
+                        </ol>
+                    </div>
+                </div>
+            </div><!-- /.container-fluid -->
+        </section>
+
+        <!-- Main content -->
+        <section class="content">
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <table id="example2" class="table table-bordered table-hover">
+                                <thead>
+                                <tr>
+                                    <th>Username</th>
+                                    <th>Two-factor authentication</th>
+                                    <th>Permissions</th>
+                                    <th>Action</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for user in users %}
+                                    <tr>
+                                        <td>{{ user.username}}</td>
+                                        <td>
+                                            {% if user.auth == 0 %}
+                                                No
+                                            {% else %}
+                                                Yes
+                                            {% endif %}
+                                        </td>
+                                        <td><a class="btn btn-warning btn-sm" href="{{ path('accounts.manage') }}">
+                                                <i class="fas fa-edit"></i>
+                                                Manage
+                                            </a>
+                                        </td>
+                                        <td><a class="btn btn-danger btn-sm" href="{{ path('accounts.delete', {'id': user.id}) }}">
+                                                <i class="fas fa-trash">
+                                                </i>
+                                                Delete
+                                            </a>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                                <tfoot>
+                                <tr>
+                                    <th>Username</th>
+                                    <th>Two-factor authentication</th>
+                                    <th>Permissions</th>
+                                    <th>Action</th>
+                                </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                        <!-- /.card-body -->
+                    </div>
+                    <!-- /.card -->
+
+                </div>
+                <!-- /.col -->
+            </div>
+            <!-- /.row -->
+        </section>
+        <!-- /.content -->
+    </div>
+{% endblock %}
