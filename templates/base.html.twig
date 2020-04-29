@@ -161,20 +161,6 @@
         <!-- /.sidebar -->
     </aside>
 
-    {% for message in app.session.flashbag.get('error') %}
-        <div class="alert alert-danger">
-            <h4><i class="icon fa fa-ban"></i> Error!</h4>
-            {{ message }}
-        </div>
-    {% endfor %}
-
-    {% for message in app.session.flashbag.get('success') %}
-        <div class="alert alert-success">
-            <h4><i class="icon fa fa-check"></i> Success!</h4>
-            {{ message }}
-        </div>
-    {% endfor %}
-
     {% block body %}{% endblock %}
 
     <!-- Main Footer -->

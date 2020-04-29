@@ -8,6 +8,7 @@ from: Von
 event: Ereignis
 last_activities: Letzte Aktivitäten
 
+success: Erfolgreich
 account_not_exits: Der Account exisitiert nicht
 account_deleted: Der Account wurde gelöscht
 #Actions

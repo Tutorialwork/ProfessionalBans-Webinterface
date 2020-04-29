@@ -33,7 +33,7 @@ class RoleType extends AbstractType
                 'required' => false,
                 'label' => 'View/Edit reasons',
             ])
-            ->add('admin', CheckboxType::class, [
+            ->add('ROLE_PAGE_ADMIN', CheckboxType::class, [
                 'required' => false,
                 'label' => 'View/Edit admin section',
             ])

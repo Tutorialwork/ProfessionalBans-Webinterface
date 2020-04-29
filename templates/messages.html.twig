@@ -1,0 +1,17 @@
+{% for message in app.session.flashbag.get('error') %}
+    <div class="p-2">
+        <div class="alert alert-danger">
+            <h4><i class="icon fa fa-ban"></i> Error</h4>
+            {{ message }}
+        </div>
+    </div>
+{% endfor %}
+
+{% for message in app.session.flashbag.get('success') %}
+    <div class="p-2">
+        <div class="alert alert-success p">
+            <h4><i class="icon fa fa-check"></i> {{ 'success'|trans }}</h4>
+            {{ message }}
+        </div>
+    </div>
+{% endfor %}

@@ -61,7 +61,7 @@ class AccountsController extends AbstractController
     public function manage($username, Request $request){
         $user = $this->userRepository->findOneBy(['username' => $username]);
         if($user){
-            $form = $this->createForm(RoleType::class);
+            $form = $this->createForm(RoleType::class, $user->getRoles());
             $form->handleRequest($request);
             if($form->isSubmitted() && $form->isValid()){
                 $roles = $user->getRoles();

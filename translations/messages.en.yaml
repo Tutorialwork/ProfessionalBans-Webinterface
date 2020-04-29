@@ -8,6 +8,7 @@ from: From
 event: Event
 last_activities: Last activities
 
+sucess: Success
 account_not_exits: The account does not exists
 account_deleted: The accounts was deleted
 #Actions
