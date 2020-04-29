@@ -36,14 +36,16 @@ security:
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
-        - { path: ^/admin, roles: ROLE_ADMIN }
         - { path: ^/$, roles: ROLE_USER }
         - { path: ^/ban, roles: ROLE_PAGE_BAN }
         - { path: ^/mutes, roles: ROLE_PAGE_MUTE }
+        - { path: ^/reports, roles: ROLE_PAGE_REPORTS }
+        - { path: ^/unbans, roles: ROLE_PAGE_UNBANS }
         - { path: ^/reasons, roles: ROLE_PAGE_REASON }
+        - { path: ^/admin, roles: ROLE_PAGE_ADMIN }
         - { path: ^/accounts, roles: ROLE_PAGE_ADMIN }
         - { path: ^/invites, roles: ROLE_PAGE_ADMIN }
     role_hierarchy:
         ROLE_SUPER_ADMIN: ROLE_ADMIN
-        ROLE_ADMIN: [ROLE_PAGE_BAN, ROLE_PAGE_MUTE, ROLE_PAGE_REASON, ROLE_PAGE_ADMIN]
+        ROLE_ADMIN: [ROLE_PAGE_BAN, ROLE_PAGE_MUTE, ROLE_PAGE_REPORTS, ROLE_PAGE_UNBANS, ROLE_PAGE_REASON, ROLE_PAGE_ADMIN]
         ROLE_SUPPORTER: [ROLE_PAGE_BAN, ROLE_PAGE_MUTE]

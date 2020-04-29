@@ -13,23 +13,23 @@ class RoleType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('bans', CheckboxType::class, [
+            ->add('ROLE_PAGE_BAN', CheckboxType::class, [
                 'required' => false,
                 'label' => 'View/Edit bans',
             ])
-            ->add('mutes', CheckboxType::class, [
+            ->add('ROLE_PAGE_MUTE', CheckboxType::class, [
                 'required' => false,
                 'label' => 'View/Edit mutes',
             ])
-            ->add('reports', CheckboxType::class, [
+            ->add('ROLE_PAGE_REPORTS', CheckboxType::class, [
                 'required' => false,
                 'label' => 'View/Edit reports',
             ])
-            ->add('unban_requests', CheckboxType::class, [
+            ->add('ROLE_PAGE_UNBANS', CheckboxType::class, [
                 'required' => false,
                 'label' => 'View/Edit unban requests',
             ])
-            ->add('reasons', CheckboxType::class, [
+            ->add('ROLE_PAGE_REASON', CheckboxType::class, [
                 'required' => false,
                 'label' => 'View/Edit reasons',
             ])
