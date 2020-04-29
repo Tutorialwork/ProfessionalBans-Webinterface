@@ -126,12 +126,33 @@ class ReasonController extends AbstractController
     /**
      * @Route("/edit/{id}", name="edit")
      */
-    public function edit($id){
+    public function edit($id, Request $request){
         $reason = $this->reasonRepository->findOneBy(['id' => $id]);
 
-        $form = $this->createForm(EditReasonType::class);
+        $form = $this->createForm(ReasonType::class, $reason);
+        $form->handleRequest($request);
+        if($form->isSubmitted() && $form->isValid()){
+            $time = $reason->getTime();
+            switch ($reason->getRealUnitType()){
+                case 1:
+                    //Hours
+                    $time = $time * 60;
+                    break;
+                case 2:
+                    //Days
+                    $time = $time * 24 * 60;
+                    break;
+                case 3:
+                    //Permanent
+                    $time = -1;
+                    break;
+            }
+            $reason->setTime($time);
 
-        $em = $this->getDoctrine()->getManager();
+            $em = $this->getDoctrine()->getManager();
+            $em->flush();
+            return $this->redirectToRoute('reason.index');
+        }
 
         if(!$reason){
             $this->addFlash('error', 'Reason not found');

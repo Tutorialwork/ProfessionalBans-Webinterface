@@ -68,3 +68,4 @@ type: Typ
 add: Hinzufügen
 err_time: Bitte gebe eine Dauer für temporäre Bans ein
 success_added: Der Bangrund wurde erfolgreich hinzugefügt
+edit_reason: Bangrund bearbeiten

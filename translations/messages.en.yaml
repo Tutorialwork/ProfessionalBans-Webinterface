@@ -68,3 +68,4 @@ type: Type
 add: Add
 err_time: Please enter a time for temporary bans
 success_added: The reason was successfully added
+edit_reason: Edit reason

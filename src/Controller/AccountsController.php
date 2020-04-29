@@ -67,22 +67,34 @@ class AccountsController extends AbstractController
                 $roles = $user->getRoles();
 
                 if($form->get('bans')->getData()){
-                    array_push($roles, "ROLE_PAGE_BANS");
+                    if(!$this->duplicatChecker($roles, "ROLE_PAGE_BANS")){
+                        array_push($roles, "ROLE_PAGE_BANS");
+                    }
                 }
                 if($form->get('mutes')->getData()){
-                    array_push($roles, "ROLE_PAGE_MUTES");
+                    if(!$this->duplicatChecker($roles, "ROLE_PAGE_MUTES")){
+                        array_push($roles, "ROLE_PAGE_MUTES");
+                    }
                 }
                 if($form->get('reports')->getData()){
-                    array_push($roles, "ROLE_PAGE_REPORTS");
+                    if(!$this->duplicatChecker($roles, "ROLE_PAGE_REPORTS")){
+                        array_push($roles, "ROLE_PAGE_REPORTS");
+                    }
                 }
                 if($form->get('unban_requests')->getData()){
-                    array_push($roles, "ROLE_PAGE_UNBANS");
+                    if(!$this->duplicatChecker($roles, "ROLE_PAGE_UNBANS")){
+                        array_push($roles, "ROLE_PAGE_UNBANS");
+                    }
                 }
                 if($form->get('reasons')->getData()){
-                    array_push($roles, "ROLE_PAGE_REASONS");
+                    if(!$this->duplicatChecker($roles, "ROLE_PAGE_REASONS")){
+                        array_push($roles, "ROLE_PAGE_REASONS");
+                    }
                 }
                 if($form->get('admin')->getData()){
-                    array_push($roles, "ROLE_PAGE_ADMIN");
+                    if(!$this->duplicatChecker($roles, "ROLE_PAGE_ADMIN")){
+                        array_push($roles, "ROLE_PAGE_ADMIN");
+                    }
                 }
 
                 $user->setRoles($roles);
@@ -102,6 +114,15 @@ class AccountsController extends AbstractController
         } else {
             $this->addFlash('error', $this->translator->trans('account_not_exits'));
             return $this->redirectToRoute('accounts.index');
+        }
+    }
+
+    private function duplicatChecker($roles, $role_name){
+        $repsonse_array = array_keys($roles, $role_name);
+        if(count($repsonse_array) == 0){
+            return false;
+        } else {
+            return true;
         }
     }
 }

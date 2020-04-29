@@ -63,7 +63,7 @@ class ReasonType extends AbstractType
                 'required' => false
             ])
             ->add('submit', SubmitType::class, [
-                'label' => 'add',
+                'label' => 'save',
                 'attr' => [
                     'class' => 'btn btn-primary'
                 ]

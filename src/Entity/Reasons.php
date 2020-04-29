@@ -126,10 +126,14 @@ class Reasons
 
     public function getFormattedTime()
     {
+        if($this->Time == -1){
+            return "Permanent";
+        }
         $timePunish = new DateTime();
         $timePunish->setTimestamp(time() - $this->Time * 60);
         $now = new DateTime();
         $diff = $now->diff($timePunish, true);
+        /*
         if($diff->d != 0 && $diff->h != 0 && $diff->i != 0){
             return $diff->d . " days, " . $diff->h . " hours and " . $diff->i ." minutes";
         } else if($diff->d == 0 && $diff->h != 0 && $diff->i != 0){
@@ -141,5 +145,48 @@ class Reasons
         } else if($diff->d != 0 && $diff->h == 0 && $diff->i == 0){
             return $diff->d ." days";
         }
+        */
+        dump($diff);
+        //$all = $diff->format('%y years %m months %a days %h hours %i minutes %s seconds');
+
+        $years = (int) $diff->format('%y');
+        $months = (int) $diff->format('%m');
+        $days = (int) $diff->format('%a');
+        $hours = (int) $diff->format('%h');
+        $mintues = (int) $diff->format('%i');
+
+        $str = "";
+        if($days != 0){
+            $str .= $days . " days, ";
+        }
+        if($hours != 0){
+            $str .= $hours . " hours, ";
+        }
+        if($mintues != 0){
+            $str .= $mintues . " minutes";
+        }
+
+        return $str;
+    }
+
+    /*
+     * Dummy function for form
+     */
+    private $UnitType;
+
+    public function getUnitType(){
+        if($this->getTime() != -1){
+            return 0;
+        } else {
+            return 3;
+        }
+    }
+
+    public function getRealUnitType(){
+        return $this->UnitType;
+    }
+
+    public function setUnitType($type){
+        $this->UnitType = $type;
     }
 }
