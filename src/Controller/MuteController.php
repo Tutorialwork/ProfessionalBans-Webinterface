@@ -11,6 +11,7 @@ use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
  * @Route("/mutes", name="mute.")
@@ -22,13 +23,15 @@ class MuteController extends AbstractController
     private $reasonRepository;
     private $userRepository;
     private $paginator;
+    private $translator;
 
-    public function __construct(BansRepository $bansRepository, ReasonRepository $reasonRepository, UserRepository $userRepository, PaginatorInterface $paginator)
+    public function __construct(BansRepository $bansRepository, ReasonRepository $reasonRepository, UserRepository $userRepository, PaginatorInterface $paginator, TranslatorInterface $translator)
     {
         $this->bansRepository = $bansRepository;
         $this->reasonRepository = $reasonRepository;
         $this->userRepository = $userRepository;
         $this->paginator = $paginator;
+        $this->translator = $translator;
     }
 
     /**
@@ -67,33 +70,37 @@ class MuteController extends AbstractController
             $reason = $form->get('Reason')->getData();
 
             if($ban){
-                if($ban->getBanned() == 0){
-                    /*
-                    * Calc when ban ends
-                    */
-                    if($reason->getTime() != -1){
-                        $banTime = $reason->getTime() * 60 * 1000;
-                        $now = time() * 1000;
-                        $endTime = $now + $banTime;
+                if($reason){
+                    if($ban->getBanned() == 0){
+                        /*
+                        * Calc when ban ends
+                        */
+                        if($reason->getTime() != -1){
+                            $banTime = $reason->getTime() * 60 * 1000;
+                            $now = time() * 1000;
+                            $endTime = $now + $banTime;
+                        } else {
+                            $endTime = -1;
+                        }
+
+                        $ban->setMuted(1);
+                        $ban->setReason($reason->getReason());
+                        $ban->setEnd($endTime);
+                        $ban->setTeamUUID($authedUser->getUuid());
+
+                        $em = $this->getDoctrine()->getManager();
+                        $em->persist($ban);
+                        $em->flush();
+
+                        return $this->redirectToRoute("mute.index");
                     } else {
-                        $endTime = -1;
+                        $this->addFlash("error", $this->translator->trans('already_muted'));
                     }
-
-                    $ban->setMuted(1);
-                    $ban->setReason($reason->getReason());
-                    $ban->setEnd($endTime);
-                    $ban->setTeamUUID($authedUser->getUuid());
-
-                    $em = $this->getDoctrine()->getManager();
-                    $em->persist($ban);
-                    $em->flush();
-
-                    return $this->redirectToRoute("mute.index");
                 } else {
-                    $this->addFlash("error", "This player is already banned");
+                    $this->addFlash('error', $this->translator->trans('select_reason'));
                 }
             } else {
-                $this->addFlash("error", "This player could not found");
+                $this->addFlash("error", $this->translator->trans('player_not_found'));
             }
         }
 

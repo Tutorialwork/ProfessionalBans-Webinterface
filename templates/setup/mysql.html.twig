@@ -1,0 +1,24 @@
+{% extends 'authbase.html.twig' %}
+
+{% block title %}ProfessionalBans Setup{% endblock %}
+
+{% block body %}
+
+    <div>
+
+        {% include 'messages.html.twig' %}
+
+        <h3>ProfessionalBans <strong>MySQL</strong></h3>
+        <br>
+        <p>{{ 'setup_mysql_desc'|trans }}</p>
+        <br>
+        {{ form_start(mysql) }}
+        {{ form_row(mysql.host) }}
+        {{ form_row(mysql.user) }}
+        {{ form_row(mysql.database) }}
+        {{ form_row(mysql.password) }}
+        <br>
+        {{ form_row(mysql.submit) }}
+        {{ form_end(mysql) }}
+    </div>
+{% endblock %}

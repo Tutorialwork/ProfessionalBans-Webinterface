@@ -21,7 +21,8 @@ class MuteType extends AbstractType
             ->add('Name', TextType::class, [
                 'attr' => [
                     'class' => "form-control"
-                ]
+                ],
+                'label' => 'player'
             ])
             ->add('Reason', EntityType::class, [
                 'class' => Reasons::class,
@@ -33,6 +34,7 @@ class MuteType extends AbstractType
                     return $er->createQueryBuilder('r')
                         ->where('r.Type = 1');
                 },
+                'label' => 'reason'
             ])
             ->add('submit', SubmitType::class, [
                 'label' => 'Mute',

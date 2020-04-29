@@ -1,0 +1,22 @@
+{% extends 'authbase.html.twig' %}
+
+{% block title %}ProfessionalBans Setup{% endblock %}
+
+{% block body %}
+
+    <div>
+
+        {% include 'messages.html.twig' %}
+
+        <h3>ProfessionalBans <strong>Account</strong></h3>
+        <br>
+        <p>{{ 'setup_account_desc'|trans }}</p>
+        <br>
+        {{ form_start(account) }}
+        {{ form_row(account.username) }}
+        {{ form_row(account.password) }}
+        <br>
+        {{ form_row(account.submit) }}
+        {{ form_end(account) }}
+    </div>
+{% endblock %}

@@ -70,3 +70,24 @@ add: Hinzufügen
 err_time: Bitte gebe eine Dauer für temporäre Bans ein
 success_added: Der Bangrund wurde erfolgreich hinzugefügt
 edit_reason: Bangrund bearbeiten
+#Bans
+banned_to: Gebannt bis
+punisher: Gebannt von
+action: Aktionen
+player_not_found: Dieser Spieler konnte nicht gefunden werden
+select_reason: Bitte wähle ein Grund aus
+already_banned: Dieser Spieler ist bereits gebannt
+#Mutes
+muted_to: Gemutet bis
+punisher_mute: Gemutet von
+already_muted: Dieser Spieler ist bereits gemutet
+#Setup
+setup_mysql_desc: Um eine Verbindung zur MySQL Datenbank herzustellen werden die Verbindungsdaten benötigt. Bitte verwende die selbe Datenbank wie im Plugin.
+mysql_user: Datenbank Benutzer
+mysql_db: Datenbank Name
+mysql_pw: Passwort
+mysql_fail: Die Verbindung zur MySQL Datenbank ist fehlgeschlagen
+setup_account_desc: Lege jetzt eine Admin Account an um auf das Webinterface zuzugreifen.
+password: Passwort
+password_repeat: Passwort wiederholen
+username: Benutzername

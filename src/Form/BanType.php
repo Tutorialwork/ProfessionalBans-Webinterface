@@ -18,7 +18,8 @@ class BanType extends AbstractType
             ->add('Name', TextType::class, [
                 'attr' => [
                     'class' => "form-control"
-                ]
+                ],
+                'label' => 'player'
             ])
             ->add('Reason', EntityType::class, [
                 'class' => Reasons::class,
@@ -30,6 +31,7 @@ class BanType extends AbstractType
                     return $er->createQueryBuilder('r')
                         ->where('r.Type = 0');
                 },
+                'label' => 'reason'
             ])
             ->add('submit', SubmitType::class, [
                 'label' => 'Ban',

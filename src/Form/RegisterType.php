@@ -19,7 +19,7 @@ class RegisterType extends AbstractType
             ->add('username', TextType::class, [
                 'label' => false,
                 'attr' => [
-                    'placeholder' => 'Username',
+                    'placeholder' => 'username',
                     'class' => 'input-group mb-3 form-control'
                 ]
             ])
@@ -28,14 +28,14 @@ class RegisterType extends AbstractType
                 'first_options' => [
                     'label' => false,
                     'attr' => [
-                        'placeholder' => 'Password',
+                        'placeholder' => 'password',
                         'class' => 'input-group mb-3 form-control'
                     ]
                 ],
                 'second_options' => [
                     'label' => false,
                     'attr' => [
-                        'placeholder' => 'Repeat password',
+                        'placeholder' => 'password_repeat',
                         'class' => 'input-group mb-3 form-control'
                     ]
                 ],
@@ -43,7 +43,7 @@ class RegisterType extends AbstractType
                 'required' => true,
             ])
             ->add('submit', SubmitType::class, [
-                'label' => 'Create',
+                'label' => 'create',
                 'attr' => ['class' => 'btn btn-primary btn-block']
             ])
         ;

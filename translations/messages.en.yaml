@@ -70,3 +70,24 @@ add: Add
 err_time: Please enter a time for temporary bans
 success_added: The reason was successfully added
 edit_reason: Edit reason
+#Bans
+banned_to: Banned to
+punisher: Punisher
+action: Action
+player_not_found: This player could not found
+select_reason: Please select a reason
+already_banned: This player is already banned
+#Mutes
+muted_to: Muted to
+punisher_mute: Muted from
+already_muted: This player is already muted
+#Setup
+setup_mysql_desc: We need the credentials for your MySQL database to connect to the MySQL database. The database must be the same as the plugin.
+mysql_user: Database user
+mysql_db: Database name
+mysql_pw: Password
+mysql_fail: The connection to the mysql database failed
+setup_account_desc: Please create now a admin account to access the webinterface.
+password: Password
+password_repeat: Repeat password
+username: Username

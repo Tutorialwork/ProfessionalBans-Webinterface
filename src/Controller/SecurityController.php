@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use Doctrine\DBAL\Exception\ConnectionException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -17,6 +18,13 @@ class SecurityController extends AbstractController
      */
     public function login(AuthenticationUtils $authenticationUtils): Response
     {
+        $em = $this->getDoctrine()->getManager();
+        try{
+            $em->getConnection()->connect();
+        } catch (ConnectionException $e){
+            return $this->redirectToRoute('setup.welcome');
+        }
+
         // if ($this->getUser()) {
         //     return $this->redirectToRoute('target_path');
         // }
