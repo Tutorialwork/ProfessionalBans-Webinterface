@@ -91,3 +91,5 @@ setup_account_desc: Lege jetzt eine Admin Account an um auf das Webinterface zuz
 password: Passwort
 password_repeat: Passwort wiederholen
 username: Benutzername
+#Accounts
+not_permitted: Entschuldige, aber du bist leider nicht dazu berechtigt diesen Benutzer zu bearbeiten

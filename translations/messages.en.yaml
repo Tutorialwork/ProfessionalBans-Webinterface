@@ -91,3 +91,5 @@ setup_account_desc: Please create now a admin account to access the webinterface
 password: Password
 password_repeat: Repeat password
 username: Username
+#Accounts
+not_permitted: Sorry, but you are not permitted to edit this user

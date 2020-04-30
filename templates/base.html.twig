@@ -89,72 +89,82 @@
             <!-- Sidebar Menu -->
             <nav class="mt-2">
                 <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-                    <!-- Add icons to the links using the .nav-icon class
-                         with font-awesome or any other icon font library -->
                     <li class="nav-item">
                         <a href="{{ path('home.index') }}" class="nav-link {% if app.request.get('_route') == "home.index" %} active {% endif %}">
                             <i class="fas fa-home nav-icon"></i>
                             <p>{{ 'nav_overview'|trans }}</p>
                         </a>
                     </li>
-                    <li class="nav-item">
-                        <a href="{{ path('ban.index') }}" class="nav-link {% if app.request.get('_route') == "ban.index" %} active {% endif %}">
-                            <i class="fa fa-ban nav-icon"></i>
-                            <p>Bans</p>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="{{ path('mute.index') }}" class="nav-link {% if app.request.get('_route') == "mute.index" %} active {% endif %}">
-                            <i class="fas fa-volume-mute nav-icon"></i>
-                            <p>Mutes</p>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="{{ path('reports.index') }}" class="nav-link {% if app.request.get('_route') == "reports.index" %} active {% endif %}">
-                            <i class="fas fa-flag nav-icon"></i>
-                            <p>Reports</p>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="{{ path('unban.index') }}" class="nav-link {% if app.request.get('_route') == "unban.index" %} active {% endif %}">
-                            <i class="fas fa-inbox nav-icon"></i>
-                            <p>{{ 'nav_unbanrequests'|trans }}</p>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="{{ path('reason.index') }}" class="nav-link {% if app.request.get('_route') == "reason.index" %} active {% endif %}">
-                            <i class="fas fa-hammer nav-icon"></i>
-                            <p>{{ 'nav_reasons'|trans }}</p>
-                        </a>
-                    </li>
+                    {% if is_granted("ROLE_PAGE_BAN") %}
+                        <li class="nav-item">
+                            <a href="{{ path('ban.index') }}" class="nav-link {% if app.request.get('_route') == "ban.index" %} active {% endif %}">
+                                <i class="fa fa-ban nav-icon"></i>
+                                <p>Bans</p>
+                            </a>
+                        </li>
+                    {% endif %}
+                    {% if is_granted("ROLE_PAGE_MUTE") %}
+                        <li class="nav-item">
+                            <a href="{{ path('mute.index') }}" class="nav-link {% if app.request.get('_route') == "mute.index" %} active {% endif %}">
+                                <i class="fas fa-volume-mute nav-icon"></i>
+                                <p>Mutes</p>
+                            </a>
+                        </li>
+                    {% endif %}
+                    {% if is_granted("ROLE_PAGE_REPORTS") %}
+                        <li class="nav-item">
+                            <a href="{{ path('reports.index') }}" class="nav-link {% if app.request.get('_route') == "reports.index" %} active {% endif %}">
+                                <i class="fas fa-flag nav-icon"></i>
+                                <p>Reports</p>
+                            </a>
+                        </li>
+                    {% endif %}
+                    {% if is_granted("ROLE_PAGE_UNBANS") %}
+                        <li class="nav-item">
+                            <a href="{{ path('unban.index') }}" class="nav-link {% if app.request.get('_route') == "unban.index" %} active {% endif %}">
+                                <i class="fas fa-inbox nav-icon"></i>
+                                <p>{{ 'nav_unbanrequests'|trans }}</p>
+                            </a>
+                        </li>
+                    {% endif %}
+                    {% if is_granted("ROLE_PAGE_REASON") %}
+                        <li class="nav-item">
+                            <a href="{{ path('reason.index') }}" class="nav-link {% if app.request.get('_route') == "reason.index" %} active {% endif %}">
+                                <i class="fas fa-hammer nav-icon"></i>
+                                <p>{{ 'nav_reasons'|trans }}</p>
+                            </a>
+                        </li>
+                    {% endif %}
                 </ul>
-                <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-                    <!-- Add icons to the links using the .nav-icon class
-                         with font-awesome or any other icon font library -->
-                    <li class="nav-item has-treeview menu-open">
-                        <a href="#" class="nav-link">
-                            <i class="nav-icon fas fa-tachometer-alt"></i>
-                            <p>
-                                Administration
-                                <i class="right fas fa-angle-left"></i>
-                            </p>
-                        </a>
-                        <ul class="nav nav-treeview">
-                            <li class="nav-item">
-                                <a href="{{ path('accounts.index') }}" class="nav-link {% if app.request.get('_route') == "accounts.index" %} active {% endif %}">
-                                    <i class="far fa-circle nav-icon"></i>
-                                    <p>Accounts</p>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="{{ path('admin.invites') }}" class="nav-link {% if app.request.get('_route') == "admin.invites" %} active {% endif %}">
-                                    <i class="far fa-circle nav-icon"></i>
-                                    <p>{{ 'nav_invites'|trans }}</p>
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
-                </ul>
+                {% if is_granted("ROLE_PAGE_ADMIN") %}
+                    <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+                        <!-- Add icons to the links using the .nav-icon class
+                             with font-awesome or any other icon font library -->
+                        <li class="nav-item has-treeview menu-open">
+                            <a href="#" class="nav-link">
+                                <i class="nav-icon fas fa-tachometer-alt"></i>
+                                <p>
+                                    Administration
+                                    <i class="right fas fa-angle-left"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="{{ path('accounts.index') }}" class="nav-link {% if app.request.get('_route') == "accounts.index" %} active {% endif %}">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Accounts</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="{{ path('admin.invites') }}" class="nav-link {% if app.request.get('_route') == "admin.invites" %} active {% endif %}">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>{{ 'nav_invites'|trans }}</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                {% endif %}
             </nav>
             <!-- /.sidebar-menu -->
         </div>

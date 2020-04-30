@@ -61,6 +61,18 @@ class AccountsController extends AbstractController
     public function manage($username, Request $request){
         $user = $this->userRepository->findOneBy(['username' => $username]);
         if($user){
+            $roles = $user->getRoles();
+            foreach ($roles as $role){
+                if($role == "ROLE_SUPER_ADMIN"){
+                    /*
+                     * NOT PERMITTED
+                     * CANCEL!
+                     */
+                    $this->addFlash('error', $this->translator->trans('not_permitted'));
+                    return $this->redirectToRoute('accounts.index');
+                }
+            }
+
             $form = $this->createForm(RoleType::class, $user->getRoles());
             $form->handleRequest($request);
             if($form->isSubmitted() && $form->isValid()){

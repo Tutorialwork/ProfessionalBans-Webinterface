@@ -37,6 +37,7 @@ security:
     # Note: Only the *first* access control that matches will be used
     access_control:
         - { path: ^/$, roles: ROLE_USER }
+        - { path: ^/user, roles: ROLE_PAGE_USER }
         - { path: ^/ban, roles: ROLE_PAGE_BAN }
         - { path: ^/mutes, roles: ROLE_PAGE_MUTE }
         - { path: ^/reports, roles: ROLE_PAGE_REPORTS }
@@ -47,5 +48,7 @@ security:
         - { path: ^/invites, roles: ROLE_PAGE_ADMIN }
     role_hierarchy:
         ROLE_SUPER_ADMIN: ROLE_ADMIN
-        ROLE_ADMIN: [ROLE_PAGE_BAN, ROLE_PAGE_MUTE, ROLE_PAGE_REPORTS, ROLE_PAGE_UNBANS, ROLE_PAGE_REASON, ROLE_PAGE_ADMIN]
-        ROLE_SUPPORTER: [ROLE_PAGE_BAN, ROLE_PAGE_MUTE]
+        ROLE_ADMIN: [ROLE_PAGE_USER, ROLE_PAGE_BAN, ROLE_PAGE_MUTE, ROLE_PAGE_REPORTS, ROLE_PAGE_UNBANS, ROLE_PAGE_REASON, ROLE_PAGE_ADMIN]
+        ROLE_SUPPORTER: [ROLE_PAGE_USER, ROLE_PAGE_BAN, ROLE_PAGE_MUTE]
+        ROLE_MODERATOR: [ROLE_SUPPORTER, ROLE_PAGE_REPORTS, ROLE_PAGE_UNBANS]
+        ROLE_USER: ROLE_SUPPORTER
