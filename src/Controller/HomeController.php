@@ -54,6 +54,8 @@ class HomeController extends AbstractController
             $onlinetime += $player->getOnlinetime();
         }
 
+        $today = 0;
+        $diff = time() - 86400;
         foreach ($logs as $log){
             $uuidPlayer = $this->bansRepository->findOneBy(["UUID" => $log->getUUID()]);
             $teamuuidPlayer = $this->bansRepository->findOneBy(["UUID" => ($log->getByUUID() != null) ? $log->getByUUID() : 'random']);
@@ -68,6 +70,10 @@ class HomeController extends AbstractController
             $log->setByUUID(($teamuuidPlayer != null) ? $teamuuidPlayer->getName() : '');
             $log->setAction(str_replace("%text%", $log->getNote(), $this->resolveAction($log)));
             $log->setDate(round($log->getDate() / 1000));
+
+            if($log->getDate() > $diff){
+                $today++;
+            }
         }
 
         $log_page = $this->paginator->paginate(
@@ -83,7 +89,8 @@ class HomeController extends AbstractController
             'players' => count($players),
             'onlinetime' => $this->getFormattedTime($onlinetime),
             'teammembers' => count($teammembers),
-            'logs' => $log_page
+            'logs' => $log_page,
+            'punished_today' => $today
         ]);
     }
 

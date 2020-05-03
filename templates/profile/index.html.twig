@@ -60,21 +60,21 @@
 
                                 <p class="text-muted text-center">
                                     {% if user == null %}
-                                        Player
+                                        {{ 'player'|trans }}
                                     {% else %}
-                                        Teammember
+                                        {{ 'teammember'|trans }}
                                     {% endif %}
                                 </p>
 
                                 <ul class="list-group list-group-unbordered mb-3">
                                     <li class="list-group-item">
-                                        <b>Punished</b> <a class="float-right">
+                                        <b>{{ 'punished'|trans }}</b> <a class="float-right">
                                             {% if player.banned == 0 and player.muted == 0 %}
-                                                No
+                                                {{ 'no'|trans }}
                                             {% elseif player.banned == 1 %}
-                                                Banned
+                                                {{ 'banned'|trans }}
                                             {% elseif player.muted == 1 %}
-                                                Muted
+                                                {{ 'muted'|trans }}
                                             {% endif %}
                                         </a>
                                     </li>
@@ -85,13 +85,13 @@
                                         <b>Mutes</b> <a class="float-right">{{ player.mutes }}</a>
                                     </li>
                                     <li class="list-group-item">
-                                        <b>Onlinetime</b> <a class="float-right">{{ onlinetime }}</a>
+                                        <b>{{ 'onlinetime'|trans }}</b> <a class="float-right">{{ onlinetime }}</a>
                                     </li>
                                     <li class="list-group-item">
-                                        <b>Lastlogin</b> <a class="float-right">{{ player.lastlogin|format_datetime(locale="de") }}</a>
+                                        <b>{{ 'lastlogin'|trans }}</b> <a class="float-right">{{ player.lastlogin|format_datetime(locale="de") }}</a>
                                     </li>
                                     <li class="list-group-item">
-                                        <b>Member since</b> <a class="float-right">{{ player.firstlogin|format_datetime(locale="de") }}</a>
+                                        <b>{{ 'member_since'|trans }}</b> <a class="float-right">{{ player.firstlogin|format_datetime(locale="de") }}</a>
                                     </li>
                                 </ul>
 
@@ -107,9 +107,9 @@
                         <div class="card">
                             <div class="card-header p-2">
                                 <ul class="nav nav-pills">
-                                    <li class="nav-item"><a class="nav-link active" href="#activity" data-toggle="tab">History</a></li>
+                                    <li class="nav-item"><a class="nav-link active" href="#activity" data-toggle="tab">{{ 'history'|trans }}</a></li>
                                     {% if app.user.username == player.name %}
-                                        <li class="nav-item"><a class="nav-link" href="#settings" data-toggle="tab">Settings</a></li>
+                                        <li class="nav-item"><a class="nav-link" href="#settings" data-toggle="tab">{{ 'settings'|trans }}</a></li>
                                     {% endif %}
                                 </ul>
                             </div><!-- /.card-header -->
@@ -120,11 +120,12 @@
                                         <table id="example2" class="table table-bordered table-hover">
                                             <thead>
                                             <tr>
-                                                <th>Player</th>
-                                                <th>From</th>
-                                                <th>Event</th>
-                                                <th>Date</th>
-                                            </tr>
+                                                <tr>
+                                                    <th>{{ 'player'|trans }}</th>
+                                                    <th>{{ 'from'|trans }}</th>
+                                                    <th>{{ 'event'|trans }}</th>
+                                                    <th>{{ 'time'|trans }}</th>
+                                                </tr>
                                             </thead>
                                             <tbody>
                                             {% for log in logs %}
@@ -137,12 +138,12 @@
                                             {% endfor %}
                                             </tbody>
                                             <tfoot>
-                                            <tr>
-                                                <th>Players</th>
-                                                <th>From</th>
-                                                <th>Event</th>
-                                                <th>Date</th>
-                                            </tr>
+                                                <tr>
+                                                    <th>{{ 'player'|trans }}</th>
+                                                    <th>{{ 'from'|trans }}</th>
+                                                    <th>{{ 'event'|trans }}</th>
+                                                    <th>{{ 'time'|trans }}</th>
+                                                </tr>
                                             </tfoot>
                                         </table>
 
@@ -154,7 +155,7 @@
 
                                     {% if app.user.username == player.name %}
                                     <div class="tab-pane" id="settings">
-                                        <h5>Change password</h5>
+                                        <h5>{{ 'change_pw_heading'|trans }}</h5>
                                         <br>
                                         {{ form(changePasswordForm) }}
                                     </div>

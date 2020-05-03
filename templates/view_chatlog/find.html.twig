@@ -1,6 +1,6 @@
 {% extends 'userbase.html.twig' %}
 
-{% block title %}Search for chatlog{% endblock %}
+{% block title %}{{ 'search_log'|trans }}{% endblock %}
 
 {% block body %}
     <!-- Content Wrapper. Contains page content -->
@@ -11,13 +11,13 @@
                 <div class="row mb-2">
                     <div class="col-sm-6">
                         <h1 class="m-0 text-dark">
-                            Search for chatlog
+                            {{ 'search_log'|trans }}
                         </h1>
                     </div><!-- /.col -->
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
                             <li class="breadcrumb-item"><a href="#">Home</a></li>
-                            <li class="breadcrumb-item active">Search for chatlog</li>
+                            <li class="breadcrumb-item active">{{ 'search_log'|trans }}</li>
                         </ol>
                     </div><!-- /.col -->
                 </div><!-- /.row -->
@@ -33,7 +33,10 @@
                 <div class="card card-primary card-outline m-10">
                     <div class="card-body">
 
-                        {{ form(find) }}
+                        {{ form_start(find) }}
+                        {{ form_widget(find.Logid) }}
+                        <br>
+                        {{ form_end(find) }}
 
                     </div>
                 </div>

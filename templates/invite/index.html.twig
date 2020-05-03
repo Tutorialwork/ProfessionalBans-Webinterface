@@ -1,13 +1,16 @@
 {% extends 'authbase.html.twig' %}
 
-{% block title %}Register{% endblock %}
+{% block title %}{{ 'invitecode_heading'|trans }}{% endblock %}
 
-{% block heading %}Enter your invitecode{% endblock %}
+{% block heading %}{{ 'invitecode_heading'|trans }}{% endblock %}
 
 {% block body %}
     {% for message in app.session.flashbag.get('error') %}
         <p style="color: darkred">{{ message }}</p>
     {% endfor %}
 
-    {{ form(invite) }}
+    {{ form_start(invite) }}
+    {{ form_widget(invite.code) }}
+    <br>
+    {{ form_end(invite) }}
 {% endblock %}

@@ -20,14 +20,14 @@ class ChangePasswordType extends AbstractType
                 'first_options' => [
                     'label' => false,
                     'attr' => [
-                        'placeholder' => 'New Password',
+                        'placeholder' => 'password',
                         'class' => 'input-group mb-3 form-control'
                     ]
                 ],
                 'second_options' => [
                     'label' => false,
                     'attr' => [
-                        'placeholder' => 'Repeat new password',
+                        'placeholder' => 'password_repeat',
                         'class' => 'input-group mb-3 form-control'
                     ]
                 ],
@@ -35,7 +35,7 @@ class ChangePasswordType extends AbstractType
                 'required' => true,
             ])
             ->add('submit', SubmitType::class, [
-                'label' => 'Save',
+                'label' => 'save',
                 'attr' => ['class' => 'btn btn-primary btn-block']
             ])
         ;

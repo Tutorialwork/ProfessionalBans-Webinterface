@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Invites{% endblock %}
+{% block title %}{{ 'nav_invites'|trans }}{% endblock %}
 
 {% block body %}
     <!-- Content Wrapper. Contains page content -->
@@ -10,13 +10,13 @@
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1>Invitecodes</h1>
+                        <h1>{{ 'nav_invites'|trans }}</h1>
                     </div>
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
                             <li class="breadcrumb-item"><a href="{{ path('home.index') }}">Home</a></li>
                             <li class="breadcrumb-item">Administration</li>
-                            <li class="breadcrumb-item active">Invitecodes</li>
+                            <li class="breadcrumb-item active">{{ 'nav_invites'|trans }}</li>
                         </ol>
                     </div>
                 </div>
@@ -34,7 +34,7 @@
                             <a class="btn btn-success btn-sm" href="{{ path('admin.invite.add') }}">
                                 <i class="fas fa-plus">
                                 </i>
-                                Create
+                                {{ 'create'|trans }}
                             </a>
                         </div>
                         <!-- /.card-header -->
@@ -42,28 +42,22 @@
                             <table id="example2" class="table table-bordered table-hover">
                                 <thead>
                                 <tr>
-                                    <th>Invitecode</th>
-                                    <th>Created by</th>
-                                    <th>Date</th>
-                                    <th>Action</th>
+                                    <th>Code</th>
+                                    <th>{{ 'created_by'|trans }}</th>
+                                    <th>{{ 'date'|trans }}</th>
+                                    <th>{{ 'action'|trans }}</th>
                                 </tr>
                                 </thead>
                                 <tbody>
                                 {% for invite in invites %}
                                     <tr>
                                         <td>{{ invite.code}}</td>
-                                        <td>
-                                            {% if usernames[invite.creator-1] is defined %}
-                                                {{ usernames[invite.creator-1] }}
-                                            {% else %}
-                                               User not found
-                                            {% endif %}
-                                        </td>
+                                        <td>{{ usernames[invite.creator] }}</td>
                                         <td>{{ invite.creationdate|format_datetime(locale='de') }}</td>
                                         <td><a class="btn btn-danger btn-sm" href="{{ path('admin.invite.delete', {'id': invite.id}) }}">
                                                 <i class="fas fa-trash">
                                                 </i>
-                                                Delete
+                                                {{ 'delete'|trans }}
                                             </a>
                                         </td>
                                     </tr>
@@ -71,10 +65,10 @@
                                 </tbody>
                                 <tfoot>
                                 <tr>
-                                    <th>Invitecode</th>
-                                    <th>Created by</th>
-                                    <th>Date</th>
-                                    <th>Action</th>
+                                    <th>Code</th>
+                                    <th>{{ 'created_by'|trans }}</th>
+                                    <th>{{ 'date'|trans }}</th>
+                                    <th>{{ 'action'|trans }}</th>
                                 </tr>
                                 </tfoot>
                             </table>

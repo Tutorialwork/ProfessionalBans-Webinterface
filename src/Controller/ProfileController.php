@@ -13,6 +13,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
  * @Route("/user", name="profile.")
@@ -27,8 +28,9 @@ class ProfileController extends AbstractController
     private $homeController;
     private $passwordEncoder;
     private $paginator;
+    private $translator;
 
-    public function __construct(BansRepository $bansRepository, UserRepository $userRepository, LogRepository $logRepository, ReasonRepository $reasonRepository, HomeController $homeController, UserPasswordEncoderInterface $passwordEncoder, PaginatorInterface $paginator)
+    public function __construct(BansRepository $bansRepository, UserRepository $userRepository, LogRepository $logRepository, ReasonRepository $reasonRepository, HomeController $homeController, UserPasswordEncoderInterface $passwordEncoder, PaginatorInterface $paginator, TranslatorInterface $translator)
     {
         $this->bansRepository = $bansRepository;
         $this->userRepository = $userRepository;
@@ -37,6 +39,7 @@ class ProfileController extends AbstractController
         $this->homeController = $homeController;
         $this->passwordEncoder = $passwordEncoder;
         $this->paginator = $paginator;
+        $this->translator = $translator;
     }
 
     /**
@@ -84,7 +87,7 @@ class ProfileController extends AbstractController
             $em->persist($this->getUser());
             $em->flush();
 
-            $this->addFlash('success', 'Password successfully changed');
+            $this->addFlash('success', $this->translator->trans('pw_changed'));
         }
 
         $logs_page = $this->paginator->paginate(
@@ -108,16 +111,24 @@ class ProfileController extends AbstractController
         $timePunish->setTimestamp(time() - $time / 1000);
         $now = new DateTime();
         $diff = $now->diff($timePunish, true);
-        if($diff->d != 0 && $diff->h != 0 && $diff->i != 0){
-            return $diff->d . " days, " . $diff->h . " hours and " . $diff->i ." minutes";
-        } else if($diff->d == 0 && $diff->h != 0 && $diff->i != 0){
-            return $diff->h . " hours and " . $diff->i ." minutes";
-        } else if($diff->d == 0 && $diff->h == 0 && $diff->i != 0){
-            return $diff->i ." minutes";
-        } else if($diff->d == 0 && $diff->h != 0 && $diff->i == 0){
-            return $diff->h ." hours";
-        } else if($diff->d != 0 && $diff->h == 0 && $diff->i == 0){
-            return $diff->d ." days";
+
+        $timeStr = "";
+        if($diff->d != 0){
+            $timeStr .= $this->buildTimeSnippet($diff->d, "day", "days");
+        }
+        if($diff->h != 0){
+            $timeStr .= $this->buildTimeSnippet($diff->h, "hour", "hours");
+        }
+        if($diff->i != 0){
+            $timeStr .= $this->buildTimeSnippet($diff->i, "minute", "minutes");
+        }
+
+        return $timeStr;
+    }
+
+    private function buildTimeSnippet($number, $singular, $plural){
+        if(is_numeric($number)){
+            return ($number == 1) ? $number . " " . $this->translator->trans($singular) . " " : $number . " " . $this->translator->trans($plural) . " ";
         }
     }
 

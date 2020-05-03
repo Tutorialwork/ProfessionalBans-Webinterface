@@ -16,11 +16,13 @@ class FindChatlogType extends AbstractType
         $builder
             ->add('Logid', TextType::class, [
                 'attr' => [
-                    'class' => "form-control"
-                ]
+                    'class' => "form-control",
+                    'placeholder' => 'Chatlog ID'
+                ],
+                'label' => false
             ])
             ->add('submit', SubmitType::class, [
-                'label' => 'Search',
+                'label' => 'search',
                 'attr' => [
                     'class' => 'btn btn-primary'
                 ]

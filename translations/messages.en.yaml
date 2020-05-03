@@ -51,10 +51,17 @@ datepicker: Select new end for ban
 date: Date
 time: Time
 save: Save
+your_name: Your name
+unbanrequest_success: Your unbanrequest was send.
+player_not_banned: This player is not banned
+already_requested: You have requested this week already a unbanrequest
 #Reasons
 minutes: Minutes
 hours: Hours
 days: Days
+minute: Minute
+hour: Hour
+day: Day
 create: Create
 reason: Reason
 add_reason: Add new reason
@@ -93,3 +100,45 @@ password_repeat: Repeat password
 username: Username
 #Accounts
 not_permitted: Sorry, but you are not permitted to edit this user
+manage: Manage
+permissions: Permissions
+#Chatlogs
+search_log: Search for chatlog
+search: Search
+chatlog_not_found: Your requested chatlog was not found
+#Profile
+pw_changed: Password successfully changed
+yes: Yes
+no: No
+banned: Banned
+muted: Muted
+punished: Punished
+onlinetime: Onlinetime
+lastlogin: Lastlogin
+member_since: Member since
+history: History
+settings: Settings
+teammember: Teammember
+change_pw_heading: Change password
+#Report
+reported: Reported
+reported_by: Reported by
+done: Done
+report_done_success: Report marked as done
+edited_by: Edited by
+open_reports: Open reports
+#Chatlogs
+logged_player: Logged player
+created_by: Created by
+logged_at: Logged at
+created_at: Created at
+view: View
+#Login/Register
+remember_me: Remember me
+create_account: Create account
+register: Register
+invitecode: Invitecode
+continue: Continue
+invitecode_heading: Enter your invitecode
+invite_invalid: The invite code is invalid
+invite_delete: The invitecode was successfully deleted.

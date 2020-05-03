@@ -51,10 +51,17 @@ datepicker: Neues Banende auswählen
 date: Datum
 time: Uhrzeit
 save: Speichern
+your_name: Dein Name
+unbanrequest_success: Dein Entbannungsantrag wurde erfolgreich abgesendet.
+player_not_banned: Dieser Spieler ist nicht gebannt
+already_requested: Du hast diese Woche schon einen Entbannungsantrag gestellt
 #Reasons
 minutes: Minuten
 hours: Stunden
 days: Tage
+minute: Minute
+hour: Stunde
+day: Tag
 create: Erstellen
 reason: Grund
 add_reason: Neuen Bangrund hinzufügen
@@ -93,3 +100,45 @@ password_repeat: Passwort wiederholen
 username: Benutzername
 #Accounts
 not_permitted: Entschuldige, aber du bist leider nicht dazu berechtigt diesen Benutzer zu bearbeiten
+manage: Verwalten
+permissions: Berechtigungen
+#Chatlogs
+search_log: Suche nach einem Chatverlauf
+search: Suchen
+chatlog_not_found: Der Chatlog wurde nicht gefunden
+#Profile
+pw_changed: Das Passwort wurde erfolgreich geändert
+yes: Ja
+no: Nein
+banned: Gebannt
+muted: Gemutet
+punished: Bestraft
+onlinetime: Onlinezeit
+lastlogin: Letzter Login
+member_since: Spieler seit
+history: Verlauf
+settings: Einstellungen
+teammember: Teammitglied
+change_pw_heading: Passwort ändern
+#Report
+reported: Gemeldeter Spieler
+reported_by: Gemeldet von
+done: Abschließen
+report_done_success: Report wurde als abgeschlossen markiert
+edited_by: Bearbeitet von
+open_reports: Offene Reports
+#Chatlogs
+logged_player: Geloggter Spieler
+created_by: Erstellt von
+logged_at: Geloggt auf
+created_at: Erstellt am
+view: Anschauen
+#Login/Register
+remember_me: Angemeldet bleiben
+create_account: Account erstellen
+register: Registrieren
+invitecode: Einladungscode
+continue: Fortfahren
+invitecode_heading: Einladungscode eingeben
+invite_invalid: Der Einladungscode ist ungültig
+invite_delete: Der Einladungscode wurde gelöscht

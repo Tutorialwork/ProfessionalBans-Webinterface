@@ -6,6 +6,7 @@ use App\Repository\BansRepository;
 use App\Repository\ReportsRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
  * @Route("/reports", name="reports.")
@@ -15,11 +16,13 @@ class ReportsController extends AbstractController
 
     private $reportsRepository;
     private $bansRepository;
+    private $translator;
 
-    public function __construct(ReportsRepository $reportsRepository, BansRepository $bansRepository)
+    public function __construct(ReportsRepository $reportsRepository, BansRepository $bansRepository, TranslatorInterface $translator)
     {
         $this->reportsRepository = $reportsRepository;
         $this->bansRepository = $bansRepository;
+        $this->translator = $translator;
     }
 
     /**
@@ -74,12 +77,14 @@ class ReportsController extends AbstractController
         $report = $this->reportsRepository->findOneBy(['id' => $id]);
         if($report){
             $report->setStatus(true);
+            $teamUuid = $this->bansRepository->findOneBy(['Name' => $this->getUser()->getUsername()]);
+            $report->setTeam($teamUuid->getUUID());
 
             $em = $this->getDoctrine()->getManager();
             $em->persist($report);
             $em->flush();
 
-            $this->addFlash('success', 'Report marked as done');
+            $this->addFlash('success', $this->translator->trans('report_done_success'));
 
             return $this->redirectToRoute('reports.index');
         } else {

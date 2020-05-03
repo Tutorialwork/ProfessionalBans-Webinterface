@@ -153,6 +153,7 @@ class SetupController extends AbstractController
                 $em->persist($user);
                 $em->flush();
 
+                $this->session->remove("setup_account");
                 return $this->redirectToRoute('auth.login');
             } else {
                 $this->addFlash('error', 'Please join first the Minecraft server');

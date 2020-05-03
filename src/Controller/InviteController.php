@@ -9,16 +9,19 @@ use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 class InviteController extends AbstractController
 {
     private $inviteRepository;
     private $userRepository;
+    private $translator;
 
-    public function __construct(InviteRepository $inviteRepository, UserRepository $userRepository)
+    public function __construct(InviteRepository $inviteRepository, UserRepository $userRepository, TranslatorInterface $translator)
     {
         $this->inviteRepository = $inviteRepository;
         $this->userRepository = $userRepository;
+        $this->translator = $translator;
     }
 
     /**
@@ -38,7 +41,7 @@ class InviteController extends AbstractController
             if($invite){
                 return $this->redirectToRoute('register.index', ['invite' => $form->get('code')->getData()]);
             } else {
-                $this->addFlash('error', 'The invite code is invalid');
+                $this->addFlash('error', $this->translator->trans('invite_invalid'));
             }
         }
 
@@ -56,7 +59,7 @@ class InviteController extends AbstractController
 
         $usernames = [];
         foreach ($users as $user){
-            array_push($usernames, $user->getUsername());
+            $usernames[$user->getId()] = $user->getUsername();
         }
 
         return $this->render('invite/list.html.twig', [
@@ -76,7 +79,7 @@ class InviteController extends AbstractController
             $em->remove($invite);
             $em->flush();
 
-            $this->addFlash("success", "The invitecode was successfully deleted.");
+            $this->addFlash("success", $this->translator->trans('invite_delete'));
         } else {
             $this->addFlash("error", "Entry not found");
         }

@@ -16,11 +16,12 @@ class InviteType extends AbstractType
         $builder
             ->add('code', TextType::class, [
                 'attr' => [
-                    'class' => 'form-control'
+                    'class' => 'form-control',
+                    'placeholder' => 'invitecode'
                 ]
             ])
             ->add('submit', SubmitType::class, [
-                'label' => 'Continue',
+                'label' => 'continue',
                 'attr' => [
                     'class' => 'btn btn-block btn-primary'
                 ]

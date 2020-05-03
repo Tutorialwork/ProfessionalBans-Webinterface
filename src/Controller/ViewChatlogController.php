@@ -8,17 +8,20 @@ use App\Repository\ChatlogRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 class ViewChatlogController extends AbstractController
 {
 
     private $chatlogRepository;
     private $bansRepository;
+    private $translator;
 
-    public function __construct(ChatlogRepository $chatlogRepository, BansRepository $bansRepository)
+    public function __construct(ChatlogRepository $chatlogRepository, BansRepository $bansRepository, TranslatorInterface $translator)
     {
         $this->chatlogRepository = $chatlogRepository;
         $this->bansRepository = $bansRepository;
+        $this->translator = $translator;
     }
 
     /**
@@ -61,7 +64,7 @@ class ViewChatlogController extends AbstractController
             if($chatlog_tester){
                 return $this->redirectToRoute('chatlogs.view', ['id' => $chatlog_tester->getLogid()]);
             } else {
-                $this->addFlash('error', 'Chatlog not found');
+                $this->addFlash('error', $this->translator->trans('chatlog_not_found'));
             }
         }
 

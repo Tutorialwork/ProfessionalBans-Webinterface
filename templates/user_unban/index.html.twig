@@ -1,6 +1,6 @@
-{% extends 'base.html.twig' %}
+{% extends 'userbase.html.twig' %}
 
-{% block title %}Accounts{% endblock %}
+{% block title %}{{ 'nav_unbanrequest'|trans }}{% endblock %}
 
 {% block body %}
     <!-- Content Wrapper. Contains page content -->
@@ -10,13 +10,12 @@
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1>Accounts</h1>
+                        <h1>{{ 'nav_unbanrequest'|trans }}</h1>
                     </div>
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
                             <li class="breadcrumb-item"><a href="{{ path('home.index') }}">Home</a></li>
-                            <li class="breadcrumb-item">Administration</li>
-                            <li class="breadcrumb-item active">Accounts</li>
+                            <li class="breadcrumb-item active">Bans</li>
                         </ol>
                     </div>
                 </div>
@@ -29,11 +28,19 @@
         <section class="content">
             <div class="row">
                 <div class="col-12">
-                    <div class="card p-2">
-                        <br>
-                        <h5>Manage {{ username }}'s permissions</h5>
-                        <br>
-                        {{ form(role_manage) }}
+                    <div class="card">
+                        <!-- /.card-header -->
+                        <div class="card-body">
+                            {{ form_start(unbanrequest) }}
+                            {{ form_row(unbanrequest.uuid) }}
+                            <br>
+                            {{ form_row(unbanrequest.Fair) }}
+                            <br>
+                            {{ form_row(unbanrequest.Message) }}
+                            <br>
+                            {{ form_end(unbanrequest) }}
+                        </div>
+                        <!-- /.card-body -->
                     </div>
                     <!-- /.card -->
 
@@ -43,7 +50,5 @@
             <!-- /.row -->
         </section>
         <!-- /.content -->
-        <script src="{{ asset('assets/js/jquery.min.js') }}"></script>
-        <script src="{{ asset('assets/js/icheck.min.js') }}"></script>
     </div>
 {% endblock %}

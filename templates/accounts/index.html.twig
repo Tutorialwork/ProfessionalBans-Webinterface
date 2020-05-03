@@ -34,16 +34,16 @@
                             <table id="example2" class="table table-bordered table-hover">
                                 <thead>
                                 <tr>
-                                    <th>Username</th>
+                                    <th>{{ 'username'|trans }}</th>
                                     <th>Two-factor authentication</th>
-                                    <th>Permissions</th>
-                                    <th>Action</th>
+                                    <th>{{ 'permissions'|trans }}</th>
+                                    <th>{{ 'action'|trans }}</th>
                                 </tr>
                                 </thead>
                                 <tbody>
                                 {% for user in users %}
                                     <tr>
-                                        <td>{{ user.username}}</td>
+                                        <td><a href="{{ path('profile.user', {'user': user.username}) }}">{{ user.username}}</a></td>
                                         <td>
                                             {% if user.auth == 0 %}
                                                 No
@@ -53,13 +53,17 @@
                                         </td>
                                         <td><a class="btn btn-warning btn-sm" href="{{ path('accounts.manage', {'username': user.username}) }}">
                                                 <i class="fas fa-edit"></i>
-                                                Manage
+                                                {{ 'manage'|trans }}
                                             </a>
                                         </td>
-                                        <td><a class="btn btn-danger btn-sm" href="{{ path('accounts.delete', {'id': user.id}) }}">
+                                        <td><a class="btn btn-secondary btn-sm" href="{{ path('accounts.edit', {'id': user.id}) }}">
+                                                <i class="fas fa-user-edit"></i>
+                                                {{ 'edit'|trans }}
+                                            </a>
+                                            <a class="btn btn-danger btn-sm" href="{{ path('accounts.delete', {'id': user.id}) }}">
                                                 <i class="fas fa-trash">
                                                 </i>
-                                                Delete
+                                                {{ 'delete'|trans }}
                                             </a>
                                         </td>
                                     </tr>
@@ -67,10 +71,10 @@
                                 </tbody>
                                 <tfoot>
                                 <tr>
-                                    <th>Username</th>
+                                    <th>{{ 'username'|trans }}</th>
                                     <th>Two-factor authentication</th>
-                                    <th>Permissions</th>
-                                    <th>Action</th>
+                                    <th>{{ 'permissions'|trans }}</th>
+                                    <th>{{ 'action'|trans }}</th>
                                 </tr>
                                 </tfoot>
                             </table>

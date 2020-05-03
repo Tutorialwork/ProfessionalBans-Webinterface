@@ -10,9 +10,9 @@
         <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
     {% endif %}
 
-    <label for="inputUsername">Username</label>
+    <label for="inputUsername">{{ 'username'|trans }}</label>
     <input type="text" value="{{ last_username }}" name="username" id="inputUsername" class="form-control" required autofocus>
-    <label for="inputPassword">Password</label>
+    <label for="inputPassword">{{ 'password'|trans }}</label>
     <input type="password" name="password" id="inputPassword" class="form-control" required>
 
     <input type="hidden" name="_csrf_token"
@@ -25,20 +25,20 @@
         <div class="col-8">
             <div class="checkbox mb-3">
                 <label>
-                    <input type="checkbox" name="_remember_me"> Remember me
+                    <input type="checkbox" name="_remember_me"> {{ 'remember_me'|trans }}
                 </label>
             </div>
         </div>
         <!-- /.col -->
         <div class="col-4">
-            <button type="submit" class="btn btn-primary btn-block">Sign In</button>
+            <button type="submit" class="btn btn-primary btn-block">Login</button>
         </div>
         <!-- /.col -->
     </div>
 
     <a href="{{ path('invite.index') }}" class="btn btn-block btn-secondary">
         <i class="fas fa-user-plus"></i>
-        Create account
+        {{ 'create_account'|trans }}
     </a>
 
 </form>

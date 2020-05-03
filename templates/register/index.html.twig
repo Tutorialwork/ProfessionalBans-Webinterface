@@ -1,11 +1,11 @@
 {% extends 'authbase.html.twig' %}
 
-{% block title %}Register{% endblock %}
+{% block title %}{{ 'register'|trans }}{% endblock %}
 
-{% block heading %}Register{% endblock %}
+{% block heading %}{{ 'register'|trans }}{% endblock %}
 
 {% block body %}
 
-{{ form(register) }}
+    {{ form(register) }}
 
 {% endblock %}

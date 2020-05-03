@@ -32,7 +32,7 @@
                         <div class="card-header">
                             <a class="btn btn-secondary btn-sm" href="{{ path('reports.index') }}">
                                 <i class="fas fa-archive"></i>
-                                Open reports
+                                {{ 'open_reports'|trans }}
                             </a>
                             <a class="btn btn-success btn-sm" href="{{ path('chatlog.index') }}">
                                 <i class="fas fa-comments"></i>
@@ -44,12 +44,12 @@
                             <table id="example2" class="table table-bordered table-hover">
                                 <thead>
                                 <tr>
-                                    <th>Reported</th>
-                                    <th>Reported by</th>
-                                    <th>Reason</th>
+                                    <th>{{ 'reported'|trans }}</th>
+                                    <th>{{ 'reported_by'|trans }}</th>
+                                    <th>{{ 'reason'|trans }}</th>
                                     <th>Chatlog</th>
-                                    <th>Edited by</th>
-                                    <th>Created at</th>
+                                    <th>{{ 'edited_by'|trans }}</th>
+                                    <th>{{ 'date'|trans }}</th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -66,12 +66,12 @@
                                 </tbody>
                                 <tfoot>
                                 <tr>
-                                    <th>Reported</th>
-                                    <th>Reported by</th>
-                                    <th>Reason</th>
+                                    <th>{{ 'reported'|trans }}</th>
+                                    <th>{{ 'reported_by'|trans }}</th>
+                                    <th>{{ 'reason'|trans }}</th>
                                     <th>Chatlog</th>
-                                    <th>Edited by</th>
-                                    <th>Created at</th>
+                                    <th>{{ 'edited_by'|trans }}</th>
+                                    <th>{{ 'date'|trans }}</th>
                                 </tr>
                                 </tfoot>
                             </table>
