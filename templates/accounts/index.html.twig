@@ -46,9 +46,9 @@
                                         <td><a href="{{ path('profile.user', {'user': user.username}) }}">{{ user.username}}</a></td>
                                         <td>
                                             {% if user.auth == 0 %}
-                                                No
+                                                {{ 'no'|trans }}
                                             {% else %}
-                                                Yes
+                                                {{ 'yes'|trans }}
                                             {% endif %}
                                         </td>
                                         <td><a class="btn btn-warning btn-sm" href="{{ path('accounts.manage', {'username': user.username}) }}">

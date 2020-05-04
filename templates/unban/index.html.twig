@@ -40,9 +40,9 @@
                             <table id="example2" class="table table-bordered table-hover">
                                 <thead>
                                 <tr>
-                                    <th>Player</th>
-                                    <th>Date</th>
-                                    <th>Action</th>
+                                    <th>{{ 'player'|trans }}</th>
+                                    <th>{{ 'date'|trans }}</th>
+                                    <th>{{ 'action'|trans }}</th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -52,7 +52,7 @@
                                         <td>{{ unban.date|format_datetime(locale="de") }}</td>
                                         <td><a class="btn btn-secondary btn-sm" href="{{ path('unban.view', {'id': unban.id}) }}">
                                                 <i class="fas fa-eye"></i>
-                                                View
+                                                {{ 'view'|trans }}
                                             </a>
                                         </td>
                                     </tr>
@@ -60,9 +60,9 @@
                                 </tbody>
                                 <tfoot>
                                 <tr>
-                                    <th>Player</th>
-                                    <th>Date</th>
-                                    <th>Action</th>
+                                    <th>{{ 'player'|trans }}</th>
+                                    <th>{{ 'date'|trans }}</th>
+                                    <th>{{ 'action'|trans }}</th>
                                 </tr>
                                 </tfoot>
                             </table>
