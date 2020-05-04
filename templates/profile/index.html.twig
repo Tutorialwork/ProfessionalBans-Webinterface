@@ -158,6 +158,14 @@
                                         <h5>{{ 'change_pw_heading'|trans }}</h5>
                                         <br>
                                         {{ form(changePasswordForm) }}
+                                        <br>
+                                        <h5>{{ '2fa'|trans }}</h5>
+                                        <br>
+                                        {% if app.user.auth %}
+                                        <a href="{{ path('profile.delete2fa') }}" class="btn btn-danger btn-block">{{ 'disable'|trans }}</a>
+                                        {% else %}
+                                        <a href="{{ path('profile.setup2fa') }}" class="btn btn-success btn-block">{{ 'enable'|trans }}</a>
+                                        {% endif %}
                                     </div>
                                     {% endif %}
                                     <!-- /.tab-pane -->

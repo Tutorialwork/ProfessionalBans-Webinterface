@@ -9,6 +9,7 @@ use DateTime;
 use App\Repository\BansRepository;
 use App\Repository\UserRepository;
 use Knp\Component\Pager\PaginatorInterface;
+use Scheb\TwoFactorBundle\Security\TwoFactor\Provider\Google\GoogleAuthenticatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -29,8 +30,9 @@ class ProfileController extends AbstractController
     private $passwordEncoder;
     private $paginator;
     private $translator;
+    private $googleAuthenticator;
 
-    public function __construct(BansRepository $bansRepository, UserRepository $userRepository, LogRepository $logRepository, ReasonRepository $reasonRepository, HomeController $homeController, UserPasswordEncoderInterface $passwordEncoder, PaginatorInterface $paginator, TranslatorInterface $translator)
+    public function __construct(BansRepository $bansRepository, UserRepository $userRepository, LogRepository $logRepository, ReasonRepository $reasonRepository, HomeController $homeController, UserPasswordEncoderInterface $passwordEncoder, PaginatorInterface $paginator, TranslatorInterface $translator, GoogleAuthenticatorInterface $googleAuthenticator)
     {
         $this->bansRepository = $bansRepository;
         $this->userRepository = $userRepository;
@@ -40,6 +42,7 @@ class ProfileController extends AbstractController
         $this->passwordEncoder = $passwordEncoder;
         $this->paginator = $paginator;
         $this->translator = $translator;
+        $this->googleAuthenticator = $googleAuthenticator;
     }
 
     /**
@@ -80,14 +83,16 @@ class ProfileController extends AbstractController
 
         if($passwordChangeForm->isSubmitted() && $passwordChangeForm->isValid()){
             $user = $passwordChangeForm->getData();
-            $hash = $this->passwordEncoder->encodePassword($this->getUser(), $user->getPassword());
-            $this->getUser()->setPassword($hash);
+            if($user->getUsername() == $this->getUser()->getUsername()){
+                $hash = $this->passwordEncoder->encodePassword($this->getUser(), $user->getPassword());
+                $this->getUser()->setPassword($hash);
 
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($this->getUser());
-            $em->flush();
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($this->getUser());
+                $em->flush();
 
-            $this->addFlash('success', $this->translator->trans('pw_changed'));
+                $this->addFlash('success', $this->translator->trans('pw_changed'));
+            }
         }
 
         $logs_page = $this->paginator->paginate(
@@ -101,7 +106,7 @@ class ProfileController extends AbstractController
             'user' => $user,
             'onlinetime' => $onlinetime,
             'logs' => $logs_page,
-            'changePasswordForm' => $passwordChangeForm->createView()
+            'changePasswordForm' => $passwordChangeForm->createView(),
         ]);
     }
 
@@ -130,6 +135,53 @@ class ProfileController extends AbstractController
         if(is_numeric($number)){
             return ($number == 1) ? $number . " " . $this->translator->trans($singular) . " " : $number . " " . $this->translator->trans($plural) . " ";
         }
+    }
+
+    /**
+     * @Route("/setup/2fa", name="setup2fa")
+     */
+    public function setup2FA(){
+        $qrCodeContent = $this->googleAuthenticator->getQRContent($this->getUser());
+        $secret = explode("?secret=", $qrCodeContent)[1];
+
+        return $this->render('profile/setup2fa.html.twig', [
+            'qr_content' => $qrCodeContent,
+            'secret' => $secret
+        ]);
+    }
+
+    /**
+     * @Route("/setup/2fa/save/{secret}", name="save2fa")
+     */
+    public function save2FASecret($secret){
+        $user = $this->getUser();
+        $user->setAuth(true);
+        $user->setAuthcode($secret);
+
+        $em = $this->getDoctrine()->getManager();
+        $em->persist($user);
+        $em->flush();
+
+        return $this->redirectToRoute('profile.user', [
+            "user" => $user->getUsername()
+        ]);
+    }
+
+    /**
+     * @Route("/setup/2fa/delete", name="delete2fa")
+     */
+    public function disable2FA(){
+        $user = $this->getUser();
+        $user->setAuth(false);
+        $user->setAuthcode(null);
+
+        $em = $this->getDoctrine()->getManager();
+        $em->persist($user);
+        $em->flush();
+
+        return $this->redirectToRoute('profile.user', [
+            "user" => $user->getUsername()
+        ]);
     }
 
 }

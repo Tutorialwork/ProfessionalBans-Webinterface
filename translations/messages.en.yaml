@@ -142,3 +142,9 @@ continue: Continue
 invitecode_heading: Enter your invitecode
 invite_invalid: The invite code is invalid
 invite_delete: The invitecode was successfully deleted.
+2fa: Two factor authentication
+enable: Enable
+disable: Disable
+setup_2fa: Setup Two factor authentication
+setup_2fa_desc: Download the free Google Authenticator app and scan the QR-Code below
+finish: Finish

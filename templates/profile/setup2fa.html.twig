@@ -1,0 +1,14 @@
+{% extends 'authbase.html.twig' %}
+
+{% block title %}
+    {{ 'setup_2fa'|trans }}
+{% endblock %}
+
+{% block heading %}{{ 'setup_2fa'|trans }}{% endblock %}
+
+{% block body %}
+    <p>{{ 'setup_2fa_desc'|trans }}</p>
+    <img src="{{ qr_code_path(qr_content) }}" />
+    <br>
+    <a href="{{ path('profile.save2fa', {'secret': secret}) }}" class="btn btn-success btn-block">{{ 'finish'|trans }}</a>
+{% endblock %}

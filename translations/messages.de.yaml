@@ -142,3 +142,9 @@ continue: Fortfahren
 invitecode_heading: Einladungscode eingeben
 invite_invalid: Der Einladungscode ist ungültig
 invite_delete: Der Einladungscode wurde gelöscht
+2fa: Zwei Faktor Authentifizierung
+enable: Aktivieren
+disable: Deaktivieren
+setup_2fa: Zwei Faktor Authentifizierung Einrichtung
+setup_2fa_desc: Lade dir die kostenlose Google Authenticator App herunter und scanne den untenstehenden QR-Code
+finish: Fertig
