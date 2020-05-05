@@ -102,6 +102,7 @@ username: Benutzername
 not_permitted: Entschuldige, aber du bist leider nicht dazu berechtigt diesen Benutzer zu bearbeiten
 manage: Verwalten
 permissions: Berechtigungen
+perm_update: Die Berechtigungen des Benutzers wurden erfolgreich aktualisiert.
 #Chatlogs
 search_log: Suche nach einem Chatverlauf
 search: Suchen

@@ -102,6 +102,7 @@ username: Username
 not_permitted: Sorry, but you are not permitted to edit this user
 manage: Manage
 permissions: Permissions
+perm_update: The permissions from the user was successfully updated.
 #Chatlogs
 search_log: Search for chatlog
 search: Search

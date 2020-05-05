@@ -110,32 +110,46 @@ class AccountsController extends AbstractController
                     if(!$this->duplicatChecker($roles, "ROLE_PAGE_BAN")){
                         array_push($roles, "ROLE_PAGE_BAN");
                     }
+                } else {
+                    $roles = $this->deleteRole($roles, "ROLE_PAGE_BAN");
                 }
                 if($form->get('ROLE_PAGE_MUTE')->getData()){
                     if(!$this->duplicatChecker($roles, "ROLE_PAGE_MUTE")){
                         array_push($roles, "ROLE_PAGE_MUTE");
                     }
+                } else {
+                    $roles = $this->deleteRole($roles, "ROLE_PAGE_MUTE");
                 }
                 if($form->get('ROLE_PAGE_REPORTS')->getData()){
                     if(!$this->duplicatChecker($roles, "ROLE_PAGE_REPORTS")){
                         array_push($roles, "ROLE_PAGE_REPORTS");
                     }
+                } else {
+                    $roles = $this->deleteRole($roles, "ROLE_PAGE_REPORTS");
                 }
                 if($form->get('ROLE_PAGE_UNBANS')->getData()){
                     if(!$this->duplicatChecker($roles, "ROLE_PAGE_UNBANS")){
                         array_push($roles, "ROLE_PAGE_UNBANS");
                     }
+                } else {
+                    $roles = $this->deleteRole($roles, "ROLE_PAGE_UNBANS");
                 }
                 if($form->get('ROLE_PAGE_REASON')->getData()){
                     if(!$this->duplicatChecker($roles, "ROLE_PAGE_REASON")){
                         array_push($roles, "ROLE_PAGE_REASON");
                     }
+                } else {
+                    $roles = $this->deleteRole($roles, "ROLE_PAGE_REASON");
                 }
                 if($form->get('ROLE_PAGE_ADMIN')->getData()){
                     if(!$this->duplicatChecker($roles, "ROLE_PAGE_ADMIN")){
                         array_push($roles, "ROLE_PAGE_ADMIN");
                     }
+                } else {
+                    $roles = $this->deleteRole($roles, "ROLE_PAGE_ADMIN");
                 }
+
+                $roles = $this->resetArrayKeys($roles);
 
                 $user->setRoles($roles);
 
@@ -143,7 +157,7 @@ class AccountsController extends AbstractController
                 $em->persist($user);
                 $em->flush();
 
-                $this->addFlash('success', 'Permissions updated');
+                $this->addFlash('success', $this->translator->trans('perm_update'));
                 return $this->redirectToRoute('accounts.index');
             }
 
@@ -164,5 +178,21 @@ class AccountsController extends AbstractController
         } else {
             return true;
         }
+    }
+
+    private function deleteRole($roles, $role_name){
+        $key = array_search($role_name, $roles);
+        if($key != false){
+            unset($roles[$key]);
+        }
+        return $roles;
+    }
+
+    private function resetArrayKeys($roles){
+        $new_roles = [];
+        foreach ($roles as $item){
+            array_push($new_roles, $item);
+        }
+        return $new_roles;
     }
 }
