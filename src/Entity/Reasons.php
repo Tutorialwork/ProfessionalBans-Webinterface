@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use App\Controller\ProfileController;
+use App\Controller\TimeController;
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -124,49 +126,36 @@ class Reasons
         return $this;
     }
 
-    public function getFormattedTime()
+    public function getFormattedTime($day, $days, $hour, $hours, $minute, $minutes)
     {
-        if($this->Time == -1){
-            return "Permanent";
-        }
+        $time = $this->getTime() * 60;
+
         $timePunish = new DateTime();
-        $timePunish->setTimestamp(time() - $this->Time * 60);
+        $timePunish->setTimestamp(time() - $time);
         $now = new DateTime();
         $diff = $now->diff($timePunish, true);
-        /*
-        if($diff->d != 0 && $diff->h != 0 && $diff->i != 0){
-            return $diff->d . " days, " . $diff->h . " hours and " . $diff->i ." minutes";
-        } else if($diff->d == 0 && $diff->h != 0 && $diff->i != 0){
-            return $diff->h . " hours and " . $diff->i ." minutes";
-        } else if($diff->d == 0 && $diff->h == 0 && $diff->i != 0){
-            return $diff->i ." minutes";
-        } else if($diff->d == 0 && $diff->h != 0 && $diff->i == 0){
-            return $diff->h ." hours";
-        } else if($diff->d != 0 && $diff->h == 0 && $diff->i == 0){
-            return $diff->d ." days";
-        }
-        */
+
         dump($diff);
-        //$all = $diff->format('%y years %m months %a days %h hours %i minutes %s seconds');
 
-        $years = (int) $diff->format('%y');
-        $months = (int) $diff->format('%m');
-        $days = (int) $diff->format('%a');
-        $hours = (int) $diff->format('%h');
-        $mintues = (int) $diff->format('%i');
-
-        $str = "";
-        if($days != 0){
-            $str .= $days . " days, ";
-        }
-        if($hours != 0){
-            $str .= $hours . " hours, ";
-        }
-        if($mintues != 0){
-            $str .= $mintues . " minutes";
+        $timeStr = "";
+        if($diff->days != 0){
+            $timeStr .= $this->buildTimeSnippet($diff->days, $day, $days);
+        } else {
+            if($diff->h != 0){
+                $timeStr .= $this->buildTimeSnippet($diff->h, $hour, $hours);
+            }
+            if($diff->i != 0){
+                $timeStr .= $this->buildTimeSnippet($diff->i, $minute, $minutes);
+            }
         }
 
-        return $str;
+        return $timeStr;
+    }
+
+    private function buildTimeSnippet($number, $singular, $plural){
+        if(is_numeric($number)){
+            return ($number == 1) ? $number . " " . $singular . " " : $number . " " . $plural . " ";
+        }
     }
 
     /*

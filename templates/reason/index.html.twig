@@ -56,7 +56,7 @@
                                     <tr>
                                         <td>{{ reason.id}}</td>
                                         <td>{{ reason.reason }}</td>
-                                        <td>{{ reason.FormattedTime }}</td>
+                                        <td>{{ reason.FormattedTime('day'|trans, 'days'|trans, 'hour'|trans, 'hours'|trans, 'minute'|trans, 'minutes'|trans) }}</td>
                                         <td>
                                             {% if reason.type == 0 %}
                                                 Ban

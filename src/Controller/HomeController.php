@@ -63,7 +63,11 @@ class HomeController extends AbstractController
             $integerCheck = (int) $log->getNote();
             if($integerCheck != 0){
                 $reason = $this->reasonRepository->findOneBy(["id" => $integerCheck]);
-                $log->setNote($reason->getReason());
+                if($reason){
+                    $log->setNote($reason->getReason());
+                } else {
+                    $log->setNote($this->translator->trans('deleted_reason')." (#".$integerCheck.")");
+                }
             }
 
             $log->setUUID($uuidPlayer->getName());

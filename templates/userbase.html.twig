@@ -73,13 +73,13 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="{{ path('mute.index') }}" class="nav-link {% if app.request.get('_route') == "mute.index" %} active {% endif %}">
+                        <a href="{{ path('utils.imprint') }}" class="nav-link">
                             <i class="fas fa-address-card nav-icon"></i>
                             <p>{{ 'nav_imprint'|trans }}</p>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="#" class="nav-link {% if app.request.get('_route') == "mute.index" %} active {% endif %}">
+                        <a href="{{ path('utils.privacy') }}" class="nav-link">
                             <i class="fas fa-user-secret nav-icon"></i>
                             <p>{{ 'nav_privacy'|trans }}</p>
                         </a>

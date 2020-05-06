@@ -7,6 +7,7 @@ teammembers: Teammitglieder
 from: Von
 event: Ereignis
 last_activities: Letzte Aktivitäten
+deleted_reason: einem gelöschten Bangrund
 
 success: Erfolgreich
 account_not_exits: Der Account exisitiert nicht
@@ -35,6 +36,7 @@ nav_overview: Übersicht
 nav_unbanrequests: Entbannungsanträge
 nav_reasons: Bangründe
 nav_invites: Einladungscodes
+nav_settings: Einstellungen
 #User Navbar
 nav_unbanrequest: Entbannungsantrag
 nav_imprint: Impressum
@@ -149,3 +151,8 @@ disable: Deaktivieren
 setup_2fa: Zwei Faktor Authentifizierung Einrichtung
 setup_2fa_desc: Lade dir die kostenlose Google Authenticator App herunter und scanne den untenstehenden QR-Code
 finish: Fertig
+#Settings
+imprint_desc: In vielen Ländern wie Deutschland benötigst du ein Impressum und eine Datenschutzerklärung um eine Webseite zu betreiben. Gebe die URL zu deinem Impressum etc. an.
+no_url: Bitte gebe eine gültige URL an
+changes_saved: Deine Änderungen wurden gespeichert
+page_not_found: Diese Seite wurde nicht gefunden
