@@ -49,6 +49,7 @@ security:
         - { path: ^/admin, roles: ROLE_PAGE_ADMIN }
         - { path: ^/accounts, roles: ROLE_PAGE_ADMIN }
         - { path: ^/invites, roles: ROLE_PAGE_ADMIN }
+        - { path: ^/settings, roles: ROLE_PAGE_ADMIN }
         - # This makes the logout route available during two-factor authentication, allows the user to cancel
         - { path: ^/auth/logout, role: IS_AUTHENTICATED_ANONYMOUSLY }
         # This ensures that the form can only be accessed when two-factor authentication is in progress
