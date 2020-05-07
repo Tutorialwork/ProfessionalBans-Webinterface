@@ -87,16 +87,14 @@ class ProfileController extends AbstractController
 
         if($passwordChangeForm->isSubmitted() && $passwordChangeForm->isValid()){
             $user = $passwordChangeForm->getData();
-            if($user->getUsername() == $this->getUser()->getUsername()){
-                $hash = $this->passwordEncoder->encodePassword($this->getUser(), $user->getPassword());
-                $this->getUser()->setPassword($hash);
+            $hash = $this->passwordEncoder->encodePassword($this->getUser(), $user->getPassword());
+            $this->getUser()->setPassword($hash);
 
-                $em = $this->getDoctrine()->getManager();
-                $em->persist($this->getUser());
-                $em->flush();
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($this->getUser());
+            $em->flush();
 
-                $this->addFlash('success', $this->translator->trans('pw_changed'));
-            }
+            $this->addFlash('success', $this->translator->trans('pw_changed'));
         }
 
         $logs_page = $this->paginator->paginate(
