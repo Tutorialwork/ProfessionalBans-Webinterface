@@ -51,6 +51,10 @@ class ProfileController extends AbstractController
     public function showProfile($user, Request $request)
     {
         $player = $this->bansRepository->findOneBy(["Name" => $user]);
+        if(!$player){
+            $this->addFlash('error', $this->translator->trans('player_not_found'));
+            return $this->redirectToRoute('home.index');
+        }
         $user = $this->userRepository->findOneBy(["username" => $user]);
         $log = $this->logRepository->findBy(["Action" => ['BAN', 'UNBAN_BAN', 'MUTE', 'UNBAN_MUTE', 'AUTOMUTE_BLACKLIST', 'AUTOMUTE_ADBLACKLIST'], 'UUID' => $player->getUUID()], ['Date' => "DESC"], 10);
 
