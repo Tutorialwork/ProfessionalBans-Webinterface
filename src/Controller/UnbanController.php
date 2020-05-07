@@ -87,8 +87,6 @@ class UnbanController extends AbstractController
             $unban->setUuid($playerUuid->getUUID());
             $em = $this->getDoctrine()->getManager();
             switch ($status){
-                //TODO Check if working
-                //TODO Remove choice for done unbans
                 case 1:
                     $playerUuid->setBanned(0);
 
