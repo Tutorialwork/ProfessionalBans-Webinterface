@@ -57,6 +57,9 @@ your_name: Your name
 unbanrequest_success: Your unbanrequest was send.
 player_not_banned: This player is not banned
 already_requested: You have requested this week already a unbanrequest
+date_past: Your chosen date was in the past
+all_unbans: All open unbanrequest
+already_finished: This unbanrequest was already edited.
 #Reasons
 minutes: Minutes
 hours: Hours

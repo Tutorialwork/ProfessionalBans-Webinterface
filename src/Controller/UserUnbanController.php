@@ -39,9 +39,11 @@ class UserUnbanController extends AbstractController
             $unban->setDate(time());
             $unban->setStatus(0);
 
+            $ban = $this->bansRepository->findOneBy(['Name' => $unban->getUUID()]);
+            $unban->setUUID($ban->getName());
+
             $em = $this->getDoctrine()->getManager();
 
-            $ban = $this->bansRepository->findOneBy(['Name' => $unban->getUUID()]);
             if($ban){
                 if($ban->getBanned() == 1){
                     $unban->setUUID($ban->getUUID());

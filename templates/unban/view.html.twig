@@ -32,7 +32,7 @@
                         <!-- /.card-header -->
                         <div class="card-body">
                             <h3>{{ 'player'|trans }}</h3>
-                            <p>{{ unban.uuid }}</p>
+                            <a href="{{ path('profile.user', {'user': unban.uuid}) }}">{{ unban.uuid }}</a><br>
                             <br>
                             <h3>{{ 'fair_question'|trans }}</h3>
                             <p>
@@ -48,6 +48,7 @@
                             <br>
                             <h3>{{ 'unban_date'|trans }}</h3>
                             <p>{{ unban.date|format_datetime(locale="de") }}</p>
+                            {% if unban.status == 0 %}
                             <br>
                             <h3>{{ 'ban_end'|trans }}</h3>
                             <p>{{ player.end|format_datetime(locale="de") }}</p>
@@ -89,6 +90,14 @@
                             <br>
                             {{ form_widget(form.submit) }}
                             {{ form_end(form) }}
+                            {% else %}
+                                <div class="p-2">
+                                    <div class="alert alert-success p">
+                                        <h4><i class="icon fa fa-check"></i> {{ 'success'|trans }}</h4>
+                                        {{ 'already_finished'|trans }}
+                                    </div>
+                                </div>
+                            {% endif %}
                             <script>
                                 function toggleDateField() {
                                     var datepicker = document.getElementById('datepicker');
