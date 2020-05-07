@@ -104,16 +104,24 @@ class HomeController extends AbstractController
         $timePunish->setTimestamp(time() - $time / 1000);
         $now = new DateTime();
         $diff = $now->diff($timePunish, true);
-        if($diff->d != 0 && $diff->h != 0 && $diff->i != 0){
-            return $diff->d . " days, " . $diff->h . " hours and " . $diff->i ." minutes";
-        } else if($diff->d == 0 && $diff->h != 0 && $diff->i != 0){
-            return $diff->h . " hours and " . $diff->i ." minutes";
-        } else if($diff->d == 0 && $diff->h == 0 && $diff->i != 0){
-            return $diff->i ." minutes";
-        } else if($diff->d == 0 && $diff->h != 0 && $diff->i == 0){
-            return $diff->h ." hours";
-        } else if($diff->d != 0 && $diff->h == 0 && $diff->i == 0){
-            return $diff->d ." days";
+
+        $timeStr = "";
+        if($diff->d != 0){
+            $timeStr .= $this->buildTimeSnippet($diff->d, "day", "days");
+        }
+        if($diff->h != 0){
+            $timeStr .= $this->buildTimeSnippet($diff->h, "hour", "hours");
+        }
+        if($diff->i != 0){
+            $timeStr .= $this->buildTimeSnippet($diff->i, "minute", "minutes");
+        }
+
+        return $timeStr;
+    }
+
+    private function buildTimeSnippet($number, $singular, $plural){
+        if(is_numeric($number)){
+            return ($number == 1) ? $number . " " . $this->translator->trans($singular) . " " : $number . " " . $this->translator->trans($plural) . " ";
         }
     }
 
