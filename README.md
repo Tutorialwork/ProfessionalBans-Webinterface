@@ -21,4 +21,14 @@ Webinterface for my minecraft plugin ProfessionalBans Reloaded
 ```
 
 4. Open the `.env` file and setting up your MySQL database credentials under `DATABASE_URL`
-5. You can change the language in `/config/packages/translation.yaml` by setting `default_locale` to German (de) or English (en)
+5. Install composer `apt install composer`
+6. Install Apache2 pack `composer require apache-pack`
+
+# REST API
+
+ProfessionalBans is developer friendly. You can use the REST API to access all data from the webinterface over the api.
+
+How to use?
+
+- You can access the api with `/api/login` for example, a full documentation is coming soon.
+- All what you need is your API key
