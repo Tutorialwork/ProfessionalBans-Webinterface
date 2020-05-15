@@ -34,7 +34,7 @@ class ChatController extends AbstractController{
             ], 401);
         }
 
-        $chats = $this->chatRepository->findBy([''], ['Senddate' => 'DESC']);
+        $chats = $this->chatRepository->findBy([], ['Senddate' => 'DESC']);
 
         foreach ($chats as $chat){
             $uuid = $this->bansRepository->findOneBy(['UUID' => $chat->getUUID()]);
