@@ -103,12 +103,17 @@ class ProfileController extends AbstractController
             5
         );
 
+        $url = $request->getUri();
+        $url = explode("/user", $url);
+        $url = $url[0] . "/api";
+
         return $this->render('profile/index.html.twig', [
             'player' => $player,
             'user' => $user,
             'onlinetime' => $onlinetime,
             'logs' => $logs_page,
             'changePasswordForm' => $passwordChangeForm->createView(),
+            'appUrl' => $url
         ]);
     }
 

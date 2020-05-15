@@ -166,6 +166,9 @@
                                         {% else %}
                                         <a href="{{ path('profile.setup2fa') }}" class="btn btn-success btn-block">{{ 'enable'|trans }}</a>
                                         {% endif %}
+                                        <br>
+                                        <h5>App QR Code</h5>
+                                        <img src="{{ qr_code_path(appUrl) }}" alt="qr code">
                                     </div>
                                     {% endif %}
                                     <!-- /.tab-pane -->
