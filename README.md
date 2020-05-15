@@ -20,7 +20,7 @@ Webinterface for my minecraft plugin ProfessionalBans Reloaded
 </VirtualHost>
 ```
 
-4. Open the `.env` file and setting up your MySQL database credentials under `DATABASE_URL`
+4. Visit your website you will be redirected to a new installer.
 5. Install composer `apt install composer`
 6. Install Apache2 pack `composer require apache-pack`
 
