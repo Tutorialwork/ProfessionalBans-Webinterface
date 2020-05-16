@@ -4,9 +4,9 @@ Webinterface for my minecraft plugin ProfessionalBans Reloaded
 **THIS IS A BETA VERSION AND NOT STABLE!**
 
 # How to setup the new webinterface?
-1. [Download all files](https://github.com/Tutorialwork/ProfessionalBans-Webinterface/archive/v3.zip)
-2. Move the files to your webserver
-3. Setting up your Apache2 server for the new webinterface. Open the Apache2 settings file with `nano /etc/apache2/sites-available/000-default.conf` and change the `DocumentRoot` to this:
+- [Download all files](https://github.com/Tutorialwork/ProfessionalBans-Webinterface/archive/v3.zip)
+-  Move the files to your webserver
+-  Setting up your Apache2 server for the new webinterface. Open the Apache2 settings file with `nano /etc/apache2/sites-available/000-default.conf` and change the `DocumentRoot` to this:
 
 ```
 <VirtualHost *:80>
@@ -20,9 +20,10 @@ Webinterface for my minecraft plugin ProfessionalBans Reloaded
 </VirtualHost>
 ```
 
-4. Visit your website you will be redirected to a new installer.
-5. Install composer `apt install composer`
-6. Install Apache2 pack `composer require apache-pack`
+- Go to your directory of your web server for example `cd  /var/www/your/path/to/professionalbans`
+- Install composer `apt install composer`
+- Install Apache2 pack `composer require apache-pack`
+- Visit your website you will be redirected to a new installer.
 
 # REST API
 
