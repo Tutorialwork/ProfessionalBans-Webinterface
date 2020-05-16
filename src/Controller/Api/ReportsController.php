@@ -2,6 +2,7 @@
 
 namespace App\Controller\Api;
 
+use App\Repository\BansRepository;
 use App\Repository\ChatlogRepository;
 use App\Repository\ReportsRepository;
 use App\Repository\TokensRepository;
@@ -14,12 +15,14 @@ class ReportsController extends AbstractController{
     private $tokensRepository;
     private $reportsRepository;
     private $chatlogRepository;
+    private $bansRepository;
 
-    public function __construct(TokensRepository $tokensRepository, ReportsRepository $reportsRepository, ChatlogRepository $chatlogRepository)
+    public function __construct(TokensRepository $tokensRepository, ReportsRepository $reportsRepository, ChatlogRepository $chatlogRepository, BansRepository $bansRepository)
     {
         $this->tokensRepository = $tokensRepository;
         $this->reportsRepository = $reportsRepository;
         $this->chatlogRepository = $chatlogRepository;
+        $this->bansRepository = $bansRepository;
     }
 
     /**
@@ -37,6 +40,32 @@ class ReportsController extends AbstractController{
         $openReports = $this->reportsRepository->findBy(['Status' => 0], ['CreatedAt' => 'DESC']);
         $closedReports = $this->reportsRepository->findBy(['Status' => 1], ['CreatedAt' => 'DESC']);
         $chatlogs = $this->chatlogRepository->findBy([], ['CreatedAt' => 'DESC']);
+
+        foreach ($openReports as $report){
+            $uuid = $this->bansRepository->findOneBy(['UUID' => $report->getUuid()]);
+            $reporterUuid = $this->bansRepository->findOneBy(['UUID' => $report->getReporter()]);
+
+            $report->setUuid($uuid->getName());
+            $report->setReporter($reporterUuid->getName());
+        }
+
+        foreach ($closedReports as $report){
+            $uuid = $this->bansRepository->findOneBy(['UUID' => $report->getUuid()]);
+            $reporterUuid = $this->bansRepository->findOneBy(['UUID' => $report->getReporter()]);
+            $teamUuid = $this->bansRepository->findOneBy(['UUID' => $report->getTeam()]);
+
+            $report->setUuid($uuid->getName());
+            $report->setReporter($reporterUuid->getName());
+            $report->setTeam($teamUuid->getName());
+        }
+
+        foreach ($chatlogs as $chatlog){
+            $uuid = $this->bansRepository->findOneBy(['UUID' => $chatlog->getUuid()]);
+            $creatorUuid = $this->bansRepository->findOneBy(['UUID' => $chatlog->getCreatorUuid()]);
+
+            $chatlog->setUuid($uuid->getName());
+            $chatlog->setCreatorUuid($creatorUuid->getName());
+        }
 
         return $this->json([
             'reports' => [
