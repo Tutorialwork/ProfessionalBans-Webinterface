@@ -13,11 +13,13 @@ class UnbansController extends AbstractController{
 
     private $tokensRepository;
     private $unbansRepository;
+    private $bansRepository;
 
-    public function __construct(TokensRepository $tokensRepository, UnbansRepository $unbansRepository)
+    public function __construct(TokensRepository $tokensRepository, UnbansRepository $unbansRepository, BansRepository $bansRepository)
     {
         $this->tokensRepository = $tokensRepository;
         $this->unbansRepository = $unbansRepository;
+        $this->bansRepository = $bansRepository;
     }
 
     //TODO
@@ -36,6 +38,18 @@ class UnbansController extends AbstractController{
 
         $openUnbans = $this->unbansRepository->findBy(['Status' => 0]);
         $closedUnbans = $this->unbansRepository->findBy(['Status' => [1, 2, 3]]);
+
+        foreach ($openUnbans as $unban){
+            $uuid = $this->bansRepository->findOneBy(['UUID' => $unban->getUUID()]);
+
+            $unban->setUuid($uuid->getName());
+        }
+
+        foreach ($closedUnbans as $unban){
+            $uuid = $this->bansRepository->findOneBy(['UUID' => $unban->getUUID()]);
+
+            $unban->setUuid($uuid->getName());
+        }
 
         return $this->json([
             'unbans' => [

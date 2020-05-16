@@ -151,14 +151,10 @@ class PunishmentController extends AbstractController{
             ], 401);
         }
 
-        $reasonBan = $this->reasonRepository->findBy(['Type' => 0]);
-        $reasonMute = $this->reasonRepository->findBy(['Type' => 1]);
+        $reasons = $this->reasonRepository->findAll();
 
         return $this->json([
-            'reasons' => [
-                'ban' => $reasonBan,
-                'mute' => $reasonMute
-            ]
+            'reasons' => $reasons
         ]);
     }
 
