@@ -22,6 +22,7 @@ Webinterface for my minecraft plugin ProfessionalBans Reloaded
 
 - Go to your directory of your web server for example `cd  /var/www/your/path/to/professionalbans`
 - Install composer `apt install composer`
+- Install required packages `composer install`
 - Install Apache2 pack `composer require apache-pack`
 - Visit your website you will be redirected to a new installer.
 
