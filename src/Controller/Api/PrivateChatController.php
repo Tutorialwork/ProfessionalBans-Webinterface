@@ -36,7 +36,7 @@ class PrivateChatController extends AbstractController{
         }
 
         if(array_key_exists("to", $request) && array_key_exists("message", $request)){
-            $targetUuid = $this->bansRepository->findOneBy(['UUID' => $request->to]);
+            $targetUuid = $this->bansRepository->findOneBy(['Name' => $request->to]);
             if(!$targetUuid){
                 return $this->json([
                     'error' => 'Player not found'
@@ -45,7 +45,7 @@ class PrivateChatController extends AbstractController{
 
             $message = new Privatemessages();
             $message->setSender($token->getUuid());
-            $message->setReceiver($targetUuid->getName());
+            $message->setReceiver($targetUuid->getUUID());
             $message->setMessage($request->message);
             $message->setStatus(0);
             $message->setDate(time() * 1000);
