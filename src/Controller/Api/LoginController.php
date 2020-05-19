@@ -5,6 +5,7 @@ namespace App\Controller\Api;
 use App\Entity\Tokens;
 use App\Repository\TokensRepository;
 use App\Repository\UserRepository;
+use Scheb\TwoFactorBundle\Security\TwoFactor\Provider\Google\GoogleAuthenticatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -34,7 +35,41 @@ class LoginController extends AbstractController{
             ], 400);
         }
 
-        $token = new Tokens();
+        $user = $this->userRepository->findOneBy(['username' => $request->username]);
+        if(!$user){
+            return $this->json([
+                'error' => 'Login failed'
+            ], 401);
+        }
+        if(!$this->passwordEncoder->isPasswordValid($user, $request->password)){
+            return $this->json([
+                'error' => 'Login failed'
+            ], 401);
+        }
+        if($user->getAuth()){
+            return $this->json([
+                'error' => '2fa required'
+            ], 401);
+        }
+
+        $token = $this->createToken($request, $user);
+
+        return $this->json([
+            'token' => $token->getToken()
+        ]);
+    }
+
+    /**
+     * @Route("/api/login/2fa", name="api.twoauth", methods={"POST"})
+     */
+    public function twofactorauth(Request $request, GoogleAuthenticatorInterface $googleAuthenticatorService)
+    {
+        $request = json_decode($request->getContent());
+        if(!array_key_exists("username", $request) || !array_key_exists("password", $request) || !array_key_exists("code", $request)){
+            return $this->json([
+                'error' => 'Invalid request'
+            ], 400);
+        }
 
         $user = $this->userRepository->findOneBy(['username' => $request->username]);
         if(!$user){
@@ -47,7 +82,23 @@ class LoginController extends AbstractController{
                 'error' => 'Login failed'
             ], 401);
         }
+        if($user->getAuth()){
+            if($googleAuthenticatorService->checkCode($user, $request->code)){
+                $token = $this->createToken($request, $user);
 
+                return $this->json([
+                    'token' => $token->getToken()
+                ]);
+            } else {
+                return $this->json([
+                    'error' => 'Code invalid'
+                ], 401);
+            }
+        }
+    }
+
+    public function createToken($request, $user){
+        $token = new Tokens();
         $tokenString = bin2hex(random_bytes(16));
 
         $token->setUuid($user->getUuid());
@@ -60,9 +111,7 @@ class LoginController extends AbstractController{
         $em->persist($token);
         $em->flush();
 
-        return $this->json([
-            'token' => $tokenString
-        ]);
+        return $token;
     }
 
 }
