@@ -60,6 +60,7 @@ already_requested: Du hast diese Woche schon einen Entbannungsantrag gestellt
 date_past: Das ausgewählte Datum liegt in der Vergangenheit
 all_unbans: Alle offenen Entbannungsanträge
 already_finished: Dieser Entbannungsantrag wurde bereits bearbeitet.
+unbans_page: Entbannungsantrag stellen
 #Reasons
 minutes: Minuten
 hours: Stunden
