@@ -1,12 +1,4 @@
 {
-    "name": "tutorialwork/professionalbans",
-    "description": "Webinterface for Minecraft ProfessionalBans plugin",
-    "authors": [
-        {
-            "name": "Tutorialwork",
-            "email": "tutorialworktv@gmail.com"
-        }
-    ],
     "type": "project",
     "license": "proprietary",
     "require": {
