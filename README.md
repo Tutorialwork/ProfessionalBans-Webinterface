@@ -12,7 +12,7 @@ Installing ``MariaDB 10.3.X`` or higher instead of ``MySQL``<br>
 Using at least ``PHP 7.4.X`` or higher
 
 ###Installing
-
+ 
 -  Setting up your Apache2 server for the new webinterface. Open the Apache2 settings file with `nano /etc/apache2/sites-available/000-default.conf` and change the `DocumentRoot` to this:
 
 ```
