@@ -32,6 +32,7 @@ Using at least ``PHP 7.4.X`` or higher
 - Download webinterface `git clone https://github.com/Tutorialwork/ProfessionalBans-Webinterface .`
 - Install webinterface dependencies `composer install`
 - Install compatibility with Apache2 `composer require apache-pack` and confirm with yes (y)
+- Enable Apache2 mod_rewrite ``sudo a2enmod rewrite``
 - Restart webserver `service apache2 restart`
 
 Done now you can access your webinterface and setup it.
