@@ -233,7 +233,9 @@ class Bans
     }
 
     public function getFormattedEnd(){
-        $phpTimestamp = round($this->End / 1000);
-        return $phpTimestamp;
+        if($this->End != null && $this->End != "null"){
+            $phpTimestamp = round($this->End / 1000);
+            return $phpTimestamp;
+        }
     }
 }
