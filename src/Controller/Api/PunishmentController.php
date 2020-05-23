@@ -67,7 +67,7 @@ class PunishmentController extends AbstractController{
         if(!array_key_exists("player", $request) || !array_key_exists("banid", $request)){
             return $this->json([
                 'error' => 'Invalid request'
-            ], 401);
+            ]);
         }
 
         $reason = $this->reasonRepository->findOneBy(['id' => $request->banid]);

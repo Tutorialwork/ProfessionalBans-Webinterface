@@ -37,7 +37,7 @@ class Bans
     private $Reason;
 
     /**
-     * @ORM\Column(type="bigint")
+     * @ORM\Column(type="string", length=255)
      */
     private $End;
 
@@ -136,7 +136,7 @@ class Bans
         return $this;
     }
 
-    public function getEnd(): ?int
+    public function getEnd(): ?string
     {
         return $this->End;
     }

@@ -34,13 +34,7 @@ class LogController extends AbstractController{
             ], 401);
         }
         if(array_key_exists("player", $request)){
-            $userUuid = $this->bansRepository->findOneBy(['Name' => $request->player]);
-            if(!$userUuid){
-                return $this->json([
-                    'error' => 'User not found'
-                ], 404);
-            }
-            $logs = $this->logRepository->findBy(['UUID' => $userUuid->getUUID()], ['Date' => 'DESC']);
+            $logs = $this->logRepository->findBy(['UUID' => $request->player], ['Date' => 'DESC']);
 
             foreach ($logs as $log){
                 $uuid = $this->bansRepository->findOneBy(['UUID' => $log->getUUID()]);
