@@ -42,7 +42,7 @@ class Reports
     private $Log;
 
     /**
-     * @ORM\Column(type="boolean")
+     * @ORM\Column(type="integer")
      */
     private $Status;
 
@@ -116,12 +116,12 @@ class Reports
         return $this;
     }
 
-    public function getStatus(): ?bool
+    public function getStatus(): ?int
     {
         return $this->Status;
     }
 
-    public function setStatus(bool $Status): self
+    public function setStatus(int $Status): self
     {
         $this->Status = $Status;
 

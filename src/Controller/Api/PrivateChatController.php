@@ -64,7 +64,7 @@ class PrivateChatController extends AbstractController{
                 $uuid = $this->bansRepository->findOneBy(['UUID' => $chat->getSender()]);
                 $rUuid = $this->bansRepository->findOneBy(['UUID' => $chat->getReceiver()]);
                 $chat->setSender($uuid->getName());
-                $chat->setReceiver($rUuid->getName());
+                $chat->setReceiver(($rUuid) ? $rUuid->getName() : $chat->getReceiver());
             }
 
             return $this->json([

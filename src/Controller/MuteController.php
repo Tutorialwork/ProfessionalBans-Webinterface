@@ -85,7 +85,7 @@ class MuteController extends AbstractController
 
                         $ban->setMuted(1);
                         $ban->setReason($reason->getReason());
-                        $ban->setEnd($endTime);
+                        $ban->setEnd(intval($endTime));
                         $ban->setTeamUUID($authedUser->getUuid());
 
                         $em = $this->getDoctrine()->getManager();
