@@ -135,8 +135,6 @@ class Reasons
         $now = new DateTime();
         $diff = $now->diff($timePunish, true);
 
-        dump($diff);
-
         $timeStr = "";
         if($diff->days != 0){
             $timeStr .= $this->buildTimeSnippet($diff->days, $day, $days);
