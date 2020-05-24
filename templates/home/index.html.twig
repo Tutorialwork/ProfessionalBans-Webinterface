@@ -141,7 +141,11 @@
                             <tbody>
                             {% for log in logs %}
                                 <tr>
+                                    {% if log.uUID != null %}
                                     <td><a href="{{ path('profile.user', {'user': log.uUID}) }}">{{ log.uUID}}</a></td>
+                                    {% else %}
+                                    <td>-</td>
+                                    {% endif %}
                                     {% if log.byUUID != null %}
                                         <td><a href="{{ path('profile.user', {'user': log.byUUID}) }}">{{ log.byUUID}}</a></td>
                                     {% else %}

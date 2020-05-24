@@ -70,7 +70,9 @@ class HomeController extends AbstractController
                 }
             }
 
-            $log->setUUID($uuidPlayer->getName());
+            if($uuidPlayer){
+                $log->setUUID($uuidPlayer->getName());
+            }
             $log->setByUUID(($teamuuidPlayer != null) ? $teamuuidPlayer->getName() : '');
             $log->setAction(str_replace("%text%", $log->getNote(), $this->resolveAction($log)));
             $log->setDate(round($log->getDate() / 1000));
