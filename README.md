@@ -1,8 +1,6 @@
 # ProfessionalBans Webinterface
 Webinterface for my minecraft plugin ProfessionalBans Reloaded
 
-**THIS IS A BETA VERSION AND NOT STABLE!**
-
 # How to setup the new webinterface?
 
 ### Recommendations for server setup
@@ -13,7 +11,7 @@ Using at least ``PHP 7.4.X`` or higher
 
 ### Installing
 
--  Setting up your Apache2 server for the new webinterface. Open the Apache2 settings file with `nano /etc/apache2/sites-available/000-default.conf` and change the `DocumentRoot` to this:
+-  Setting up your Apache2 server for the new webinterface. Open the Apache2 settings file with `nano /etc/apache2/sites-available/000-default.conf` and add this to your file. You need to create first a subdomain by your domain hosting::
 
 ```
 <VirtualHost *:80>
@@ -27,11 +25,11 @@ Using at least ``PHP 7.4.X`` or higher
 </VirtualHost>
 ```
 - [Install composer or update if necessary](https://getcomposer.org/download/)
-- Install dependencies `apt install php-intl php-gd php-xml php-mbstring`
+- Install dependencies `apt install php-intl php-gd php-xml php-mbstring php-mysql`
 - Create folder in webserver `mkdir /var/www/professionalbans && cd /var/www/professionalbans`
 - Download webinterface `git clone https://github.com/Tutorialwork/ProfessionalBans-Webinterface .`
 - Install webinterface dependencies `composer install`
-- Install compatibility with Apache2 `composer require apache-pack` and confirm with yes (y)
+- Install compatibility with Apache2 `composer require symfony/apache-pack` and confirm with yes (y)
 - Enable Apache2 mod_rewrite ``sudo a2enmod rewrite``
 - Restart webserver `service apache2 restart`
 
