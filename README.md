@@ -18,7 +18,8 @@ Using at least ``PHP 7.4.X`` or higher
         ServerName professionalbans.yourdomain.com
 
         ServerAdmin webmaster@localhost
-        DocumentRoot /var/www/your/path/to/professionalbans/public #This line should end with /public. Because when this is not you EXPOSING your MySQL credentials.
+        DocumentRoot /var/www/your/path/to/professionalbans/public 
+        #This line should end with /public. Because when this is not you EXPOSING your MySQL credentials.
 
         ErrorLog ${APACHE_LOG_DIR}/error.log
         CustomLog ${APACHE_LOG_DIR}/access.log combined
