@@ -12,11 +12,20 @@
         <br>
         <p>{{ 'setup_account_desc'|trans }}</p>
         <br>
-        {{ form_start(account) }}
-        {{ form_row(account.username) }}
-        {{ form_row(account.password) }}
-        <br>
-        {{ form_row(account.submit) }}
-        {{ form_end(account) }}
+        {% if pluginSetup %}
+            {{ form_start(account) }}
+            {{ form_row(account.username) }}
+            {{ form_row(account.password) }}
+            <br>
+            {{ form_row(account.submit) }}
+            {{ form_end(account) }}
+        {% else %}
+            <div class="p-2">
+                <div class="alert alert-danger">
+                    <h4><i class="icon fa fa-ban"></i> Error</h4>
+                    {{ 'plugin_setup_err'|trans }}
+                </div>
+            </div>
+        {% endif %}
     </div>
 {% endblock %}

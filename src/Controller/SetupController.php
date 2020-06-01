@@ -135,6 +135,8 @@ class SetupController extends AbstractController
             return $this->redirectToRoute('auth.login');
         }
 
+        $manager = $this->getDoctrine()->getConnection('default')->getSchemaManager();
+
         $accountForm = $this->createForm(RegisterType::class);
         $accountForm->handleRequest($request);
         if($accountForm->isSubmitted() && $accountForm->isValid()){
@@ -156,12 +158,13 @@ class SetupController extends AbstractController
                 $this->session->remove("setup_account");
                 return $this->redirectToRoute('auth.login');
             } else {
-                $this->addFlash('error', 'Please join first the Minecraft server');
+                $this->addFlash('error', $this->translator->trans('join_first'));
             }
         }
 
         return $this->render('setup/account.html.twig', [
             'account' => $accountForm->createView(),
+            'pluginSetup' => $manager->tablesExist(['bans'])
         ]);
     }
 
