@@ -30,7 +30,23 @@ class SettingsController extends AbstractController
      */
     public function index(Request $request)
     {
-        $form = $this->createForm(SettingsType::class);
+        $settingImprint = $this->settingRepository->findOneBy(['Name' => 'imprint']);
+        $settingPrivacy = $this->settingRepository->findOneBy(['Name' => 'privacy']);
+        $em = $this->getDoctrine()->getManager();
+
+        if(!$settingImprint && !$settingPrivacy){
+            $imprint = new Setting();
+            $imprint->setName("imprint");
+
+            $privacy = new Setting();
+            $privacy->setName("privacy");
+
+            $em->persist($imprint);
+            $em->persist($privacy);
+            $em->flush();
+        }
+
+        $form = $this->createForm(SettingsType::class, ['imprint' => $settingImprint->getValue(), 'privacy' => $settingPrivacy->getValue()]);
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid()){
             $imprint = $form->get('imprint')->getData();
@@ -56,13 +72,9 @@ class SettingsController extends AbstractController
                 }
             }
 
-            $settingImprint = $this->settingRepository->findOneBy(['Name' => 'imprint']);
             $settingImprint->setValue($imprint);
-
-            $settingPrivacy = $this->settingRepository->findOneBy(['Name' => 'privacy']);
             $settingPrivacy->setValue($privacy);
 
-            $em = $this->getDoctrine()->getManager();
             $em->persist($settingImprint);
             $em->persist($settingPrivacy);
             $em->flush();
