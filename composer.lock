@@ -4,47 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "582336dd33ef79c60325b5e901e6b239",
+    "content-hash": "d33bf1e364263dcd3fd0a3b9f98347e8",
     "packages": [
-        {
-            "name": "almasaeed2010/adminlte",
-            "version": "v3.0.4",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/ColorlibHQ/AdminLTE.git",
-                "reference": "4723bccf4321f28d9ac8ec4f8c64b785e277ba71"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/ColorlibHQ/AdminLTE/zipball/4723bccf4321f28d9ac8ec4f8c64b785e277ba71",
-                "reference": "4723bccf4321f28d9ac8ec4f8c64b785e277ba71",
-                "shasum": ""
-            },
-            "type": "library",
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Colorlib"
-                }
-            ],
-            "description": "AdminLTE - admin control panel and dashboard that's based on Bootstrap 4",
-            "homepage": "http://adminlte.io/",
-            "keywords": [
-                "JS",
-                "admin",
-                "back-end",
-                "css",
-                "less",
-                "responsive",
-                "template",
-                "theme",
-                "web"
-            ],
-            "time": "2020-04-01T23:06:25+00:00"
-        },
         {
             "name": "bacon/bacon-qr-code",
             "version": "2.0.0",
