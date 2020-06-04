@@ -1,7 +1,7 @@
 # ProfessionalBans Webinterface
 Webinterface for my minecraft plugin [ProfessionalBans Reloaded](https://github.com/Tutorialwork/ProfessionalBans-Reloaded).
 
-#Table of contents
+# Table of contents
 
 1. [Installtion on common Linux server](#Installing)
 2. [Troubleshooting](#Troubleshooting)
