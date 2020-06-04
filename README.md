@@ -1,6 +1,13 @@
 # ProfessionalBans Webinterface
 Webinterface for my minecraft plugin [ProfessionalBans Reloaded](https://github.com/Tutorialwork/ProfessionalBans-Reloaded).
 
+#Table of contents
+
+1. [Installtion on common Linux server](#Installing)
+2. [Troubleshooting](#Troubleshooting)
+    - Trouble with Composer
+    - Installing webinterface at webspace without SSH access
+
 # How to setup the new webinterface?
 
 ### Installation video (German)
@@ -36,6 +43,7 @@ Using at least ``PHP 7.4.X`` or higher
 - Download webinterface `git clone https://github.com/Tutorialwork/ProfessionalBans-Webinterface .`
 - Install webinterface dependencies `composer install`
 - Install compatibility with Apache2 `composer require symfony/apache-pack` and confirm with yes (y)
+- Gave webserver permissions ``chown -R www-data:www-data /var/www/professionalbans``
 - Enable Apache2 mod_rewrite ``sudo a2enmod rewrite``
 - Restart webserver `service apache2 restart`
 
@@ -60,6 +68,12 @@ Done now you can access your webinterface and setup it.
 - Install webinterface dependencies `composer install`
 - Install compatibility with Apache2 `composer require apache-pack` and confirm with yes (y)
 - Upload all files to your webspace. **This can take a long time.**
+
+## The language setting won't work
+##### Clear cache
+
+- Go in the root directory with ``cd /var/www/professionalbans``
+- Clear cache with ``php bin/console cache:clear``
 
 # REST API
 
