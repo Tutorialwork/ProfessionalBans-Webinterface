@@ -36,7 +36,9 @@ class ReportsController extends AbstractController
             $reported = $this->bansRepository->findOneBy(['UUID' => $reports->getUuid()]);
             $reporter = $this->bansRepository->findOneBy(['UUID' => $reports->getReporter()]);
 
-            $reports->setReporter($reporter->getName());
+            if($reporter){
+                $reports->setReporter($reporter->getName());
+            }
             $reports->setUuid($reported->getName());
             $reports->setCreatedAt(round($reports->getCreatedAt()/1000));
         }

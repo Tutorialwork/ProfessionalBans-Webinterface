@@ -40,7 +40,9 @@ class ChatlogController extends AbstractController
             $creatorUuid = $this->bansRepository->findOneBy(['UUID' => $chatlog->getCreatorUuid()]);
 
             $chatlog->setUuid($reportedUuid->getName());
-            $chatlog->setCreatorUuid($creatorUuid->getName());
+            if($creatorUuid){
+                $chatlog->setCreatorUuid($creatorUuid->getName());
+            }
             $chatlog->setCreatedAt(round($chatlog->getCreatedAt() / 1000));
         }
 
