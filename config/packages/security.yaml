@@ -41,6 +41,7 @@ security:
     access_control:
         - { path: ^/$, roles: ROLE_USER }
         - { path: ^/user, roles: ROLE_PAGE_USER }
+        - { path: ^/search, roles: ROLE_PAGE_USER }
         - { path: ^/ban, roles: ROLE_PAGE_BAN }
         - { path: ^/mutes, roles: ROLE_PAGE_MUTE }
         - { path: ^/reports, roles: ROLE_PAGE_REPORTS }

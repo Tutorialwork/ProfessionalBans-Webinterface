@@ -31,14 +31,9 @@
             <li class="nav-item">
                 <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
             </li>
-            <!--
             <li class="nav-item d-none d-sm-inline-block">
-                <a href="index3.html" class="nav-link">Home</a>
+                <a href="#" class="nav-link" onclick="openModal()"><i class="fas fa-search"></i>&nbsp; {{ 'search'|trans }}</a>
             </li>
-            <li class="nav-item d-none d-sm-inline-block">
-                <a href="#" class="nav-link">Contact</a>
-            </li>
-            -->
         </ul>
 
         <!-- Right navbar links -->
@@ -185,6 +180,10 @@
 <script src="{{ asset('assets/js/bootstrap.bundle.min.js') }}"></script>
 <!-- AdminLTE App -->
 <script src="{{ asset('assets/js/adminlte.min.js') }}"></script>
+<!-- SweetAlerts -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+<!-- Search Modal -->
+<script src="{{ asset('assets/js/search.js') }}"></script>
 </body>
 </html>
 {% endblock %}
