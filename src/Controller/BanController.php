@@ -38,7 +38,7 @@ class BanController extends AbstractController
         $bans = $this->bansRepository->findBy(["Banned" => 1]);
 
         foreach ($bans as $ban){
-            $punisherBan = $this->bansRepository->findOneBy(["Teamuuid" => $ban->getTeamUUID()]);
+            $punisherBan = $this->bansRepository->findOneBy(["UUID" => $ban->getTeamUUID()]);
             $ban->setTeamUUID($punisherBan->getName());
         }
 
