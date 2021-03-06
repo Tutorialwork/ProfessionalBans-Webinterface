@@ -60,7 +60,9 @@ class ReportsController extends AbstractController
             $reporter = $this->bansRepository->findOneBy(['UUID' => $reports->getReporter()]);
             $teamUuid = $this->bansRepository->findOneBy(['UUID' => $reports->getTeam()]);
 
-            $reports->setReporter($reporter->getName());
+            if($reporter){
+                $reports->setReporter($reporter->getName());
+            }
             $reports->setUuid($reported->getName());
             $reports->setCreatedAt(round($reports->getCreatedAt()/1000));
             $reports->setTeam($teamUuid->getName());
