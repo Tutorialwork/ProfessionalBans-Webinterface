@@ -10,12 +10,9 @@ Webinterface for my minecraft plugin [ProfessionalBans Reloaded](https://github.
 
 # How to setup the new webinterface?
 
-### Installation video (German)
-[![IMAGE ALT TEXT HERE](https://img.youtube.com/vi/wzXY6UlYlog/0.jpg)](https://youtu.be/wzXY6UlYlog)
-
 ### Recommendations for server setup
 
-Use at least ``Ubuntu 20.04`` or ``Debian 10``<br>
+Use at least ``Ubuntu 20.04`` or ``Debian 10/11``<br>
 Installing ``MariaDB 10.3.X`` or higher instead of ``MySQL``<br>
 Using at least ``PHP 7.4.X`` or higher
 
@@ -31,7 +28,6 @@ Using at least ``PHP 7.4.X`` or higher
 
         ServerAdmin webmaster@localhost
         DocumentRoot /var/www/your/path/to/professionalbans/public 
-        #This line should end with /public. Because when this is not you EXPOSING your MySQL credentials.
 
         ErrorLog ${APACHE_LOG_DIR}/error.log
         CustomLog ${APACHE_LOG_DIR}/access.log combined
