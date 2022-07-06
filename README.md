@@ -1,5 +1,5 @@
 # ProfessionalBans Webinterface
-Webinterface for my minecraft plugin [ProfessionalBans Reloaded](https://github.com/Tutorialwork/ProfessionalBans-Reloaded).
+NEW Webinterface for the Bansystem ProfessionalBans Reloaded!
 
 # Table of contents
 
@@ -20,14 +20,14 @@ Using at least ``PHP 7.4.X`` or higher
 
 **IMPORTANT**: Please setup first the Minecraft plugin!
 
--  Setting up your Apache2 server for the new webinterface. Open the Apache2 settings file with `nano /etc/apache2/sites-available/000-default.conf` and add this to your file. You need to create first a subdomain by your domain hosting::
+-  Setting up your Apache2 server for the new webinterface. Open the Apache2 settings file with `nano /etc/apache2/sites-available/pbans.conf` and add this to your file. You need to create first a subdomain by your domain hosting::
 
 ```
 <VirtualHost *:80>
         ServerName professionalbans.yourdomain.com
 
         ServerAdmin webmaster@localhost
-        DocumentRoot /var/www/your/path/to/professionalbans/public 
+        DocumentRoot /var/www/professionalbans/public 
 
         ErrorLog ${APACHE_LOG_DIR}/error.log
         CustomLog ${APACHE_LOG_DIR}/access.log combined
@@ -36,14 +36,14 @@ Using at least ``PHP 7.4.X`` or higher
 - [Install composer or update if necessary](https://getcomposer.org/download/)
 - Install dependencies `apt install php-intl php-gd php-xml php-mbstring php-mysql`
 - Create folder in webserver `mkdir /var/www/professionalbans && cd /var/www/professionalbans`
-- Download webinterface `git clone https://github.com/Tutorialwork/ProfessionalBans-Webinterface .`
+- Download webinterface `git clone https://github.com/Dotta4You/ProfessionalBans-Webinterface-Fixed .`
 - Install webinterface dependencies `composer install`
 - Install compatibility with Apache2 `composer require symfony/apache-pack` and confirm with yes (y)
 - Gave webserver permissions ``chown -R www-data:www-data /var/www/professionalbans``
 - Enable Apache2 mod_rewrite ``sudo a2enmod rewrite``
 - Restart webserver `service apache2 restart`
 
-Done now you can access your webinterface and setup it.
+Done - now you can access your webinterface and setup it.
 
 # Troubleshooting
 
@@ -58,7 +58,7 @@ Done now you can access your webinterface and setup it.
 ##### Installing Composer at Windows
 - [Download XAMPP for Composer](https://www.apachefriends.org/de/index.html)
 - [Download Composer for Windows](https://getcomposer.org/Composer-Setup.exe)
-- Download webinterface using Windows shell using ``git clone https://github.com/Tutorialwork/ProfessionalBans-Webinterface``
+- Download webinterface using Windows shell using ``git clone https://github.com/Dotta4You/ProfessionalBans-Webinterface-Fixed``
 - Open downloaded folder
 - Open Windows shell at this folder like this ![Alt text](https://i.imgur.com/Hn4aB1i.png?raw=true "Optional Title")
 - Install webinterface dependencies `composer install`
