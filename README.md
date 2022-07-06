@@ -1,5 +1,5 @@
 # ProfessionalBans Webinterface
-NEW Webinterface for the Bansystem ProfessionalBans Reloaded!
+NEW (Fixed and better) Webinterface for the Bansystem ProfessionalBans Reloaded!
 
 # Table of contents
 
